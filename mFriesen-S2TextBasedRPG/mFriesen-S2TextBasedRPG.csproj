@@ -47,6 +47,7 @@
     <Compile Include="Encounter.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="GameManager.cs" />
+    <Compile Include="Item.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
