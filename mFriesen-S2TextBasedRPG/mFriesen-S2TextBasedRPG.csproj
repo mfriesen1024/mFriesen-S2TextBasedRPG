@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Area.cs" />
     <Compile Include="Encounter.cs" />
+    <Compile Include="Entity.cs" />
     <Compile Include="GameManager.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Program.cs" />
