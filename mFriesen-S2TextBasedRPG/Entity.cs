@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace mFriesen_S2TextBasedRPG
 {
@@ -18,5 +14,15 @@ namespace mFriesen_S2TextBasedRPG
         int ap; // absorption
         int dr; // damage reduction
 
+    }
+
+    class Foe : Entity
+    {
+        // Foe specific things here, if any.
+    }
+
+    class Player : Entity
+    {
+        // Player specific things here.
     }
 }
