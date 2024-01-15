@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("mFriesen-S2TextBasedRPG")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("NSCC")]
+[assembly: AssemblyCompany("mFriesen1024")]
 [assembly: AssemblyProduct("mFriesen-S2TextBasedRPG")]
-[assembly: AssemblyCopyright("Copyright © NSCC 2024")]
+[assembly: AssemblyCopyright("Copyright © mFriesen1024 2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
