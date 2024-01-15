@@ -6,4 +6,8 @@
         public Vector2 bottomCorner;
 
     }
+    struct Vector2
+    {
+        public int x, y;
+    }
 }
