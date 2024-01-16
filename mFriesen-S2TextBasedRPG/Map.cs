@@ -13,7 +13,7 @@ namespace mFriesen_S2TextBasedRPG
         public Map(string fName)
         {
             this.fName = "data\\maps\\"+fName;
-            LoadMap(fName);
+            LoadMap(this.fName);
         }
 
         public Tile[,] GetMap() { return tiles; }
@@ -27,7 +27,8 @@ namespace mFriesen_S2TextBasedRPG
             fNames[3] = fName + "hazard.txt";
 
             // get the length of files so we can use it for making a 2d array
-            string[] getLength = File.ReadAllLines(fNames[0]);
+            string[] getLength = { " ", " "};
+            try { getLength = File.ReadAllLines(fNames[0]); } catch { }
 
             // Dim0 is fNames index, Dim1 is map vertical axis.
             string[,] data = new string[4, getLength.Length];
