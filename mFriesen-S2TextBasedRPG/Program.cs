@@ -6,7 +6,7 @@ namespace mFriesen_S2TextBasedRPG
 {
     internal class Program
     {
-        static string[] directories = { "data\\maps" };
+        static string[] directories = { "data\\maps", "data\\areas" };
 
         static void Main(string[] args)
         {
