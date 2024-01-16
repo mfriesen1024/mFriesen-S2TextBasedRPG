@@ -12,8 +12,8 @@ namespace mFriesen_S2TextBasedRPG
         // Stores entity data that isn’t player/foe/neutral specific.
         public Vector2 position;
         public List<Item> inventory;
-        int? armorInventoryIndex;
-        int? weaponInventoryIndex;
+        public int? armorInventoryIndex;
+        public int? weaponInventoryIndex;
 
         int hp; // health
         int ap; // absorption
@@ -33,6 +33,9 @@ namespace mFriesen_S2TextBasedRPG
 
     class Pickup : Entity
     {
-        
+        pickupType type;
+        public pickupType GetPickupType() { return type; }
+
+        public Item item;
     }
 }
