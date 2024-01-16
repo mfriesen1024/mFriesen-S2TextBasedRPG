@@ -26,9 +26,17 @@ namespace mFriesen_S2TextBasedRPG
             fNames[2] = fName + "bg.txt";
             fNames[3] = fName + "hazard.txt";
 
+            // Check if the map file exist, and if not, throw an exception.
+            if (!File.Exists(fNames[0]))
+            {
+                string txt = $"Failed to load map {fNames[0]} due to nonexistent file.";
+                File.Create(fNames[0]).Close();
+                Log.Write(txt, logType.fatal);
+                throw new FileNotFoundException(txt);
+            }
+
             // get the length of files so we can use it for making a 2d array
-            string[] getLength = { " ", " "};
-            try { getLength = File.ReadAllLines(fNames[0]); } catch { }
+            string[] getLength = File.ReadAllLines(fNames[0]);
 
             // Dim0 is fNames index, Dim1 is map vertical axis.
             string[,] data = new string[4, getLength.Length];
@@ -41,7 +49,7 @@ namespace mFriesen_S2TextBasedRPG
                 if (!File.Exists(fNames[f]))
                 {
                     string txt = $"Failed to load map {fNames[f]} due to nonexistent file.";
-                    File.Create(fNames[f]) ;
+                    File.Create(fNames[f]).Close();
                     Log.Write(txt, logType.fatal);
                     throw new FileNotFoundException(txt);
                 }
@@ -73,7 +81,37 @@ namespace mFriesen_S2TextBasedRPG
 
             Log.Write($"Loaded map {fName}, by loading {fNames.Length} files. Tiles has {tiles.Length} tiles.");
         }
-        public void RenderMap() { }
+        public void RenderMap()
+        {
+            // Create top/bottom borders.
+            string end = string.Empty;
+            for (int x = -2; x < tiles.GetLength(0); x++)
+            {
+                end += "#";
+            }
+
+            // Write border
+            Console.WriteLine(end);
+
+            // Render the main map
+            for (int x = 0; x < tiles.GetLength(0); x++)
+            {
+                // write the border before the map.
+                Console.ForegroundColor = ConsoleColor.White; Console.BackgroundColor = ConsoleColor.Black; Console.Write("#");
+
+                for (int y = 0; y < tiles.GetLength(1); y++)
+                {
+                    Console.ForegroundColor = tiles[y,x].fg; Console.BackgroundColor = tiles[y, x].bg;
+                    Console.Write(tiles[y, x].displayChar);
+                }
+
+                // write the border after the map.
+                Console.ForegroundColor = ConsoleColor.White; Console.BackgroundColor = ConsoleColor.Black; Console.Write("#");
+            }
+
+            // Write border
+            Console.ForegroundColor = ConsoleColor.White; Console.BackgroundColor = ConsoleColor.Black; Console.WriteLine(end);
+        }
         public void RenderRegion(Vector2 topLeft, Vector2 bottomRight) { }
     }
 }
