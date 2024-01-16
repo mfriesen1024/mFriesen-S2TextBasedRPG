@@ -8,14 +8,13 @@ namespace mFriesen_S2TextBasedRPG
     {
         static void Main(string[] args)
         {
-            Log log = new Log();
-            log.SetName("LogMain");
+            Log.SetName("LogMain");
 
             if (!Directory.Exists("data"))
             {
-                log.Write("Data folder doesn't exist!", logType.error);
+                Log.Write("Data folder doesn't exist!", logType.error);
                 Directory.CreateDirectory("data");
-                log.Write("Data folder created, yelling at player.");
+                Log.Write("Data folder created, yelling at player.");
                 Console.WriteLine("You didn't have a data folder. We made a new one, but you'll need to download a campaign. Delete the isEmpty file when you're done.");
                 Console.WriteLine("Press a key to exit.");
                 File.Create("data\\isEmpty");
