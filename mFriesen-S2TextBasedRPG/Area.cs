@@ -6,7 +6,11 @@ namespace mFriesen_S2TextBasedRPG
     {
         // Class stores everything for a certain room.
         string name; // use to determine what files to read to grab data.
-        string fName; // use to grab data for this area.
+
+        // File loading strings.
+        string[] fNames;
+
+        // Variables
         TriggerZone[] warpTriggers; // warp the player to a new area, based on the warp index.
         int[] warpIndexes; // use to determine where to warp the player.
         TriggerZone[] encounterTriggers; // launch encounter on trigger.
@@ -19,7 +23,15 @@ namespace mFriesen_S2TextBasedRPG
         {
             // set name, and load misc files.
             this.name = name;
-            this.fName = $"data\\areas\\{fName}.txt";
+            string dir = $"data\\areas\\{name}";
+            fNames[0] = dir + "data.txt";
+            fNames[1] = dir + "wt.txt";
+            fNames[2] = dir + "wi.txt";
+            fNames[3] = dir + "et.txt";
+            fNames[4] = dir + "ei.txt";
+            // Create map
+            map = new Map(name);
+
             Load();
         }
 
@@ -29,13 +41,11 @@ namespace mFriesen_S2TextBasedRPG
             return 0;
         }
 
-        void Load()
+        void Load(int fIndex = 0)
         {
-            // Create map
-            map = new Map(name);
 
             // Get data from file
-            string[] data = File.ReadAllLines(fName);
+            string[] data = File.ReadAllLines(fNames[0]);
         }
     }
 }
