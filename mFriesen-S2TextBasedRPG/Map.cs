@@ -63,17 +63,20 @@ namespace mFriesen_S2TextBasedRPG
                     for (int x = 0; x < tiles.GetLength(0); x++) // For loop for x axis.
                     {
                         char c = lines[y][x];
+                        string s = c.ToString();
+                        int i = 0;
+                        try { i = int.Parse(s); } catch { }
 
                         switch (f) // Switch based on the current fName.
                         {
                             case 0:
                                 tiles[y,x].displayChar = c; break;
                                 case 1:
-                                tiles[y,x].fg = (ConsoleColor)(int)c; break;
+                                tiles[y,x].fg = (ConsoleColor)i; break;
                                 case 2:
-                                tiles[y,x].bg = (ConsoleColor)(int)c;   break;
+                                tiles[y,x].bg = (ConsoleColor)i;   break;
                                 case 3:
-                                tiles[y,x].hazard = (Hazard)(int)c; break;
+                                tiles[y,x].hazard = (Hazard)i; break;
                         }
                     }
                 }
@@ -108,6 +111,7 @@ namespace mFriesen_S2TextBasedRPG
 
                 // write the border after the map.
                 Console.ForegroundColor = ConsoleColor.White; Console.BackgroundColor = ConsoleColor.Black; Console.Write("#");
+                Console.WriteLine();
             }
 
             // Write border
