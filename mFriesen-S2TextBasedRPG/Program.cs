@@ -33,6 +33,7 @@ namespace mFriesen_S2TextBasedRPG
             }
 
             Map testmap = new Map("testMap");
+            testmap.RenderMap();
         }
     }
 }
