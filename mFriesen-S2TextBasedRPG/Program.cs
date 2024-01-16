@@ -31,6 +31,8 @@ namespace mFriesen_S2TextBasedRPG
             {
                 Environment.Exit(1);
             }
+
+
         }
     }
 }

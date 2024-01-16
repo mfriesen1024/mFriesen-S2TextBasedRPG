@@ -4,6 +4,7 @@
     {
         // Class stores everything for a certain room.
         string name; // use to determine what files to read to grab data.
+        string fName; // use to grab data for this area.
         TriggerZone[] warpTriggers; // warp the player to a new area, based on the warp index.
         int[] warpIndexes; // use to determine where to warp the player.
         TriggerZone[] encounterTriggers; // launch encounter on trigger.
@@ -12,5 +13,20 @@
         Map map; // house map data.
         Pickup[] pickups;
 
+        public Area(string name)
+        {
+            // set name, and load misc files.
+            this.name = name;
+            this.fName = $"data\\areas\\{fName}.txt";
+            map = new Map(name);
+
+            
+        }
+
+        public int CheckWarps()
+        {
+            // Later, this will have code to determine if to warp, and if so where.
+            return 0;
+        }
     }
 }
