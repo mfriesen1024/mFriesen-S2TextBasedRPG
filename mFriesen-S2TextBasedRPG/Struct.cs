@@ -19,7 +19,7 @@ namespace mFriesen_S2TextBasedRPG
     }
     struct Tile
     {
-        public char Char;
+        public char displayChar;
         public ConsoleColor bg, fg; // Foreground and background colours
         public Hazard hazard;
     }
