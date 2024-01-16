@@ -69,6 +69,7 @@ namespace mFriesen_S2TextBasedRPG
                 }
             }
 
+            Log.Write($"Loaded map {fName}, by loading {fNames.Length} files. Tiles has {tiles.Length} tiles.");
         }
         public void RenderMap() { }
         public void RenderRegion(Vector2 topLeft, Vector2 bottomRight) { }
