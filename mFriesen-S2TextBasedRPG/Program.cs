@@ -31,9 +31,6 @@ namespace mFriesen_S2TextBasedRPG
             {
                 Environment.Exit(1);
             }
-
-            Map testmap = new Map("testMap");
-            testmap.RenderMap();
         }
     }
 }
