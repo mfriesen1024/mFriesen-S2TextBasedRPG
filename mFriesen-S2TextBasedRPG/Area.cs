@@ -1,4 +1,6 @@
-﻿namespace mFriesen_S2TextBasedRPG
+﻿using System.IO;
+
+namespace mFriesen_S2TextBasedRPG
 {
     internal class Area
     {
@@ -18,15 +20,22 @@
             // set name, and load misc files.
             this.name = name;
             this.fName = $"data\\areas\\{fName}.txt";
-            map = new Map(name);
-
-            
+            Load();
         }
 
         public int CheckWarps()
         {
             // Later, this will have code to determine if to warp, and if so where.
             return 0;
+        }
+
+        void Load()
+        {
+            // Create map
+            map = new Map(name);
+
+            // Get data from file
+            string[] data = File.ReadAllLines(fName);
         }
     }
 }
