@@ -7,27 +7,27 @@ namespace SimpleLogger
     {
         debug, info, warning, error, fatal, special
     }
-    internal class Log
+    static class Log
     {
-        string fName;
+        static string fName;
 
-        public void SetName(string fName = "Log", string dir = "Logs", bool useDate = true)
+        static public void SetName(string fileName = "Log", string dir = "Logs", bool useDate = true)
         {
             // Get date
             DateTime time = DateTime.Now;
 
             // Set file names as needed
             dir += "\\";
-            if (useDate) { fName += time.ToShortDateString() + ".txt"; }
-            else { fName += ".txt"; }
-            fName = dir + fName;
-            this.fName = fName;
+            if (useDate) { fileName += time.ToShortDateString() + ".txt"; }
+            else { fileName += ".txt"; }
+            fileName = dir + fileName;
+            fName = fileName;
 
             Directory.CreateDirectory(dir);
-            if (!File.Exists(fName)) { File.Create(fName).Close(); }
+            if (!File.Exists(fileName)) { File.Create(fileName).Close(); }
         }
 
-        public void Write(string text, logType type = logType.info)
+        static public void Write(string text, logType type = logType.info)
         {
             // Make vars
             string time = DateTime.Now.ToShortTimeString();
