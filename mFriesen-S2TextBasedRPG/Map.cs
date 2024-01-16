@@ -40,6 +40,7 @@ namespace mFriesen_S2TextBasedRPG
                 if (!File.Exists(fNames[f]))
                 {
                     string txt = $"Failed to load map {fNames[f]} due to nonexistent file.";
+                    File.Create(fNames[f]) ;
                     Log.Write(txt, logType.fatal);
                     throw new FileNotFoundException(txt);
                 }
