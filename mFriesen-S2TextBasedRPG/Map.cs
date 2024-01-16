@@ -2,18 +2,22 @@
 {
     internal class Map
     {
-        Entity[] entities;
+        public Entity[] entities;
         Tile[,] tiles;
         string fName;
 
-        public Map()
+        public Map(string fName)
+        {
+            this.fName = fName;
+        }
+
+        public Tile[,] GetMap() { return tiles; }
+        public void LoadMap()
         {
 
         }
-        Tile[,] GetMap() { return tiles; }
-        void LoadMap() { }
-        void RenderMap() { }
-        void RenderRegion(Vector2 topLeft, Vector2 bottomRight) { }
+        public void RenderMap() { }
+        public void RenderRegion(Vector2 topLeft, Vector2 bottomRight) { }
 
     }
 }
