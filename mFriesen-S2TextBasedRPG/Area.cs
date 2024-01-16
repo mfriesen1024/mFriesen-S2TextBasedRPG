@@ -9,7 +9,8 @@
         TriggerZone[] encounterTriggers; // launch encounter on trigger.
         int[] encounterIndexes; // use to determine what encounter to launch.
         Encounter[] encounters;
-        //Map map; // house map data.
+        Map map; // house map data.
+        Pickup[] pickups;
 
     }
 }
