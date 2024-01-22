@@ -1,6 +1,5 @@
 ﻿using SimpleLogger;
 using System;
-using System.Diagnostics;
 using System.IO;
 
 namespace mFriesen_S2TextBasedRPG
@@ -13,7 +12,7 @@ namespace mFriesen_S2TextBasedRPG
 
         public Map(string fName)
         {
-            this.fName = "data\\maps\\"+fName;
+            this.fName = "data\\maps\\" + fName;
             LoadMap(this.fName);
         }
 
@@ -45,7 +44,7 @@ namespace mFriesen_S2TextBasedRPG
             Tile[,] tiles = new Tile[getLength.Length, getLength[0].Length];
             Log.Write($"Tiles is size {getLength.Length}, {getLength[0].Length}", logType.debug);
 
-            for(int f = 0; f < fNames.Length; f++)
+            for (int f = 0; f < fNames.Length; f++)
             {
                 // Check if the map files exist, and if not, throw an exception.
                 if (!File.Exists(fNames[f]))
@@ -67,17 +66,17 @@ namespace mFriesen_S2TextBasedRPG
                         char c = lines[x][y];
                         string s = c.ToString();
                         int i = 0;
-                        try { i = int.Parse(s); } catch(Exception ignored) { }
+                        try { i = int.Parse(s); } catch (Exception ignored) { }
 
                         switch (f) // Switch based on the current fName.
                         {
                             case 0:
                                 tiles[x, y].displayChar = c; break;
-                                case 1:
-                                tiles[x,y].fg = (ConsoleColor)i; break;
-                                case 2:
-                                tiles[x, y].bg = (ConsoleColor)i;   break;
-                                case 3:
+                            case 1:
+                                tiles[x, y].fg = (ConsoleColor)i; break;
+                            case 2:
+                                tiles[x, y].bg = (ConsoleColor)i; break;
+                            case 3:
                                 tiles[x, y].hazard = (Hazard)i; break;
                         }
                     }
@@ -107,7 +106,7 @@ namespace mFriesen_S2TextBasedRPG
 
                 for (int y = 0; y < tiles.GetLength(1); y++)
                 {
-                    Console.ForegroundColor = tiles[y,x].fg; Console.BackgroundColor = tiles[y, x].bg;
+                    Console.ForegroundColor = tiles[y, x].fg; Console.BackgroundColor = tiles[y, x].bg;
                     Console.Write(tiles[y, x].displayChar);
                 }
 
