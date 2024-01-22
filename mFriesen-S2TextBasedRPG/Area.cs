@@ -9,8 +9,8 @@ namespace mFriesen_S2TextBasedRPG
         // Class stores everything for a certain room.
         string name; // use to determine what files to read to grab data.
 
-        // File loading strings.
-        string[] fNames;
+        // File loading strings. THIS MUST BE KEPT UP TO DATE!
+        string[] fNames = new string[5];
 
         // Variables
         TriggerZone[] warpTriggers; // warp the player to a new area, based on the warp index.
