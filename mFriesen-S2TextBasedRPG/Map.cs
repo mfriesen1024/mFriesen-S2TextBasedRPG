@@ -1,5 +1,6 @@
 ﻿using SimpleLogger;
 using System;
+using System.Diagnostics;
 using System.IO;
 
 namespace mFriesen_S2TextBasedRPG
@@ -39,9 +40,10 @@ namespace mFriesen_S2TextBasedRPG
             string[] getLength = File.ReadAllLines(fNames[0]);
 
             // Dim0 is fNames index, Dim1 is map vertical axis.
-            string[,] data = new string[4, getLength.Length];
+            //string[,] data = new string[4, getLength.Length];
             // Create the tile array, such that y (dim0) is string array index, and x (dim1) is string index.
             Tile[,] tiles = new Tile[getLength.Length, getLength[0].Length];
+            Log.Write($"Tiles is size {getLength.Length}, {getLength[0].Length}", logType.debug);
 
             for(int f = 0; f < fNames.Length; f++)
             {
@@ -50,7 +52,7 @@ namespace mFriesen_S2TextBasedRPG
                 {
                     string txt = $"Failed to load map {fNames[f]} due to nonexistent file.";
                     File.Create(fNames[f]).Close();
-                    Log.Write(txt, logType.fatal);
+                    Log.Write(txt, logType.error);
                     throw new FileNotFoundException(txt);
                 }
 
@@ -62,21 +64,21 @@ namespace mFriesen_S2TextBasedRPG
                 {
                     for (int x = 0; x < tiles.GetLength(0); x++) // For loop for x axis.
                     {
-                        char c = lines[y][x];
+                        char c = lines[x][y];
                         string s = c.ToString();
                         int i = 0;
-                        try { i = int.Parse(s); } catch { }
+                        try { i = int.Parse(s); } catch(Exception ignored) { }
 
                         switch (f) // Switch based on the current fName.
                         {
                             case 0:
-                                tiles[y,x].displayChar = c; break;
+                                tiles[x, y].displayChar = c; break;
                                 case 1:
-                                tiles[y,x].fg = (ConsoleColor)i; break;
+                                tiles[x,y].fg = (ConsoleColor)i; break;
                                 case 2:
-                                tiles[y,x].bg = (ConsoleColor)i;   break;
+                                tiles[x, y].bg = (ConsoleColor)i;   break;
                                 case 3:
-                                tiles[y,x].hazard = (Hazard)i; break;
+                                tiles[x, y].hazard = (Hazard)i; break;
                         }
                     }
                 }
