@@ -11,9 +11,9 @@ namespace mFriesen_S2TextBasedRPG
     {
         public static string indexFName = "index";
 
-        public static string[] items;
-        public static string[] foes;
-        public static string[] encounters;
+        public static string[,] items;
+        public static string[,] foes;
+        public static string[,] encounters;
 
         public static void Load(string[] dirs)
         {
@@ -38,8 +38,6 @@ namespace mFriesen_S2TextBasedRPG
             }
             // To not have to worry about not getting anything back, just throw an exception.
             else { throw new FileNotFoundException(_indexFName + "Was not found."); }
-
-
         }
         
         static string FixDirName(string dirName)
