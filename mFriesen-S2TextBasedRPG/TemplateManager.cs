@@ -11,9 +11,9 @@ namespace mFriesen_S2TextBasedRPG
     {
         public static string indexFName = "index";
 
-        public static string[,] items;
+        public static ItemTemplate[] items;
         public static string[,] foes;
-        public static string[,] encounters;
+        public static EncounterTemplate[] encounters;
 
         public static void Load(string[] dirs)
         {
@@ -47,4 +47,26 @@ namespace mFriesen_S2TextBasedRPG
             return dirName;
         }
     }
+
+    struct ItemTemplate
+    {
+        string name;
+
+        // other stats go here.
+        //object example;
+
+        public ItemTemplate(string name)
+        {
+            this.name = name;
+        }
+    }
+
+    struct EncounterTemplate
+    {
+        Foe[] foes;
+        Vector2 startDialogue;
+        Vector2 endDialogue;
+    }
+
+    // create entity templates later, due to stat management rework.
 }
