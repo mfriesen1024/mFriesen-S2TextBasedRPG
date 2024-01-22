@@ -37,6 +37,9 @@ namespace mFriesen_S2TextBasedRPG
                     fNames[i] = dirName + fNames[i];
                 }
 
+                // Initialize the array for all the encounter templates.
+                encounters = new EncounterTemplate[fNames.Length];
+
                 for(int i = 0;i < fNames.Length; i++)
                 {
                     Log.Write($"Attempting to load file {fNames[i]}", logType.debug);
@@ -44,7 +47,15 @@ namespace mFriesen_S2TextBasedRPG
                     // Lines 0-3 are dialogue indexes, all further lines are foe template indexes.
                     string[] lines = File.ReadAllLines(fNames[i]);
 
+                    List<Foe> foes = new List<Foe>();
 
+                    // Load foes here.
+
+                    Vector2 sd, ed;
+                    sd = new Vector2(int.Parse(lines[0]), int.Parse(lines[1])); ed = new Vector2(int.Parse(lines[2]), int.Parse(lines[3]));
+
+                    // Place encounter in array as template.
+                    encounters[i] = new EncounterTemplate(sd, ed, foes.ToArray());
                 }
             }
             // To not have to worry about not getting anything back, just throw an exception.
