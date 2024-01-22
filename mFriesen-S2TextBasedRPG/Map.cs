@@ -1,5 +1,6 @@
 ﻿using SimpleLogger;
 using System;
+using System.Diagnostics;
 using System.IO;
 
 namespace mFriesen_S2TextBasedRPG
@@ -39,9 +40,10 @@ namespace mFriesen_S2TextBasedRPG
             string[] getLength = File.ReadAllLines(fNames[0]);
 
             // Dim0 is fNames index, Dim1 is map vertical axis.
-            string[,] data = new string[4, getLength.Length];
+            //string[,] data = new string[4, getLength.Length];
             // Create the tile array, such that y (dim0) is string array index, and x (dim1) is string index.
             Tile[,] tiles = new Tile[getLength.Length, getLength[0].Length];
+            Log.Write($"Tiles is size {getLength.Length}, {getLength[0].Length}", logType.debug);
 
             for(int f = 0; f < fNames.Length; f++)
             {
@@ -50,7 +52,7 @@ namespace mFriesen_S2TextBasedRPG
                 {
                     string txt = $"Failed to load map {fNames[f]} due to nonexistent file.";
                     File.Create(fNames[f]).Close();
-                    Log.Write(txt, logType.fatal);
+                    Log.Write(txt, logType.error);
                     throw new FileNotFoundException(txt);
                 }
 
@@ -62,6 +64,7 @@ namespace mFriesen_S2TextBasedRPG
                 {
                     for (int x = 0; x < tiles.GetLength(0); x++) // For loop for x axis.
                     {
+                        Log.Write($"{y},{x}", logType.debug);
                         char c = lines[y][x];
                         string s = c.ToString();
                         int i = 0;
