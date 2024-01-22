@@ -69,10 +69,5 @@ namespace mFriesen_S2TextBasedRPG
             }
 
         }
-
-        void FPTempLoad() // use this to activate the encounter immediately on load, for first playable.
-        {
-            
-        }
     }
 }
