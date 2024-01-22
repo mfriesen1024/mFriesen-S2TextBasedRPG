@@ -29,6 +29,12 @@ namespace mFriesen_S2TextBasedRPG
             if(File.Exists(_indexFName))
             {
                 fNames = File.ReadAllLines(_indexFName);
+
+                // fix names
+                for(int i = 0; i < fNames.Length; i++)
+                {
+                    fNames[i] = dirName + fNames[i];
+                }
             }
             // To not have to worry about not getting anything back, just throw an exception.
             else { throw new FileNotFoundException(_indexFName + "Was not found."); }
