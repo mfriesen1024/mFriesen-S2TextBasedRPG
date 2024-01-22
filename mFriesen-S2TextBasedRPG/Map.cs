@@ -64,23 +64,21 @@ namespace mFriesen_S2TextBasedRPG
                 {
                     for (int x = 0; x < tiles.GetLength(0); x++) // For loop for x axis.
                     {
-                        Log.Write($"{y},{x}", logType.debug);
                         char c = lines[x][y];
                         string s = c.ToString();
                         int i = 0;
-                        try { i = int.Parse(s); } catch(Exception e) { Log.Write(e.Message, logType.error); }
+                        try { i = int.Parse(s); } catch(Exception ignored) { }
 
                         switch (f) // Switch based on the current fName.
                         {
                             case 0:
-                                tiles[y,x].displayChar = c; break;
-                                Log.Write($"{y}, {x}");
+                                tiles[x, y].displayChar = c; break;
                                 case 1:
-                                tiles[y,x].fg = (ConsoleColor)i; break;
+                                tiles[x,y].fg = (ConsoleColor)i; break;
                                 case 2:
-                                tiles[y,x].bg = (ConsoleColor)i;   break;
+                                tiles[x, y].bg = (ConsoleColor)i;   break;
                                 case 3:
-                                tiles[y,x].hazard = (Hazard)i; break;
+                                tiles[x, y].hazard = (Hazard)i; break;
                         }
                     }
                 }
