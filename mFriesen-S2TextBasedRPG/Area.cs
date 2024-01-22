@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using SimpleLogger;
+using System;
+using System.IO;
 
 namespace mFriesen_S2TextBasedRPG
 {
@@ -14,7 +16,7 @@ namespace mFriesen_S2TextBasedRPG
         TriggerZone[] warpTriggers; // warp the player to a new area, based on the warp index.
         int[] warpIndexes; // use to determine where to warp the player.
         TriggerZone[] encounterTriggers; // launch encounter on trigger.
-        int[] encounterIndexes; // use to determine what encounter to launch.
+        string[] encounterIndexes; // use to determine what encounter to launch.
         Encounter[] encounters;
         Map map; // house map data.
         Pickup[] pickups;
@@ -43,9 +45,34 @@ namespace mFriesen_S2TextBasedRPG
 
         void Load(int fIndex = 0)
         {
+            bool exit = false;
+            foreach(string file in fNames)
+            {
+                if (!File.Exists(file))
+                {
+                    Log.Write($"Failed to load file {file}, attempting creation.", logType.error); exit = true;
+                    File.Create(file).Close();
+                }
+            }
+            if (exit) { Environment.Exit(-1); }
+
 
             // Get data from file
             string[] data = File.ReadAllLines(fNames[0]);
+
+            // Load encounter indexes, then load the encounter from the parsed string.
+            string[] encounterIndexes = File.ReadAllLines(fNames[4]);
+            encounters = new Encounter[encounterIndexes.Length];
+            for (int i = 0; i < encounterIndexes.Length; i++)
+            {
+                encounters[i] = TemplateManager.encounters[int.Parse(encounterIndexes[i])].CreateEncounter();
+            }
+
+        }
+
+        void FPTempLoad() // use this to activate the encounter immediately on load, for first playable.
+        {
+            
         }
     }
 }
