@@ -10,7 +10,7 @@ namespace mFriesen_S2TextBasedRPG
 {
     static class TemplateManager
     {
-        public static string indexFName = "index";
+        public static string indexFName = "index.txt";
 
         public static ItemTemplate[] items;
         public static string[,] foes;
