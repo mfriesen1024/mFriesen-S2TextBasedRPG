@@ -95,6 +95,11 @@ namespace mFriesen_S2TextBasedRPG
             this.endDialogue = endDialogue;
             this.foes = foes;
         }
+
+        public Encounter CreateEncounter()
+        {
+            return new Encounter(foes, startDialogue, endDialogue);
+        }
     }
 
     // create entity templates later, due to stat management rework.
