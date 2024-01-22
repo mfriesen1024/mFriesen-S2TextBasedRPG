@@ -22,14 +22,25 @@ namespace mFriesen_S2TextBasedRPG
 
         static void LoadEncounters(string dirName)
         {
-            dirName += "\\"; string _indexFName = dirName + indexFName;
+            dirName = FixDirName(dirName);
+            string _indexFName = dirName + indexFName;
             string[] fNames;
 
             if(File.Exists(_indexFName))
             {
                 fNames = File.ReadAllLines(_indexFName);
             }
+            // To not have to worry about not getting anything back, just throw an exception.
             else { throw new FileNotFoundException(_indexFName + "Was not found."); }
+
+
+        }
+        
+        static string FixDirName(string dirName)
+        {
+            // add a \ to the end of dirname,
+            dirName += "\\";
+            return dirName;
         }
     }
 }
