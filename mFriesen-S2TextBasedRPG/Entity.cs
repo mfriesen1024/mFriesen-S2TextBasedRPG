@@ -7,7 +7,15 @@ namespace mFriesen_S2TextBasedRPG
         item,
         instant
     }
-    internal class Entity
+    // To be used in Mod/Get stat.
+    enum statname
+    {
+        hp,
+        ap,
+        dr
+    }
+
+    class Entity
     {
         // Stores entity data that isn’t player/foe/neutral specific.
         public Vector2 position;
@@ -19,6 +27,28 @@ namespace mFriesen_S2TextBasedRPG
         int ap; // absorption
         int dr; // damage reduction
 
+        // Set stats manually.
+        public void ModStat(statname stat, int value)
+        {
+            switch (stat)
+            {
+                case statname.hp: hp = value; break;
+                case statname.ap: ap = value; break;
+                case statname.dr: dr = value; break;
+            }
+        }
+        // Get method.
+        public int GetStat(statname stat)
+        {
+            int Return = 0;
+            switch (stat)
+            {
+                case statname.hp: Return = hp; break;
+                case statname.ap: Return = ap; break;
+                case statname.dr: Return = dr; break;
+            }
+            return Return;
+        }
     }
 
     class Foe : Entity
@@ -29,6 +59,12 @@ namespace mFriesen_S2TextBasedRPG
     class Player : Entity
     {
         // Player specific things here.
+
+        public Player()
+        {
+            ModStat(statname.hp, 10);
+            ModStat(statname.ap, 10);
+        }
     }
 
     class Pickup : Entity
