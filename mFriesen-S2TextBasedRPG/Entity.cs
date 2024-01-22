@@ -54,16 +54,24 @@ namespace mFriesen_S2TextBasedRPG
     class Foe : Entity
     {
         // Foe specific things here, if any.
+
+        public Foe(int hp = 10, int ap = 0, int dr = 0)
+        {
+            ModStat(statname.hp, hp);
+            ModStat(statname.ap, ap);
+            ModStat(statname.dr, dr);
+        }
     }
 
     class Player : Entity
     {
         // Player specific things here.
 
-        public Player()
+        public Player(int hp = 10, int ap = 0, int dr = 0)
         {
-            ModStat(statname.hp, 10);
-            ModStat(statname.ap, 10);
+            ModStat(statname.hp, hp);
+            ModStat(statname.ap, ap);
+            ModStat(statname.dr, dr);
         }
     }
 
