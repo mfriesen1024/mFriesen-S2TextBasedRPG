@@ -32,6 +32,8 @@ namespace mFriesen_S2TextBasedRPG
                 Environment.Exit(1);
             }
 
+            GameManager.areasFName = "data\\areaNames.txt";
+            GameManager.LoadAreas();
 
         }
     }
