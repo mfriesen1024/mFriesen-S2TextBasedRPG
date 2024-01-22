@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SimpleLogger;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -35,6 +36,16 @@ namespace mFriesen_S2TextBasedRPG
                 {
                     fNames[i] = dirName + fNames[i];
                 }
+
+                for(int i = 0;i < fNames.Length; i++)
+                {
+                    Log.Write($"Attempting to load file {fNames[i]}", logType.debug);
+
+                    // Lines 0-3 are dialogue indexes, all further lines are foe template indexes.
+                    string[] lines = File.ReadAllLines(fNames[i]);
+
+
+                }
             }
             // To not have to worry about not getting anything back, just throw an exception.
             else { throw new FileNotFoundException(_indexFName + "Was not found."); }
@@ -63,9 +74,16 @@ namespace mFriesen_S2TextBasedRPG
 
     struct EncounterTemplate
     {
-        Foe[] foes;
         Vector2 startDialogue;
         Vector2 endDialogue;
+        Foe[] foes;
+
+        public EncounterTemplate(Vector2 startDialogue, Vector2 endDialogue, Foe[] foes)
+        {
+            this.startDialogue = startDialogue;
+            this.endDialogue = endDialogue;
+            this.foes = foes;
+        }
     }
 
     // create entity templates later, due to stat management rework.
