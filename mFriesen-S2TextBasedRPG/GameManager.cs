@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using SimpleLogger;
+using System;
+using System.IO;
 
 namespace mFriesen_S2TextBasedRPG
 {
@@ -24,6 +26,12 @@ namespace mFriesen_S2TextBasedRPG
                 {
                     areas[i] = new Area(aNames[i]);
                 }
+            }
+            else
+            {
+                File.Create(areasFName).Close();
+                Log.Write($"Areas file didn't exist. Is {areasFName} correct?", logType.error);
+                Environment.Exit(-1);
             }
         }
     }
