@@ -13,5 +13,17 @@
             this.startDialogue = startDialogue;
             this.endDialogue = endDialogue;
         }
+
+        public Foe[] StartEncounter()
+        {
+            RunDialogue(startDialogue);
+
+            return foes;
+        }
+
+        void RunDialogue(Vector2 bounds)
+        {
+
+        }
     }
 }
