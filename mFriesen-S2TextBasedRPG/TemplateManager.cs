@@ -44,8 +44,13 @@ namespace mFriesen_S2TextBasedRPG
                 {
                     Log.Write($"Attempting to load file {fNames[i]}", logType.debug);
 
+                    string[] lines = null;
                     // Lines 0-3 are dialogue indexes, all further lines are foe template indexes.
-                    string[] lines = File.ReadAllLines(fNames[i]);
+                    try { lines = File.ReadAllLines(fNames[i]); } catch (FileNotFoundException ignored) {
+                        File.Create(fNames[i]);
+                        Log.Write($"Unable to find file {fNames[i]}, so we created it. Closing!", logType.error);
+                        Environment.Exit(-1);
+                    }
 
                     List<Foe> foes = new List<Foe>();
 
