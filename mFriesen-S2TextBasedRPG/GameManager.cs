@@ -38,12 +38,17 @@ namespace mFriesen_S2TextBasedRPG
 
         public static void Start()
         {
-            // set first area active, and if we want to start current encounter, we do so.
+            // set first area active, and if we want to start first encounter, we do so.
             currentArea = areas[0];
             if(autoRunFirstEncounter)
             {
                 currentArea.ActivateEncounter(0);
             }
+        }
+
+        public static void Update()
+        {
+
         }
     }
 }
