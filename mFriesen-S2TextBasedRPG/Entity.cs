@@ -7,13 +7,6 @@ namespace mFriesen_S2TextBasedRPG
         item,
         instant
     }
-    // To be used in Mod/Get stat.
-    enum statname
-    {
-        hp,
-        ap,
-        dr
-    }
 
     abstract class Entity
     {
@@ -21,6 +14,7 @@ namespace mFriesen_S2TextBasedRPG
         public Vector2 position;
         public Tile displayTile = new Tile();
         public List<Item> inventory;
+        public StatManager statManager;
         public int? armorInventoryIndex;
         public int? weaponInventoryIndex;
 
@@ -31,24 +25,12 @@ namespace mFriesen_S2TextBasedRPG
         // Set stats manually.
         public void ModStat(statname stat, int value)
         {
-            switch (stat)
-            {
-                case statname.hp: hp = value; break;
-                case statname.ap: ap = value; break;
-                case statname.dr: dr = value; break;
-            }
+            statManager.ModStat(stat, value);
         }
         // Get method.
         public int GetStat(statname stat)
         {
-            int Return = 0;
-            switch (stat)
-            {
-                case statname.hp: Return = hp; break;
-                case statname.ap: Return = ap; break;
-                case statname.dr: Return = dr; break;
-            }
-            return Return;
+            return statManager.GetStat(stat);
         }
     }
 
@@ -77,6 +59,10 @@ namespace mFriesen_S2TextBasedRPG
             ModStat(statname.hp, hp);
             ModStat(statname.ap, ap);
             ModStat(statname.dr, dr);
+
+            // set display char
+            displayTile.fg = System.ConsoleColor.Blue; displayTile.bg= System.ConsoleColor.DarkBlue;
+            displayTile.displayChar = '@';
         }
     }
 
