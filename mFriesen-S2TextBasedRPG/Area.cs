@@ -69,5 +69,17 @@ namespace mFriesen_S2TextBasedRPG
             }
 
         }
+
+        public void ActivateEncounter(int localIndex)
+        {
+            Foe[] tempFoes = encounters[localIndex].StartEncounter();
+            Entity[] newFoes = new Entity[tempFoes.Length + 1];
+            
+            // Add player at index 0 instead of setting it to null
+            
+
+            for (int i = 0;i < tempFoes.Length;i++) { newFoes[i+1] = tempFoes[i]; }
+
+        }
     }
 }
