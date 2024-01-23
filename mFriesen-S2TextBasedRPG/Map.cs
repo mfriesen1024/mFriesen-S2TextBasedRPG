@@ -94,6 +94,10 @@ namespace mFriesen_S2TextBasedRPG
             {
                 localTiles = AddEntitiesToMap(localTiles, entities);
             }
+            else if(entities != null)
+            {
+                localTiles = AddEntitiesToMap(localTiles, this.entities);
+            }
 
             // Create top/bottom borders.
             string end = string.Empty;
