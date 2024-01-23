@@ -59,7 +59,7 @@ namespace mFriesen_S2TextBasedRPG
                 }
             }
             // To not have to worry about not getting anything back, just throw an exception.
-            else { throw new FileNotFoundException(_indexFName + "Was not found."); }
+            else { throw new FileNotFoundException(_indexFName + " Was not found."); }
         }
         
         static string FixDirName(string dirName)
