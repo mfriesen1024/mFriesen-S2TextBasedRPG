@@ -72,6 +72,7 @@ namespace mFriesen_S2TextBasedRPG
 
         public void ActivateEncounter(int localIndex)
         {
+            GameManager.CurrentEncounter = encounters[localIndex];
             Foe[] tempFoes = encounters[localIndex].StartEncounter();
             Entity[] newFoes = new Entity[tempFoes.Length + 1];
             
