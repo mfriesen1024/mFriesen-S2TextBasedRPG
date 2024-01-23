@@ -15,10 +15,11 @@ namespace mFriesen_S2TextBasedRPG
         dr
     }
 
-    class Entity
+    abstract class Entity
     {
         // Stores entity data that isn’t player/foe/neutral specific.
         public Vector2 position;
+        public Tile displayTile = new Tile();
         public List<Item> inventory;
         public int? armorInventoryIndex;
         public int? weaponInventoryIndex;
@@ -60,6 +61,10 @@ namespace mFriesen_S2TextBasedRPG
             ModStat(statname.hp, hp);
             ModStat(statname.ap, ap);
             ModStat(statname.dr, dr);
+
+            // set display char
+            displayTile.fg = System.ConsoleColor.Red; displayTile.bg = System.ConsoleColor.DarkRed;
+            displayTile.displayChar = 'E';
         }
     }
 

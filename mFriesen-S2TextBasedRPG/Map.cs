@@ -86,11 +86,18 @@ namespace mFriesen_S2TextBasedRPG
 
             Log.Write($"Loaded map {fName}, by loading {fNames.Length} files. Tiles has {tiles.Length} tiles.");
         }
-        public void RenderMap()
+        public void RenderMap(Entity[] entities = null)
         {
+            // create local tile array so I don't break the array when I add entities.
+            Tile[,] localTiles = tiles;
+            if (entities != null)
+            {
+                localTiles = AddEntitiesToMap(localTiles, entities);
+            }
+
             // Create top/bottom borders.
             string end = string.Empty;
-            for (int x = -2; x < tiles.GetLength(0); x++)
+            for (int x = -2; x < localTiles.GetLength(0); x++)
             {
                 end += "#";
             }
@@ -99,15 +106,15 @@ namespace mFriesen_S2TextBasedRPG
             Console.WriteLine(end);
 
             // Render the main map
-            for (int x = 0; x < tiles.GetLength(0); x++)
+            for (int x = 0; x < localTiles.GetLength(0); x++)
             {
                 // write the border before the map.
                 Console.ForegroundColor = ConsoleColor.White; Console.BackgroundColor = ConsoleColor.Black; Console.Write("#");
 
-                for (int y = 0; y < tiles.GetLength(1); y++)
+                for (int y = 0; y < localTiles.GetLength(1); y++)
                 {
-                    Console.ForegroundColor = tiles[y, x].fg; Console.BackgroundColor = tiles[y, x].bg;
-                    Console.Write(tiles[y, x].displayChar);
+                    Console.ForegroundColor = localTiles[y, x].fg; Console.BackgroundColor = localTiles[y, x].bg;
+                    Console.Write(localTiles[y, x].displayChar);
                 }
 
                 // write the border after the map.
@@ -119,5 +126,28 @@ namespace mFriesen_S2TextBasedRPG
             Console.ForegroundColor = ConsoleColor.White; Console.BackgroundColor = ConsoleColor.Black; Console.WriteLine(end);
         }
         public void RenderRegion(Vector2 topLeft, Vector2 bottomRight) { }
+
+        Tile[,] AddEntitiesToMap(Tile[,] tiles, Entity[] entities)
+        {
+            // create local tile array so I don't break the array when I add entities.
+            Tile[,] localTiles = new Tile[tiles.GetLength(0), tiles.GetLength(1)];
+            // for each tile
+            for (int y = 0; y < localTiles.GetLength(0); y++)
+            {
+                for (int x = 0; x < localTiles.GetLength(1); x++)
+                {
+                    // Check if the position matches an entity position
+                    for (int posIndex = 0; posIndex < entities.Length; posIndex++)
+                    {
+                        Vector2 currentPos = entities[posIndex].position;
+                        if (currentPos.y == y && currentPos.x == x) // if the position matches, set the tile.
+                        {
+                            localTiles[y, x] = entities[posIndex].displayTile;
+                        }
+                    }
+                }
+            }
+            return localTiles;
+        }
     }
 }
