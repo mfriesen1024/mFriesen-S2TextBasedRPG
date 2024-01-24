@@ -48,6 +48,11 @@ namespace mFriesen_S2TextBasedRPG
             return Return;
         }
 
+        public StatManager ShallowClone()
+        {
+            return (StatManager) MemberwiseClone();
+        }
+
         // Need to add damage/heal death things.
     }
 }

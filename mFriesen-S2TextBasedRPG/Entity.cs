@@ -18,10 +18,6 @@ namespace mFriesen_S2TextBasedRPG
         public int? armorInventoryIndex;
         public int? weaponInventoryIndex;
 
-        int hp; // health
-        int ap; // absorption
-        int dr; // damage reduction
-
         // Set stats manually.
         public void ModStat(statname stat, int value)
         {
@@ -34,6 +30,15 @@ namespace mFriesen_S2TextBasedRPG
         }
 
         public abstract void GetMove(); // we'll use this to make the characters move separately.
+
+        public Entity DeepClone()
+        {
+            Entity e = (Entity)MemberwiseClone();
+            e.statManager = statManager.ShallowClone();
+            e.position = position.Clone();
+            e.displayTile = displayTile.Clone();
+            return e;
+        }
     }
 
     class Foe : Entity
