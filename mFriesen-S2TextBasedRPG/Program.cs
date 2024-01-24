@@ -25,7 +25,7 @@ namespace mFriesen_S2TextBasedRPG
                 Log.Write("Data folder created, yelling at player.");
                 Console.WriteLine("You didn't have a data folder. We made a new one, but you'll need to download a campaign. Delete the isEmpty file when you're done.");
                 Console.WriteLine("Press a key to exit.");
-                File.Create("data\\isEmpty");
+                File.Create("data\\isEmpty").Close();
                 Console.ReadKey();
                 Environment.Exit(1);
             }
