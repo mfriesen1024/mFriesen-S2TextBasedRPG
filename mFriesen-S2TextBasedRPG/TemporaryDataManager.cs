@@ -31,6 +31,7 @@ namespace mFriesen_S2TextBasedRPG
             Area demoArea = new Area("demoArea");
             Foe[] demoEncounter = { (Foe)foes[0].DeepClone(), (Foe)foes[0].DeepClone(), (Foe)foes[0].DeepClone() };
             demoArea.encounter = demoEncounter;
+            areas.Add(demoArea);
         }
     }
 }
