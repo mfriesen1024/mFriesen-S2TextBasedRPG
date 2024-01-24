@@ -14,6 +14,7 @@ namespace mFriesen_S2TextBasedRPG
         public static void GenerateThings()
         {
             GenerateFoes();
+            GenerateAreas();
         }
 
         static void GenerateFoes()
