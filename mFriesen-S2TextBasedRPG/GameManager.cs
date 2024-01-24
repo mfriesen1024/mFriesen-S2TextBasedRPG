@@ -7,7 +7,7 @@ namespace mFriesen_S2TextBasedRPG
 {
     static class GameManager
     {
-        public static Player player = new Player();
+        public static Player player;
 
         public static string areasFName;
         static Area[] areas; // stores the areas.
@@ -68,6 +68,7 @@ namespace mFriesen_S2TextBasedRPG
             TemporaryDataManager.GenerateThings();
             foeTemplates = TemporaryDataManager.foes.ToArray();
             areas = TemporaryDataManager.areas.ToArray();
+            player = TemporaryDataManager.player;
         }
     }
 }

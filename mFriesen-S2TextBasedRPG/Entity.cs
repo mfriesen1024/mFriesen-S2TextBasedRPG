@@ -49,9 +49,9 @@ namespace mFriesen_S2TextBasedRPG
     {
         // Foe specific things here, if any.
 
-        public Foe(int hp = 10, int ap = 0, int dr = 0)
+        public Foe(int hp = 10, int ap = 0, int dr = 0, int str = 1)
         {
-            statManager = new StatManager(hp, ap, dr);
+            statManager = new StatManager(hp, ap, dr, str);
 
             // set display char
             displayTile.fg = System.ConsoleColor.Red; displayTile.bg = System.ConsoleColor.DarkRed;
@@ -65,9 +65,9 @@ namespace mFriesen_S2TextBasedRPG
     {
         // Player specific things here.
 
-        public Player(int hp = 10, int ap = 0, int dr = 0)
+        public Player(int hp = 10, int ap = 0, int dr = 0, int str = 1)
         {
-            statManager = new StatManager(hp, ap, dr);
+            statManager = new StatManager(hp, ap, dr, str);
 
             // set display char
             displayTile.fg = System.ConsoleColor.Blue; displayTile.bg = System.ConsoleColor.DarkBlue;

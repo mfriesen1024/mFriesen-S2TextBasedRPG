@@ -6,7 +6,8 @@ enum statname
 {
     hp,
     ap,
-    dr
+    dr,
+    str
 }
 
 namespace mFriesen_S2TextBasedRPG
@@ -16,14 +17,16 @@ namespace mFriesen_S2TextBasedRPG
         int hp;
         int ap;
         int dr;
+        int str;
         int maxHP;
 
-        public StatManager(int hp, int ap, int dr)
+        public StatManager(int hp, int ap, int dr, int str)
         {
             this.hp = hp;
             this.ap = ap;
             this.dr = dr;
             maxHP = hp;
+            this.str = str;
         }
 
         public void ModStat(statname stat, int value)
@@ -33,6 +36,7 @@ namespace mFriesen_S2TextBasedRPG
                 case statname.hp: hp = value; break;
                 case statname.ap: ap = value; break;
                 case statname.dr: dr = value; break;
+                    case statname.str: str = value; break;
             }
         }
         // Get method.
@@ -44,6 +48,7 @@ namespace mFriesen_S2TextBasedRPG
                 case statname.hp: Return = hp; break;
                 case statname.ap: Return = ap; break;
                 case statname.dr: Return = dr; break;
+                case statname.str: Return = str; break;
             }
             return Return;
         }

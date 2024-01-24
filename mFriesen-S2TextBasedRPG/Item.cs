@@ -15,11 +15,11 @@
         }
     }
 
-    public class Weapon : Item
+    public class WeaponItem : Item
     {
         public int str;
 
-        public Weapon(int str = 1)
+        public WeaponItem(int str = 1)
         {
             this.str = str;
         }
