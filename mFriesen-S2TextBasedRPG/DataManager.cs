@@ -2,13 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace mFriesen_S2TextBasedRPG
 {
-    static class TemplateManager
+    static class DataManager
     {
         public static string indexFName = "index.txt";
 
@@ -27,12 +24,12 @@ namespace mFriesen_S2TextBasedRPG
             string _indexFName = dirName + indexFName;
             string[] fNames;
 
-            if(File.Exists(_indexFName))
+            if (File.Exists(_indexFName))
             {
                 fNames = File.ReadAllLines(_indexFName);
 
                 // fix names
-                for(int i = 0; i < fNames.Length; i++)
+                for (int i = 0; i < fNames.Length; i++)
                 {
                     fNames[i] = dirName + fNames[i];
                 }
@@ -40,13 +37,15 @@ namespace mFriesen_S2TextBasedRPG
                 // Initialize the array for all the encounter templates.
                 encounters = new EncounterTemplate[fNames.Length];
 
-                for(int i = 0;i < fNames.Length; i++)
+                for (int i = 0; i < fNames.Length; i++)
                 {
                     Log.Write($"Attempting to load file {fNames[i]}", logType.debug);
 
                     string[] lines = null;
                     // Lines 0-3 are dialogue indexes, all further lines are foe template indexes.
-                    try { lines = File.ReadAllLines(fNames[i]); } catch (FileNotFoundException ignored) {
+                    try { lines = File.ReadAllLines(fNames[i]); }
+                    catch (FileNotFoundException ignored)
+                    {
                         File.Create(fNames[i]);
                         Log.Write($"Unable to find file {fNames[i]}, so we created it. Closing!", logType.error);
                         Environment.Exit(-1);
@@ -66,7 +65,7 @@ namespace mFriesen_S2TextBasedRPG
             // To not have to worry about not getting anything back, just throw an exception.
             else { throw new FileNotFoundException(_indexFName + " Was not found."); }
         }
-        
+
         static string FixDirName(string dirName)
         {
             // add a \ to the end of dirname,

@@ -1,29 +1,30 @@
 ﻿using SimpleLogger;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace mFriesen_S2TextBasedRPG
 {
     static class GameManager
     {
-        // Temporarily load encounter 1 automatically for firstplayable
-        static bool autoRunFirstEncounter;
+        public static Player player = new Player();
 
         public static string areasFName;
-        static Area[] areas; // stores the areas. (to be loaded from a file)
+        static Area[] areas; // stores the areas.
+        public static Foe[] foeTemplates; // store foe templates
         static Area currentArea; // tracks the current area
-        static Encounter currentEncounter;
-        public static Encounter CurrentEncounter { set { currentEncounter = value; } }
+        static Map currentMap; // Track current map.
+        public static List<Entity> entities = new List<Entity>();
         static string[] storedDialogue; // store dialogue (load from file)
         static string[] currentDialogue; // store the current dialogue passage to read
 
         public static void LoadAreas()
         {
-            if(File.Exists(areasFName))
+            if (File.Exists(areasFName))
             {
                 string[] aNames = File.ReadAllLines(areasFName);
                 areas = new Area[aNames.Length];
-                for(int i = 0; i < aNames.Length; i++)
+                for (int i = 0; i < aNames.Length; i++)
                 {
                     areas[i] = new Area(aNames[i]);
                 }
@@ -38,17 +39,35 @@ namespace mFriesen_S2TextBasedRPG
 
         public static void Start()
         {
-            // set first area active, and if we want to start first encounter, we do so.
-            currentArea = areas[0];
-            if(autoRunFirstEncounter)
-            {
-                currentArea.ActivateEncounter(0);
-            }
+            LoadData();
+
+            // set first area active.
+            LoadArea(0);
+
         }
 
         public static void Update()
         {
 
+
+            // At the end, render the map.
+            currentMap.RenderMap(entities.ToArray());
+        }
+
+        public static void LoadArea(int index)
+        {
+            currentArea = areas[index];
+            entities = new List<Entity> { player };
+            entities.AddRange(currentArea.encounter);
+            currentMap = currentArea.map;
+        }
+
+        static void LoadData()
+        {
+            // eventually, this should be replaced with proper data loading, but for now, just load temporary things.
+            TemporaryDataManager.GenerateThings();
+            foeTemplates = TemporaryDataManager.foes.ToArray();
+            areas = TemporaryDataManager.areas.ToArray();
         }
     }
 }
