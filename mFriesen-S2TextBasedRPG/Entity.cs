@@ -32,6 +32,8 @@ namespace mFriesen_S2TextBasedRPG
         {
             return statManager.GetStat(stat);
         }
+
+        public abstract void GetMove(); // we'll use this to make the characters move separately.
     }
 
     class Foe : Entity
@@ -48,6 +50,8 @@ namespace mFriesen_S2TextBasedRPG
             displayTile.fg = System.ConsoleColor.Red; displayTile.bg = System.ConsoleColor.DarkRed;
             displayTile.displayChar = 'E';
         }
+
+        public override void GetMove() { }
     }
 
     class Player : Entity
@@ -64,13 +68,7 @@ namespace mFriesen_S2TextBasedRPG
             displayTile.fg = System.ConsoleColor.Blue; displayTile.bg= System.ConsoleColor.DarkBlue;
             displayTile.displayChar = '@';
         }
-    }
 
-    class Pickup : Entity
-    {
-        pickupType type;
-        public pickupType GetPickupType() { return type; }
-
-        public Item item;
+        public override void GetMove() { }
     }
 }
