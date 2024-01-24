@@ -55,6 +55,7 @@
     <Compile Include="StatManager.cs" />
     <Compile Include="Struct.cs" />
     <Compile Include="DataManager.cs" />
+    <Compile Include="TemporaryDataManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
