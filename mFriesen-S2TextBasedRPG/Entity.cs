@@ -18,19 +18,6 @@ namespace mFriesen_S2TextBasedRPG
         public int? armorInventoryIndex;
         public int? weaponInventoryIndex;
 
-        // Set stats manually.
-        public void ModStat(statname stat, int value)
-        {
-            statManager.ModStat(stat, value);
-        }
-        // Get method.
-        public int GetStat(statname stat)
-        {
-            return statManager.GetStat(stat);
-        }
-
-        public abstract void GetMove(); // we'll use this to make the characters move separately.
-
         public Entity DeepClone()
         {
             Entity e = (Entity)MemberwiseClone();
@@ -43,6 +30,19 @@ namespace mFriesen_S2TextBasedRPG
             }
             return e;
         }
+
+        // Set stats manually.
+        public void ModStat(statname stat, int value)
+        {
+            statManager.ModStat(stat, value);
+        }
+        // Get method.
+        public int GetStat(statname stat)
+        {
+            return statManager.GetStat(stat);
+        }
+
+        public abstract void GetMove(); // we'll use this to make the characters move separately.
     }
 
     class Foe : Entity
