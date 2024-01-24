@@ -5,7 +5,7 @@ namespace mFriesen_S2TextBasedRPG
     enum Hazard
     {
         none,
-        water
+        wall
     }
     struct TriggerZone
     {
