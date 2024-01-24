@@ -37,6 +37,10 @@ namespace mFriesen_S2TextBasedRPG
             e.statManager = statManager.ShallowClone();
             e.position = position.Clone();
             e.displayTile = displayTile.Clone();
+            foreach (Item item in inventory)
+            {
+                e.inventory.Add(item);
+            }
             return e;
         }
     }
