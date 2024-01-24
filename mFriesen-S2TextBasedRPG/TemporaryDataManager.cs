@@ -6,11 +6,19 @@ namespace mFriesen_S2TextBasedRPG
     {
         public static List<Foe> foes;
         public static List<Area> areas;
+        public static List<WeaponItem> weapons;
+        public static List<ArmorItem> armorItems;
+        public static Player player;
 
         public static void GenerateThings()
         {
             GenerateFoes();
             GenerateAreas();
+            GenerateItems();
+
+            // Generate the player.
+            player = new Player();
+            player.inventory.Add(weapons[0]); // give the player a stick.
         }
 
         static void GenerateFoes()
@@ -28,6 +36,22 @@ namespace mFriesen_S2TextBasedRPG
             Foe[] demoEncounter = { (Foe)foes[0].DeepClone(), (Foe)foes[0].DeepClone(), (Foe)foes[0].DeepClone() };
             demoArea.encounter = demoEncounter;
             areas.Add(demoArea);
+        }
+
+        static void GenerateItems()
+        {
+            weapons = new List<WeaponItem>();
+            armorItems = new List<ArmorItem>();
+
+            // Define some weapons.
+            weapons.Add(new WeaponItem());
+            weapons.Add(new WeaponItem(3));
+            weapons.Add(new WeaponItem(6));
+
+            // Define some armor.
+            armorItems.Add(new ArmorItem());
+            armorItems.Add(new ArmorItem(3));
+            armorItems.Add(new ArmorItem(6));
         }
     }
 }
