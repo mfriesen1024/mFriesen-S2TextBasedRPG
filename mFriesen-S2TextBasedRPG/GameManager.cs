@@ -13,6 +13,7 @@ namespace mFriesen_S2TextBasedRPG
         static Area[] areas; // stores the areas.
         public static Foe[] foeTemplates; // store foe templates
         static Area currentArea; // tracks the current area
+        static Map currentMap; // Track current map.
         public static List<Entity> entities = new List<Entity>();
         static string[] storedDialogue; // store dialogue (load from file)
         static string[] currentDialogue; // store the current dialogue passage to read
@@ -53,8 +54,7 @@ namespace mFriesen_S2TextBasedRPG
             currentArea = areas[0];
             entities = new List<Entity> { player };
             entities.AddRange(currentArea.encounter);
-            // Need to put currentArea.entities into list.
-
+            currentMap = currentArea.map;
         }
 
         static void LoadData()
@@ -62,6 +62,7 @@ namespace mFriesen_S2TextBasedRPG
             // eventually, this should be replaced with proper data loading, but for now, just load temporary things.
             TemporaryDataManager.GenerateThings();
             foeTemplates = TemporaryDataManager.foes.ToArray();
+            areas = TemporaryDataManager.areas.ToArray();
         }
     }
 }
