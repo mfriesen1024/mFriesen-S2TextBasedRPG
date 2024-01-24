@@ -13,7 +13,7 @@ namespace mFriesen_S2TextBasedRPG
         string[] fNames = new string[5];
 
         // Variables
-        TriggerZone[] warpTriggers; // warp the player to a new area, based on the warp index.
+        Trigger[] warpTriggers; // warp the player to a new area, based on the warp index.
         int[] warpIndexes; // use to determine where to warp the player.
         public Entity[] encounter;
         Map map; // house map data.
