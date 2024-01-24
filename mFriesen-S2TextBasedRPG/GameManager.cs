@@ -1,19 +1,18 @@
 ﻿using SimpleLogger;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace mFriesen_S2TextBasedRPG
 {
     static class GameManager
     {
-        // Temporarily load encounter 1 automatically for firstplayable
-        static bool autoRunFirstEncounter;
+        public static Player player = new Player();
 
         public static string areasFName;
         static Area[] areas; // stores the areas. (to be loaded from a file)
         static Area currentArea; // tracks the current area
-        static Encounter currentEncounter;
-        public static Encounter CurrentEncounter { set { currentEncounter = value; } }
+        public static List<Entity> entities = new List<Entity>();
         static string[] storedDialogue; // store dialogue (load from file)
         static string[] currentDialogue; // store the current dialogue passage to read
 
@@ -38,16 +37,22 @@ namespace mFriesen_S2TextBasedRPG
 
         public static void Start()
         {
-            // set first area active, and if we want to start first encounter, we do so.
-            currentArea = areas[0];
-            if(autoRunFirstEncounter)
-            {
-                currentArea.ActivateEncounter(0);
-            }
+            // set first area active.
+            LoadArea(0);
+            
         }
 
         public static void Update()
         {
+
+        }
+
+        public static void LoadArea(int index)
+        {
+            currentArea = areas[0];
+            entities = new List<Entity> { player };
+            entities.AddRange(currentArea.encounter);
+            // Need to put currentArea.entities into list.
 
         }
     }
