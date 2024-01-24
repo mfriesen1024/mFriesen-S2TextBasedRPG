@@ -22,5 +22,12 @@ namespace mFriesen_S2TextBasedRPG
             foes.Add(new Foe(5, 0, 2)); // Create a more resilient skeleton. It can take a hit or 2.
             foes.Add(new Foe(15, 10, 5)); // Create a formidable dragon.
         }
+
+        static void GenerateAreas()
+        {
+            Area demoArea = new Area("demoArea");
+            Foe[] demoEncounter = { (Foe)foes[0].DeepClone(), (Foe)foes[0].DeepClone(), (Foe)foes[0].DeepClone() };
+            demoArea.encounter = demoEncounter;
+        }
     }
 }
