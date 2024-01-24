@@ -1,8 +1,4 @@
-﻿using SimpleLogger;
-using System;
-using System.IO;
-
-namespace mFriesen_S2TextBasedRPG
+﻿namespace mFriesen_S2TextBasedRPG
 {
     internal class Area
     {
@@ -22,9 +18,9 @@ namespace mFriesen_S2TextBasedRPG
         {
             // set name.
             this.name = name;
-            
+
             // Entity loading here.
-            
+
             // Create map
             map = new Map(name);
         }

@@ -11,7 +11,7 @@ namespace mFriesen_S2TextBasedRPG
     abstract class Entity
     {
         // Stores entity data that isn’t player/foe/neutral specific.
-        public Vector2 position = new Vector2(0,0);
+        public Vector2 position = new Vector2(0, 0);
         public Tile displayTile = new Tile();
         public List<Item> inventory;
         public StatManager statManager;
@@ -66,7 +66,7 @@ namespace mFriesen_S2TextBasedRPG
             statManager = new StatManager(hp, ap, dr);
 
             // set display char
-            displayTile.fg = System.ConsoleColor.Blue; displayTile.bg= System.ConsoleColor.DarkBlue;
+            displayTile.fg = System.ConsoleColor.Blue; displayTile.bg = System.ConsoleColor.DarkBlue;
             displayTile.displayChar = '@';
         }
 

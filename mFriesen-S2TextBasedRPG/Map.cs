@@ -94,7 +94,7 @@ namespace mFriesen_S2TextBasedRPG
             {
                 localTiles = AddEntitiesToMap(localTiles, entities);
             }
-            else if(entities != null)
+            else if (entities != null)
             {
                 localTiles = AddEntitiesToMap(localTiles, this.entities);
             }
@@ -117,7 +117,7 @@ namespace mFriesen_S2TextBasedRPG
 
                 for (int y = 0; y < localTiles.GetLength(1); y++)
                 {
-                    Console.ForegroundColor = localTiles[x,y].fg; Console.BackgroundColor = localTiles[x,y].bg;
+                    Console.ForegroundColor = localTiles[x, y].fg; Console.BackgroundColor = localTiles[x, y].bg;
                     Console.Write(localTiles[x, y].displayChar);
                 }
 
