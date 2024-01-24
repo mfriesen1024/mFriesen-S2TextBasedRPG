@@ -13,6 +13,12 @@ enum statname
     str
 }
 
+enum healtype
+{
+    health,
+    absorption
+}
+
 namespace mFriesen_S2TextBasedRPG
 {
     internal class StatManager
@@ -86,7 +92,7 @@ namespace mFriesen_S2TextBasedRPG
             {
                 string txt = $"DR must be greater than 0.";
                 Log.Write(txt, logType.error);
-                throw new ArgumentOutOfRangeException("dr", dr, txt);
+                return;
             }
 
             // Now, try dealing damage to absorption. Else, deal damage to health.
@@ -98,6 +104,35 @@ namespace mFriesen_S2TextBasedRPG
             {
                 ap = 0;
                 hp -= damage; if (hp < 0) { hp = 0; isDying = true; }
+            }
+        }
+
+        public void Heal(healtype type, int value) // This should be used to heal. Negative HP/AP values should be set via ModStat
+        {
+            if (value < 0)
+            {
+                Log.Write("Heal value was less than 0.", logType.warning);
+            }
+            else if (value == 0)
+            {
+                Log.Write("Heal value was 0.", logType.error); return;
+            }
+
+            switch (type)
+            {
+                case healtype.health:
+                    {
+                        hp += value;
+                        if (hp < 0) { hp = 0; }
+                        if (hp > maxHP) { hp = maxHP; }
+                        break;
+                    }
+                case healtype.absorption:
+                    {
+                        ap += value;
+                        if (ap < 0) { ap = 0; }
+                        break;
+                    }
             }
         }
     }

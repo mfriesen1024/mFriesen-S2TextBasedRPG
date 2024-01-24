@@ -65,6 +65,12 @@ namespace mFriesen_S2TextBasedRPG
             dr += statManager.GetStat(statname.dr);
 
         }
+
+        public void Heal(healtype type, int value)
+        {
+            // pass the command on to statmanager.
+            statManager.Heal(type, value);
+        }
     }
 
     class Foe : Entity
