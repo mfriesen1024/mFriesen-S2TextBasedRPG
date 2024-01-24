@@ -43,6 +43,34 @@ namespace mFriesen_S2TextBasedRPG
         }
 
         public abstract void GetMove(); // we'll use this to make the characters move separately.
+
+        public int GetDamage()
+        {
+            int damage = 1; // base damage value. hard code it because damage should never be 0.
+            if (weaponInventoryIndex != null)
+            {
+                damage += ((WeaponItem)inventory[(int)weaponInventoryIndex]).str;
+            }
+            damage += statManager.GetStat(statname.str);
+            return damage;
+        }
+
+        public void TakeDamage(int damage)
+        {
+            int dr = 0; // base dr value. Hard code because it is again, a global standard value. Everything has 0 base defense.
+            if (armorInventoryIndex != null)
+            {
+                dr += ((ArmorItem)inventory[(int)armorInventoryIndex]).dr;
+            }
+            dr += statManager.GetStat(statname.dr);
+
+        }
+
+        public void Heal(healtype type, int value)
+        {
+            // pass the command on to statmanager.
+            statManager.Heal(type, value);
+        }
     }
 
     class Foe : Entity
