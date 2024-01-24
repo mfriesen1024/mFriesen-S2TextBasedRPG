@@ -51,7 +51,7 @@ namespace mFriesen_S2TextBasedRPG
 
         public static void LoadArea(int index)
         {
-            currentArea = areas[0];
+            currentArea = areas[index];
             entities = new List<Entity> { player };
             entities.AddRange(currentArea.encounter);
             currentMap = currentArea.map;
