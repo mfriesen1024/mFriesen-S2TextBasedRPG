@@ -1,10 +1,5 @@
 ﻿// This is intended to fulfil the "Health System" requirement. Its sole purpose is to manage stats.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 // To be used in Mod/Get stat.
 enum statname
@@ -21,8 +16,15 @@ namespace mFriesen_S2TextBasedRPG
         int hp;
         int ap;
         int dr;
+        int maxHP;
 
-
+        public StatManager(int hp, int ap, int dr)
+        {
+            this.hp = hp;
+            this.ap = ap;
+            this.dr = dr;
+            maxHP = hp;
+        }
 
         public void ModStat(statname stat, int value)
         {

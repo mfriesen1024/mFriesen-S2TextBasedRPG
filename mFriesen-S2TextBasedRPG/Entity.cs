@@ -42,9 +42,7 @@ namespace mFriesen_S2TextBasedRPG
 
         public Foe(int hp = 10, int ap = 0, int dr = 0)
         {
-            ModStat(statname.hp, hp);
-            ModStat(statname.ap, ap);
-            ModStat(statname.dr, dr);
+            statManager = new StatManager(hp, ap, dr);
 
             // set display char
             displayTile.fg = System.ConsoleColor.Red; displayTile.bg = System.ConsoleColor.DarkRed;
@@ -60,9 +58,7 @@ namespace mFriesen_S2TextBasedRPG
 
         public Player(int hp = 10, int ap = 0, int dr = 0)
         {
-            ModStat(statname.hp, hp);
-            ModStat(statname.ap, ap);
-            ModStat(statname.dr, dr);
+            statManager = new StatManager(hp, ap, dr);
 
             // set display char
             displayTile.fg = System.ConsoleColor.Blue; displayTile.bg= System.ConsoleColor.DarkBlue;
