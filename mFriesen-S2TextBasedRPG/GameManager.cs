@@ -20,11 +20,11 @@ namespace mFriesen_S2TextBasedRPG
 
         public static void LoadAreas()
         {
-            if(File.Exists(areasFName))
+            if (File.Exists(areasFName))
             {
                 string[] aNames = File.ReadAllLines(areasFName);
                 areas = new Area[aNames.Length];
-                for(int i = 0; i < aNames.Length; i++)
+                for (int i = 0; i < aNames.Length; i++)
                 {
                     areas[i] = new Area(aNames[i]);
                 }
@@ -39,14 +39,19 @@ namespace mFriesen_S2TextBasedRPG
 
         public static void Start()
         {
+            LoadData();
+
             // set first area active.
             LoadArea(0);
-            
+
         }
 
         public static void Update()
         {
 
+
+            // At the end, render the map.
+            currentMap.RenderMap(entities.ToArray());
         }
 
         public static void LoadArea(int index)

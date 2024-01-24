@@ -8,6 +8,8 @@ namespace mFriesen_S2TextBasedRPG
     {
         static string[] directories = { "data\\maps", "data\\areas", "data\\encounters", "data\\foes", "data\\items" };
 
+        public static bool run = true; // This will be disabled when we want to end the game.
+
         static void Main(string[] args)
         {
             Log.SetName("LogMain");
@@ -33,8 +35,17 @@ namespace mFriesen_S2TextBasedRPG
             }
 
             GameManager.areasFName = "data\\areaNames.txt";
-            GameManager.LoadAreas();
+            GameManager.Start();
 
+
+
+            while (run)
+            {
+                GameManager.Update();
+                run = false; // this is temporary.
+            }
+
+            Console.ReadKey();
         }
     }
 }
