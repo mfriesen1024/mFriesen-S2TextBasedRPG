@@ -101,7 +101,7 @@ namespace mFriesen_S2TextBasedRPG
 
             // Create top/bottom borders.
             string end = string.Empty;
-            for (int x = -2; x < localTiles.GetLength(0); x++)
+            for (int x = -2; x < localTiles.GetLength(1); x++)
             {
                 end += "#";
             }
@@ -117,8 +117,8 @@ namespace mFriesen_S2TextBasedRPG
 
                 for (int y = 0; y < localTiles.GetLength(1); y++)
                 {
-                    Console.ForegroundColor = localTiles[y, x].fg; Console.BackgroundColor = localTiles[y, x].bg;
-                    Console.Write(localTiles[y, x].displayChar);
+                    Console.ForegroundColor = localTiles[x,y].fg; Console.BackgroundColor = localTiles[x,y].bg;
+                    Console.Write(localTiles[x, y].displayChar);
                 }
 
                 // write the border after the map.
