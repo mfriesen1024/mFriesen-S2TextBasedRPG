@@ -69,7 +69,7 @@ namespace mFriesen_S2TextBasedRPG
                 Entity actor = entities[i];
 
                 actionResult result = WallCheck(target);
-                TryAttack(actor, target); result = actionResult.fail;
+                if (TryAttack(actor, target)) { result = actionResult.fail; }
 
                 if(result == actionResult.move)
                 {
@@ -118,15 +118,16 @@ namespace mFriesen_S2TextBasedRPG
             actionResult result = actionResult.move; // default to move. override if not.
             try
             {
-                Tile target = currentMap.GetMap()[targetPos.y, targetPos.x];
+                Tile target = currentMap.GetMap()[targetPos.x, targetPos.y];
                 if (target.hazard == Hazard.wall) { result = actionResult.fail; }
             }
             catch (IndexOutOfRangeException ignored) { result = actionResult.fail; }
             return result;
         }
 
-        static void TryAttack(Entity attacker, Vector2 attackPos)
+        static bool TryAttack(Entity attacker, Vector2 attackPos)
         {
+            bool result = false;
             foreach (Entity target in entities)
             {
                 if (attacker == target) continue; // Damaging one's self is bad. Prevent entities from doing that.
@@ -144,8 +145,10 @@ namespace mFriesen_S2TextBasedRPG
                     // Now run attack things.
                     int damage = attacker.GetDamage();
                     target.TakeDamage(damage);
+                    result = true;
                 }
             }
+            return result;
         }
     }
 }
