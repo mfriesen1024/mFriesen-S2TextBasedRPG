@@ -102,6 +102,8 @@ namespace mFriesen_S2TextBasedRPG
         }
         public void RenderMap(Entity[] entities = null)
         {
+            Console.Clear();
+
             if (entities == null)
             {
                 Log.Write("Entities are null. This may be intentional, it may not.", logType.warning);

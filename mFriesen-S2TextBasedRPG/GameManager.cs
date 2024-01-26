@@ -53,6 +53,7 @@ namespace mFriesen_S2TextBasedRPG
             // set first area active.
             LoadArea(0);
 
+            currentMap.RenderMap();
         }
 
         public static void Update()

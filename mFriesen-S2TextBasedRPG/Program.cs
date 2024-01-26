@@ -42,7 +42,7 @@ namespace mFriesen_S2TextBasedRPG
             while (run)
             {
                 GameManager.Update();
-                run = false; // this is temporary.
+                //run = false; // this is temporary.
             }
 
             Console.ReadKey();
