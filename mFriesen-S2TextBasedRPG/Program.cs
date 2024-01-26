@@ -13,6 +13,7 @@ namespace mFriesen_S2TextBasedRPG
         static void Main(string[] args)
         {
             Log.SetName("LogMain");
+            Log.debug = true;
 
             if (!Directory.Exists("data"))
             {

@@ -39,7 +39,10 @@ namespace SimpleLogger
             switch (type)
             {
                 case logType.debug:
-                    typeTxt = "Debug";
+                    if (debug)
+                    {
+                        typeTxt = "Debug";
+                    }
                     break;
                 case logType.info:
                     typeTxt = "Info";
