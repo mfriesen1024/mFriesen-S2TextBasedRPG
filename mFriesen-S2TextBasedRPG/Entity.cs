@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security.Principal;
 
 namespace mFriesen_S2TextBasedRPG
 {
@@ -129,10 +128,10 @@ namespace mFriesen_S2TextBasedRPG
                 case ConsoleKey.W:
                 case ConsoleKey.UpArrow: y = 1; break;
                 case ConsoleKey.S:
-                    case ConsoleKey.DownArrow: y = -1; break;
-                    case ConsoleKey.D:
+                case ConsoleKey.DownArrow: y = -1; break;
+                case ConsoleKey.D:
                 case ConsoleKey.RightArrow: x = 1; break;
-                    case ConsoleKey.A:
+                case ConsoleKey.A:
                 case ConsoleKey.LeftArrow: x = -1; break;
                 case ConsoleKey.Escape: Program.run = false; break;
             }
