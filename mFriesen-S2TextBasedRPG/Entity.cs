@@ -42,7 +42,7 @@ namespace mFriesen_S2TextBasedRPG
             return statManager.GetStat(stat);
         }
 
-        public abstract void GetMove(); // we'll use this to make the characters move separately.
+        public abstract void GetAction(); // we'll use this to make the characters move separately.
 
         public int GetDamage()
         {
@@ -86,7 +86,7 @@ namespace mFriesen_S2TextBasedRPG
             displayTile.displayChar = 'E';
         }
 
-        public override void GetMove() { }
+        public override void GetAction() { }
     }
 
     class Player : Entity
@@ -102,6 +102,6 @@ namespace mFriesen_S2TextBasedRPG
             displayTile.displayChar = '@';
         }
 
-        public override void GetMove() { }
+        public override void GetAction() { }
     }
 }

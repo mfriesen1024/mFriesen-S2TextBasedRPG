@@ -48,7 +48,7 @@ namespace mFriesen_S2TextBasedRPG
 
         public static void Update()
         {
-
+            // Attempt to get actions for each player.
 
             // At the end, render the map.
             currentMap.RenderMap(entities.ToArray());

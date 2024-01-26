@@ -102,13 +102,17 @@ namespace mFriesen_S2TextBasedRPG
         }
         public void RenderMap(Entity[] entities = null)
         {
+            if (entities == null)
+            {
+                Log.Write("Entities are null. This may be intentional, it may not.", logType.warning);
+            }
             // create local tile array so I don't break the array when I add entities.
             Tile[,] localTiles = tiles;
             if (entities != null)
             {
                 localTiles = AddEntitiesToMap(localTiles, entities);
             }
-            else if (entities != null)
+            else if (this.entities != null)
             {
                 localTiles = AddEntitiesToMap(localTiles, this.entities);
             }
@@ -154,19 +158,19 @@ namespace mFriesen_S2TextBasedRPG
             {
                 for (int x = 0; x < localTiles.GetLength(1); x++)
                 {
+                        localTiles[y, x] = tiles[y, x]; // set tile to original position first to avoid headache.
+
                     // Check if the position matches an entity position
                     for (int posIndex = 0; posIndex < entities.Length; posIndex++)
                     {
-                        Vector2 currentPos = entities[posIndex].position;
-                        if (currentPos.y == y && currentPos.x == x) // if the position matches, set the tile.
-                        {
-                            localTiles[y, x] = entities[posIndex].displayTile;
-                        }
 
-                        // else set tile to original value.
-                        else
+                        Vector2 currentPos = entities[posIndex].position;
+                        bool noBreakey = false;
+                        if (currentPos.x == x && currentPos.y == y) // if the position matches, set the tile.
                         {
-                            localTiles[y,x] = tiles[y,x];
+                            Tile newTile = entities[posIndex].displayTile;
+                            localTiles[y, x] = newTile; noBreakey = true;
+                            // Log.Write($"Found entity id {posIndex} at position {currentPos.y}, {currentPos.x}. Displaytile details: {newTile.displayChar}", logType.debug);
                         }
                     }
                 }

@@ -18,6 +18,7 @@ namespace mFriesen_S2TextBasedRPG
 
             // Generate the player.
             player = new Player();
+            player.position = new Vector2 (19, 9);
             player.inventory.Add(weapons[0]); // give the player a stick.
         }
 
@@ -34,6 +35,7 @@ namespace mFriesen_S2TextBasedRPG
             areas = new List<Area>();
             Area demoArea = new Area("demoArea");
             Foe[] demoEncounter = { (Foe)foes[0].DeepClone(), (Foe)foes[0].DeepClone(), (Foe)foes[0].DeepClone() };
+            { demoEncounter[0].position = new Vector2(2, 8); demoEncounter[1].position = new Vector2(6, 6); demoEncounter[2].position = new Vector2(14, 5); }
             demoArea.encounter = demoEncounter;
             areas.Add(demoArea);
         }
