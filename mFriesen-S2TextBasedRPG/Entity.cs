@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Security.Principal;
 
 namespace mFriesen_S2TextBasedRPG
 {
@@ -42,7 +44,7 @@ namespace mFriesen_S2TextBasedRPG
             return statManager.GetStat(stat);
         }
 
-        public abstract void GetAction(); // we'll use this to make the characters move separately.
+        public abstract Vector2 GetAction(); // we'll use this to make the characters move separately.
 
         public int GetDamage()
         {
@@ -86,7 +88,7 @@ namespace mFriesen_S2TextBasedRPG
             displayTile.displayChar = 'E';
         }
 
-        public override void GetAction() { }
+        public override Vector2 GetAction() { }
     }
 
     class Player : Entity
@@ -102,6 +104,24 @@ namespace mFriesen_S2TextBasedRPG
             displayTile.displayChar = '@';
         }
 
-        public override void GetAction() { }
+        public override Vector2 GetAction()
+        {
+            ConsoleKey input = Console.ReadKey(true).Key;
+            int x = 0, y = 0;
+            switch (input)
+            {
+                case ConsoleKey.W:
+                case ConsoleKey.UpArrow: y = 1; break;
+                case ConsoleKey.S:
+                    case ConsoleKey.DownArrow: y = -1; break;
+                    case ConsoleKey.D:
+                case ConsoleKey.RightArrow: x = 1; break;
+                    case ConsoleKey.A:
+                case ConsoleKey.LeftArrow: x = -1; break;
+            }
+
+            // for testing purposes, break here.
+            return new Vector2(position.x + x, position.y + y);
+        }
     }
 }
