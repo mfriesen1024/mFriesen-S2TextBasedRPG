@@ -13,7 +13,7 @@ namespace mFriesen_S2TextBasedRPG
         // Stores entity data that isn’t player/foe/neutral specific.
         public Vector2 position = new Vector2(0, 0);
         public Tile displayTile = new Tile();
-        public List<Item> inventory;
+        public List<Item> inventory = new List<Item>();
         public StatManager statManager;
         public int? armorInventoryIndex;
         public int? weaponInventoryIndex;
