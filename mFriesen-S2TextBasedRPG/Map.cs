@@ -162,6 +162,12 @@ namespace mFriesen_S2TextBasedRPG
                         {
                             localTiles[y, x] = entities[posIndex].displayTile;
                         }
+
+                        // else set tile to original value.
+                        else
+                        {
+                            localTiles[y,x] = tiles[y,x];
+                        }
                     }
                 }
             }
