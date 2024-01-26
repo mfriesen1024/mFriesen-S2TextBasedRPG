@@ -9,6 +9,9 @@ namespace mFriesen_S2TextBasedRPG
     {
         public static Player player;
 
+        static Random random;
+        static int seed = DateTime.Now.Millisecond;
+
         public static string areasFName;
         static Area[] areas; // stores the areas.
         public static Foe[] foeTemplates; // store foe templates
@@ -69,6 +72,12 @@ namespace mFriesen_S2TextBasedRPG
             foeTemplates = TemporaryDataManager.foes.ToArray();
             areas = TemporaryDataManager.areas.ToArray();
             player = TemporaryDataManager.player;
+        }
+
+        public static Random GetRandom()
+        {
+            seed++;
+            return new Random(seed);
         }
     }
 }
