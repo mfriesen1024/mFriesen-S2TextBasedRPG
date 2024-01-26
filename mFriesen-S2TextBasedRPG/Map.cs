@@ -66,7 +66,21 @@ namespace mFriesen_S2TextBasedRPG
                         char c = lines[x][y];
                         string s = c.ToString();
                         int i = 0;
-                        try { i = int.Parse(s); } catch (Exception ignored) { }
+
+                        if(f > 0) // if fileIndex is greater than characterfile, try convert from hex to int.
+                        {
+                            try { i = int.Parse(s); } catch (Exception ignored) {
+                                switch (c)
+                                {
+                                    case 'a': i = 10; break;
+                                    case 'b': i = 11; break;
+                                    case 'c': i = 12; break;
+                                    case 'd': i = 13; break;
+                                    case 'e': i = 14; break;
+                                    case 'f': i = 15; break;
+                                }
+                            }
+                        }
 
                         switch (f) // Switch based on the current fName.
                         {
@@ -147,6 +161,12 @@ namespace mFriesen_S2TextBasedRPG
                         if (currentPos.y == y && currentPos.x == x) // if the position matches, set the tile.
                         {
                             localTiles[y, x] = entities[posIndex].displayTile;
+                        }
+
+                        // else set tile to original value.
+                        else
+                        {
+                            localTiles[y,x] = tiles[y,x];
                         }
                     }
                 }
