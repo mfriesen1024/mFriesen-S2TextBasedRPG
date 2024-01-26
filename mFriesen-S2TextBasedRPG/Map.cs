@@ -102,6 +102,10 @@ namespace mFriesen_S2TextBasedRPG
         }
         public void RenderMap(Entity[] entities = null)
         {
+            if (entities == null)
+            {
+                Log.Write("Entities are null. This may be intentional, it may not.", logType.warning);
+            }
             // create local tile array so I don't break the array when I add entities.
             Tile[,] localTiles = tiles;
             if (entities != null)
@@ -150,24 +154,26 @@ namespace mFriesen_S2TextBasedRPG
             // create local tile array so I don't break the array when I add entities.
             Tile[,] localTiles = new Tile[tiles.GetLength(0), tiles.GetLength(1)];
             // for each tile
-            for (int y = 0; y < localTiles.GetLength(0); y++)
+            for (int x = 0; x < localTiles.GetLength(0); x++)
             {
-                for (int x = 0; x < localTiles.GetLength(1); x++)
+                for (int y = 0; y < localTiles.GetLength(1); y++)
                 {
                     // Check if the position matches an entity position
                     for (int posIndex = 0; posIndex < entities.Length; posIndex++)
                     {
                         Vector2 currentPos = entities[posIndex].position;
-                        if (currentPos.y == y && currentPos.x == x) // if the position matches, set the tile.
+                        bool debugCheck = false;
+                        if (currentPos.x == x && currentPos.y == y) // if the position matches, set the tile.
                         {
-                            localTiles[y, x] = entities[posIndex].displayTile;
+                            localTiles[x, y] = entities[posIndex].displayTile; debugCheck = true;
+                            Log.Write($"Found entity id {posIndex} at position {x}, {y}.", logType.debug);
                         }
 
                         // else set tile to original value.
                         else
                         {
-                            localTiles[y,x] = tiles[y,x];
-                        }
+                            localTiles[x,y] = tiles[x,y];
+                            }
                     }
                 }
             }
