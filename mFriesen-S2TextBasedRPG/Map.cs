@@ -112,7 +112,7 @@ namespace mFriesen_S2TextBasedRPG
             {
                 localTiles = AddEntitiesToMap(localTiles, entities);
             }
-            else if (entities != null)
+            else if (this.entities != null)
             {
                 localTiles = AddEntitiesToMap(localTiles, this.entities);
             }
@@ -154,26 +154,24 @@ namespace mFriesen_S2TextBasedRPG
             // create local tile array so I don't break the array when I add entities.
             Tile[,] localTiles = new Tile[tiles.GetLength(0), tiles.GetLength(1)];
             // for each tile
-            for (int x = 0; x < localTiles.GetLength(0); x++)
+            for (int y = 0; y < localTiles.GetLength(0); y++)
             {
-                for (int y = 0; y < localTiles.GetLength(1); y++)
+                for (int x = 0; x < localTiles.GetLength(1); x++)
                 {
+                        localTiles[y, x] = tiles[y, x]; // set tile to original position first to avoid headache.
+
                     // Check if the position matches an entity position
                     for (int posIndex = 0; posIndex < entities.Length; posIndex++)
                     {
+
                         Vector2 currentPos = entities[posIndex].position;
-                        bool debugCheck = false;
+                        bool noBreakey = false;
                         if (currentPos.x == x && currentPos.y == y) // if the position matches, set the tile.
                         {
-                            localTiles[x, y] = entities[posIndex].displayTile; debugCheck = true;
-                            Log.Write($"Found entity id {posIndex} at position {x}, {y}.", logType.debug);
+                            Tile newTile = entities[posIndex].displayTile;
+                            localTiles[y, x] = newTile; noBreakey = true;
+                            // Log.Write($"Found entity id {posIndex} at position {currentPos.y}, {currentPos.x}. Displaytile details: {newTile.displayChar}", logType.debug);
                         }
-
-                        // else set tile to original value.
-                        else
-                        {
-                            localTiles[x,y] = tiles[x,y];
-                            }
                     }
                 }
             }
