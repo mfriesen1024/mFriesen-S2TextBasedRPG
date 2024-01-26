@@ -5,6 +5,12 @@ using System.IO;
 
 namespace mFriesen_S2TextBasedRPG
 {
+    enum actionResult // to be updated if more hazards are added.
+    {
+        move,
+        fail
+    }
+
     static class GameManager
     {
         public static Player player;
@@ -52,6 +58,29 @@ namespace mFriesen_S2TextBasedRPG
         public static void Update()
         {
             // Attempt to get actions for each player.
+            List<Vector2> targetLocs = new List<Vector2>();
+            foreach (Entity e in entities) { targetLocs.Add(e.GetAction()); }
+
+            // Run action.
+            for (int i = 0; i < targetLocs.Count; i++)
+            {
+                Vector2 target = targetLocs[i];
+                Entity actor = entities[i];
+
+                actionResult result = WallCheck(target);
+                TryAttack(actor, target); result = actionResult.fail;
+
+                if(result == actionResult.move)
+                {
+                    actor.position = target;
+                }
+            }
+
+            // If any entity is dying, remove them.
+            foreach (Entity e in entities)
+            {
+                if (e.statManager.isDying) { entities.Remove(e); }
+            }
 
             // End game if player died.
             if (player.statManager.isDying) { Program.run = false; }
@@ -81,6 +110,41 @@ namespace mFriesen_S2TextBasedRPG
         {
             seed++;
             return new Random(seed);
+        }
+
+        static actionResult WallCheck(Vector2 targetPos)
+        {
+            actionResult result = actionResult.move; // default to move. override if not.
+            try
+            {
+                Tile target = currentMap.GetMap()[targetPos.y, targetPos.x];
+                if (target.hazard == Hazard.wall) { result = actionResult.fail; }
+            }
+            catch (IndexOutOfRangeException ignored) { result = actionResult.fail; }
+            return result;
+        }
+
+        static void TryAttack(Entity attacker, Vector2 attackPos)
+        {
+            foreach (Entity target in entities)
+            {
+                if (attacker == target) continue; // Damaging one's self is bad. Prevent entities from doing that.
+                else if (attacker == null || target == null)
+                {
+                    string txt = "Attacker was null somehow! This definitely shouldn't happen.";
+                    Log.Write(txt, logType.error); throw new ArgumentException(txt);
+                }
+
+                int ax = attackPos.x, ay = attackPos.y;
+                int tx = target.position.x, ty = target.position.y;
+
+                if(ax == tx && ay == ty)
+                {
+                    // Now run attack things.
+                    int damage = attacker.GetDamage();
+                    target.TakeDamage(damage);
+                }
+            }
         }
     }
 }
