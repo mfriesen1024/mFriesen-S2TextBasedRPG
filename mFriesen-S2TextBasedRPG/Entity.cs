@@ -134,6 +134,7 @@ namespace mFriesen_S2TextBasedRPG
                 case ConsoleKey.RightArrow: x = 1; break;
                     case ConsoleKey.A:
                 case ConsoleKey.LeftArrow: x = -1; break;
+                case ConsoleKey.Escape: Program.run = false; break;
             }
 
             // for testing purposes, break here.

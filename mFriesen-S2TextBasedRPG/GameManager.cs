@@ -53,6 +53,9 @@ namespace mFriesen_S2TextBasedRPG
         {
             // Attempt to get actions for each player.
 
+            // End game if player died.
+            if (player.statManager.isDying) { Program.run = false; }
+
             // At the end, render the map.
             currentMap.RenderMap(entities.ToArray());
         }
