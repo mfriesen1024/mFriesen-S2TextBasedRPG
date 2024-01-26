@@ -88,7 +88,23 @@ namespace mFriesen_S2TextBasedRPG
             displayTile.displayChar = 'E';
         }
 
-        public override Vector2 GetAction() { }
+        public override Vector2 GetAction() // Goal is to randomly generate the direction of movement.
+        {
+            Random r;
+            int value, x = 0, y = 0;
+
+            // this is probably a wacky way of doing this, but I need 2 bools.
+            r = GameManager.GetRandom();
+            bool axis = Convert.ToBoolean(r.Next(0, 2));
+            r = GameManager.GetRandom();
+            bool sign = Convert.ToBoolean(r.Next(0, 2));
+
+            if (sign) { value = 1; } else { value = -1; }
+
+            if (axis) { x = value; } else { y = value; }
+
+            return new Vector2(position.x + x, position.y + y);
+        }
     }
 
     class Player : Entity
