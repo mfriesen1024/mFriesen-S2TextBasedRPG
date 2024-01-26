@@ -10,6 +10,7 @@ namespace SimpleLogger
     static class Log
     {
         static string fName;
+        static public bool debug;
 
         static public void SetName(string fileName = "Log", string dir = "Logs", bool useDate = true)
         {
