@@ -118,7 +118,7 @@ namespace mFriesen_S2TextBasedRPG
             actionResult result = actionResult.move; // default to move. override if not.
             try
             {
-                Tile target = currentMap.GetMap()[targetPos.x, targetPos.y];
+                Tile target = currentMap.GetMap()[targetPos.y, targetPos.x];
                 if (target.hazard == Hazard.wall) { result = actionResult.fail; }
             }
             catch (IndexOutOfRangeException e)
