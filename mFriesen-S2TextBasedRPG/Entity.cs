@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using SimpleLogger;
+using System;
+using System.Collections.Generic;
 
 namespace mFriesen_S2TextBasedRPG
 {
@@ -42,7 +44,7 @@ namespace mFriesen_S2TextBasedRPG
             return statManager.GetStat(stat);
         }
 
-        public abstract void GetAction(); // we'll use this to make the characters move separately.
+        public abstract Vector2 GetAction(); // we'll use this to make the characters move separately.
 
         public int GetDamage()
         {
@@ -86,7 +88,25 @@ namespace mFriesen_S2TextBasedRPG
             displayTile.displayChar = 'E';
         }
 
-        public override void GetAction() { }
+        public override Vector2 GetAction() // Goal is to randomly generate the direction of movement.
+        {
+            Log.Write("Debugging random GetAction", logType.debug);
+            Random r;
+            int value, x = 0, y = 0;
+
+            // this is probably a wacky way of doing this, but I need 2 bools.
+            r = GameManager.GetRandom();
+            bool axis = Convert.ToBoolean(r.Next(0, 2));
+            r = GameManager.GetRandom();
+            bool sign = Convert.ToBoolean(r.Next(0, 2));
+
+            if (sign) { value = 1; } else { value = -1; }
+
+            if (axis) { x = value; } else { y = value; }
+
+            Log.Write($"End debugging random GetAction, Current pos: {position.x}, {position.y} Moving by: {x}, {y}. New pos: {position.x + x}, {position.y + y}", logType.debug);
+            return new Vector2(position.x + x, position.y + y);
+        }
     }
 
     class Player : Entity
@@ -102,6 +122,27 @@ namespace mFriesen_S2TextBasedRPG
             displayTile.displayChar = '@';
         }
 
-        public override void GetAction() { }
+        public override Vector2 GetAction()
+        {
+            ConsoleKey input = Console.ReadKey(true).Key;
+            int x = 0, y = 0;
+            switch (input)
+            {
+                case ConsoleKey.W:
+                case ConsoleKey.UpArrow: y = -1; break;
+                case ConsoleKey.S:
+                case ConsoleKey.DownArrow: y = 1; break;
+                case ConsoleKey.D:
+                case ConsoleKey.RightArrow: x = 1; break;
+                case ConsoleKey.A:
+                case ConsoleKey.LeftArrow: x = -1; break;
+                case ConsoleKey.Escape: Program.run = false; break;
+            }
+
+            Log.Write($"Key = {input}. Old pos = {position.x}, {position.y}. Delta = {x}, {y}. new pos = {position.x+x}, {position.y+y}");
+
+            // for testing purposes, break here.
+            return new Vector2(position.x + x, position.y + y);
+        }
     }
 }

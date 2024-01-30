@@ -13,6 +13,7 @@ namespace mFriesen_S2TextBasedRPG
         static void Main(string[] args)
         {
             Log.SetName("LogMain");
+            Log.debug = false;
 
             if (!Directory.Exists("data"))
             {
@@ -42,7 +43,7 @@ namespace mFriesen_S2TextBasedRPG
             while (run)
             {
                 GameManager.Update();
-                run = false; // this is temporary.
+                //run = false; // this is temporary.
             }
 
             Console.ReadKey();
