@@ -68,7 +68,7 @@ namespace mFriesen_S2TextBasedRPG
                 Vector2 target = targetLocs[i];
                 Entity actor = entities[i];
 
-                actionResult result = WallCheck(target);
+                actionResult result = WallCheck(target, i.ToString());
                 if (TryAttack(actor, target)) { result = actionResult.fail; }
 
                 if(result == actionResult.move)
@@ -113,7 +113,7 @@ namespace mFriesen_S2TextBasedRPG
             return new Random(seed);
         }
 
-        static actionResult WallCheck(Vector2 targetPos)
+        static actionResult WallCheck(Vector2 targetPos, string name = "")
         {
             actionResult result = actionResult.move; // default to move. override if not.
             try
@@ -121,7 +121,11 @@ namespace mFriesen_S2TextBasedRPG
                 Tile target = currentMap.GetMap()[targetPos.x, targetPos.y];
                 if (target.hazard == Hazard.wall) { result = actionResult.fail; }
             }
-            catch (IndexOutOfRangeException ignored) { result = actionResult.fail; }
+            catch (IndexOutOfRangeException e)
+            {
+                result = actionResult.fail;
+                Log.Write($"Encountered exception {e.GetType()}. Triggering entity is {name}. targetPos is {targetPos.x}, {targetPos.y}.", logType.error);
+            }
             return result;
         }
 

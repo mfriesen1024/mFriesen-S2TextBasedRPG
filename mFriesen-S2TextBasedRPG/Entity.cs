@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SimpleLogger;
+using System;
 using System.Collections.Generic;
 
 namespace mFriesen_S2TextBasedRPG
@@ -89,6 +90,7 @@ namespace mFriesen_S2TextBasedRPG
 
         public override Vector2 GetAction() // Goal is to randomly generate the direction of movement.
         {
+            Log.Write("Debugging random GetAction", logType.debug);
             Random r;
             int value, x = 0, y = 0;
 
@@ -102,6 +104,7 @@ namespace mFriesen_S2TextBasedRPG
 
             if (axis) { x = value; } else { y = value; }
 
+            Log.Write($"End debugging random GetAction, Current pos: {position.x}, {position.y} Moving by: {x}, {y}. New pos: {position.x + x}, {position.y + y}", logType.debug);
             return new Vector2(position.x + x, position.y + y);
         }
     }
@@ -135,6 +138,8 @@ namespace mFriesen_S2TextBasedRPG
                 case ConsoleKey.LeftArrow: x = -1; break;
                 case ConsoleKey.Escape: Program.run = false; break;
             }
+
+            Log.Write($"Key = {input}. Old pos = {position.x}, {position.y}. Delta = {x}, {y}. new pos = {position.x+x}, {position.y+y}");
 
             // for testing purposes, break here.
             return new Vector2(position.x + x, position.y + y);
