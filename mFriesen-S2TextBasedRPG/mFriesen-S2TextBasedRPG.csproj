@@ -60,5 +60,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="temp\demoAreabg.txt" />
+    <Content Include="temp\demoAreachar.txt" />
+    <Content Include="temp\demoAreafg.txt" />
+    <Content Include="temp\demoAreahazard.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

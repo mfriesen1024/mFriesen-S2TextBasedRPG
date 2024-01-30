@@ -126,6 +126,7 @@ namespace mFriesen_S2TextBasedRPG
                 result = actionResult.fail;
                 Log.Write($"Encountered exception {e.GetType()}. Triggering entity is {name}. targetPos is {targetPos.x}, {targetPos.y}.", logType.error);
             }
+            finally { Log.Write($"Target Coords are {targetPos.x}, {targetPos.y}. Result is {result}", logType.debug); }
             return result;
         }
 

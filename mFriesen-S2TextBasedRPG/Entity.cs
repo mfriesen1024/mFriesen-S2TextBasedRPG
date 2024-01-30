@@ -129,9 +129,9 @@ namespace mFriesen_S2TextBasedRPG
             switch (input)
             {
                 case ConsoleKey.W:
-                case ConsoleKey.UpArrow: y = 1; break;
+                case ConsoleKey.UpArrow: y = -1; break;
                 case ConsoleKey.S:
-                case ConsoleKey.DownArrow: y = -1; break;
+                case ConsoleKey.DownArrow: y = 1; break;
                 case ConsoleKey.D:
                 case ConsoleKey.RightArrow: x = 1; break;
                 case ConsoleKey.A:

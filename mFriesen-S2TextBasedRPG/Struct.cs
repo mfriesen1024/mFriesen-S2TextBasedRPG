@@ -24,7 +24,7 @@ namespace mFriesen_S2TextBasedRPG
     {
         public int y, x;
 
-        public Vector2(int x, int y) { this.y = x; this.x = y; }
+        public Vector2(int x, int y) { this.x = x; this.y = y; }
 
         public Vector2 Clone()
         {
