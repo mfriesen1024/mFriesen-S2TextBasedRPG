@@ -118,7 +118,7 @@ namespace mFriesen_S2TextBasedRPG
             actionResult result = actionResult.move; // default to move. override if not.
             try
             {
-                Tile target = currentMap.GetMap()[targetPos.x, targetPos.y];
+                Tile target = currentMap.GetMap()[targetPos.y, targetPos.x];
                 if (target.hazard == Hazard.wall) { result = actionResult.fail; }
             }
             catch (IndexOutOfRangeException e)
@@ -126,6 +126,7 @@ namespace mFriesen_S2TextBasedRPG
                 result = actionResult.fail;
                 Log.Write($"Encountered exception {e.GetType()}. Triggering entity is {name}. targetPos is {targetPos.x}, {targetPos.y}.", logType.error);
             }
+            finally { Log.Write($"Target Coords are {targetPos.x}, {targetPos.y}. Result is {result}", logType.debug); }
             return result;
         }
 
