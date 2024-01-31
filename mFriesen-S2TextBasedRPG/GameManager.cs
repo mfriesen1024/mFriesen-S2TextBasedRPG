@@ -59,6 +59,9 @@ namespace mFriesen_S2TextBasedRPG
 
         public static void Update()
         {
+            // At the start, render the map.
+            currentMap.RenderMap(entities.ToArray());
+
             // Attempt to get actions for each player.
             List<Vector2> targetLocs = new List<Vector2>();
             foreach (Entity e in entities) { targetLocs.Add(e.GetAction()); }
@@ -85,11 +88,8 @@ namespace mFriesen_S2TextBasedRPG
                 if (e.statManager.isDying) { entities.RemoveAt(i); }
             }
 
-            // End game if player died.
-            if (player.statManager.isDying) { Program.run = false; }
-
-            // At the end, render the map.
-            currentMap.RenderMap(entities.ToArray());
+            // End game if player died, and render the map to tell them that they have died.
+            if (player.statManager.isDying) { Program.run = false; currentMap.RenderMap(entities.ToArray()); }
         }
 
         public static void LoadArea(int index)
