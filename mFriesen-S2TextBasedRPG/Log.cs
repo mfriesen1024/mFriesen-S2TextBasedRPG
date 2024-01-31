@@ -39,10 +39,7 @@ namespace SimpleLogger
             switch (type)
             {
                 case logType.debug:
-                    if (debug)
-                    {
-                        typeTxt = "Debug";
-                    }
+                    typeTxt = "Debug";
                     break;
                 case logType.info:
                     typeTxt = "Info";
@@ -64,10 +61,15 @@ namespace SimpleLogger
             // Set the text to write.
             writeTxt = $"[{typeTxt}]:{time}: {text}";
 
-            // Write file
-            StreamWriter sw = File.AppendText(fName);
-            sw.WriteLine(writeTxt);
-            sw.Close();
+            // Use if statement to ensure we don't write if  not debug.
+            if (type == logType.debug && !debug) { return; }
+            else
+            {
+                // Write file
+                StreamWriter sw = File.AppendText(fName);
+                sw.WriteLine(writeTxt);
+                sw.Close();
+            }
         }
     }
 }
