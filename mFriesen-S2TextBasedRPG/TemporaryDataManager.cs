@@ -35,7 +35,7 @@ namespace mFriesen_S2TextBasedRPG
             areas = new List<Area>();
             Area demoArea = new Area("demoArea");
             Foe[] demoEncounter = { (Foe)foes[0].DeepClone(), (Foe)foes[0].DeepClone(), (Foe)foes[0].DeepClone() };
-            { demoEncounter[0].position = new Vector2(2, 8); demoEncounter[1].position = new Vector2(6, 3); demoEncounter[2].position = new Vector2(4, 5); }
+            { demoEncounter[0].position = new Vector2(2, 8); demoEncounter[1].position = new Vector2(6, 2); demoEncounter[2].position = new Vector2(4, 5); }
             demoArea.encounter = demoEncounter;
             areas.Add(demoArea);
         }
