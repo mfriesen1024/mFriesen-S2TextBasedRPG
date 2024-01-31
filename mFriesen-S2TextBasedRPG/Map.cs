@@ -102,8 +102,10 @@ namespace mFriesen_S2TextBasedRPG
         }
         public void RenderMap(Entity[] entities = null)
         {
+            // Run clear first, make sure console is clear before we do crap.
             Console.Clear();
 
+            // Check if things are null, then add entities.
             if (entities == null)
             {
                 Log.Write("Entities are null. This may be intentional, it may not.", logType.warning);
