@@ -124,7 +124,7 @@ namespace mFriesen_S2TextBasedRPG
             catch (IndexOutOfRangeException e)
             {
                 result = actionResult.fail;
-                Log.Write($"Encountered exception {e.GetType()}. Triggering entity is {name}. targetPos is {targetPos.x}, {targetPos.y}.", logType.error);
+                Log.Write($"Encountered exception {e.GetType()}. Triggering entity is {name}. targetPos is {targetPos.x}, {targetPos.y}.", logType.debug);
             }
             finally { Log.Write($"Target Coords are {targetPos.x}, {targetPos.y}. Result is {result}", logType.debug); }
             return result;
