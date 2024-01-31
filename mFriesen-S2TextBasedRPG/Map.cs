@@ -169,11 +169,10 @@ namespace mFriesen_S2TextBasedRPG
                     {
 
                         Vector2 currentPos = entities[posIndex].position;
-                        bool noBreakey = false;
                         if (currentPos.x == x && currentPos.y == y) // if the position matches, set the tile.
                         {
                             Tile newTile = entities[posIndex].displayTile;
-                            localTiles[y, x] = newTile; noBreakey = true;
+                            localTiles[y, x] = newTile;
                             // Log.Write($"Found entity id {posIndex} at position {currentPos.y}, {currentPos.x}. Displaytile details: {newTile.displayChar}", logType.debug);
                         }
                     }
