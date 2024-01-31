@@ -90,6 +90,9 @@ namespace mFriesen_S2TextBasedRPG
 
             // End game if player died, and render the map to tell them that they have died.
             if (player.statManager.isDying) { Program.run = false; currentMap.RenderMap(entities.ToArray()); }
+
+            // End game if all mobs are dead.
+            TempWinCheck();
         }
 
         public static void LoadArea(int index)
@@ -162,6 +165,15 @@ namespace mFriesen_S2TextBasedRPG
                 }
             }
             return result;
+        }
+
+        static void TempWinCheck()
+        {
+            if(entities.Count == 1)
+            {
+                Program.win = true;
+                Program.run = false;
+            }
         }
     }
 }
