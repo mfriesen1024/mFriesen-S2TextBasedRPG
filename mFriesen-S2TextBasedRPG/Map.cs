@@ -151,6 +151,12 @@ namespace mFriesen_S2TextBasedRPG
             // Write border
             Console.ForegroundColor = ConsoleColor.White; Console.BackgroundColor = ConsoleColor.Black; Console.WriteLine(end);
         }
+
+        /*
+         * Input:
+         * Vector2 topLeft, bottomRight; records the coordinates of corners.
+         * Result: renders the region defined by the corners.
+         */
         public void RenderRegion(Vector2 topLeft, Vector2 bottomRight) { }
 
         Tile[,] AddEntitiesToMap(Tile[,] tiles, Entity[] entities)
