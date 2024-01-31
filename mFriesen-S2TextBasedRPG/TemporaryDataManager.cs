@@ -18,7 +18,7 @@ namespace mFriesen_S2TextBasedRPG
 
             // Generate the player.
             player = new Player();
-            player.position = new Vector2 (9, 9);
+            player.position = new Vector2 (8, 15);
             player.inventory.Add(weapons[0]); // give the player a stick.
         }
 
