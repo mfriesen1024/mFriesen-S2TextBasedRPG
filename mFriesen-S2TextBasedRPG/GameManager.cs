@@ -79,9 +79,10 @@ namespace mFriesen_S2TextBasedRPG
             }
 
             // If any entity is dying, remove them.
-            foreach (Entity e in entities)
+            for (int i = 0; i < entities.Count; i++)
             {
-                if (e.statManager.isDying) { entities.Remove(e); }
+                Entity e = entities[i];
+                if (e.statManager.isDying) { entities.RemoveAt(i); }
             }
 
             // End game if player died.
@@ -152,16 +153,12 @@ namespace mFriesen_S2TextBasedRPG
                     Log.Write($"Found entity at {ax}, {ay}. Running attack!", logType.debug);
 
                     // Record hp.
-                    int oldHP = target.GetStat(statname.hp);
+                    //int oldHP = target.GetStat(statname.hp);
 
                     // Now run attack things.
                     int damage = attacker.GetDamage();
                     target.TakeDamage(damage);
                     result = true;
-
-                    // Now assert things.
-                    Debug.Assert(damage > 0);
-                    Debug.Assert(oldHP < target.GetStat(statname.hp));
                 }
             }
             return result;
