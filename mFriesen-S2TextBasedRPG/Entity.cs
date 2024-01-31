@@ -54,6 +54,9 @@ namespace mFriesen_S2TextBasedRPG
                 damage += ((WeaponItem)inventory[(int)weaponInventoryIndex]).str;
             }
             damage += statManager.GetStat(statname.str);
+
+            Log.Write($"Damage was requested. Got {damage}", logType.debug);
+            
             return damage;
         }
 
@@ -66,6 +69,7 @@ namespace mFriesen_S2TextBasedRPG
             }
             dr += statManager.GetStat(statname.dr);
 
+            statManager.TakeDamage(dr, damage);
         }
 
         public void Heal(healtype type, int value)

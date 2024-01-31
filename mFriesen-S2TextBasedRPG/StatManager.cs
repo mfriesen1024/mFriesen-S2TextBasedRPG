@@ -82,7 +82,7 @@ namespace mFriesen_S2TextBasedRPG
             }
 
             // Next, subtract damage resistance from damage.
-            if (dr > 0)
+            if (dr >= 0)
             {
                 damage -= dr;
 

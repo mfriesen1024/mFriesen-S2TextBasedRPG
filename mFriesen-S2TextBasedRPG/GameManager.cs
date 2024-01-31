@@ -1,6 +1,7 @@
 ﻿using SimpleLogger;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 
 namespace mFriesen_S2TextBasedRPG
@@ -58,6 +59,9 @@ namespace mFriesen_S2TextBasedRPG
 
         public static void Update()
         {
+            // At the start, render the map.
+            currentMap.RenderMap(entities.ToArray());
+
             // Attempt to get actions for each player.
             List<Vector2> targetLocs = new List<Vector2>();
             foreach (Entity e in entities) { targetLocs.Add(e.GetAction()); }
@@ -78,16 +82,14 @@ namespace mFriesen_S2TextBasedRPG
             }
 
             // If any entity is dying, remove them.
-            foreach (Entity e in entities)
+            for (int i = 0; i < entities.Count; i++)
             {
-                if (e.statManager.isDying) { entities.Remove(e); }
+                Entity e = entities[i];
+                if (e.statManager.isDying) { entities.RemoveAt(i); }
             }
 
-            // End game if player died.
-            if (player.statManager.isDying) { Program.run = false; }
-
-            // At the end, render the map.
-            currentMap.RenderMap(entities.ToArray());
+            // End game if player died, and render the map to tell them that they have died.
+            if (player.statManager.isDying) { Program.run = false; currentMap.RenderMap(entities.ToArray()); }
         }
 
         public static void LoadArea(int index)
@@ -135,18 +137,24 @@ namespace mFriesen_S2TextBasedRPG
             bool result = false;
             foreach (Entity target in entities)
             {
-                if (attacker == target) continue; // Damaging one's self is bad. Prevent entities from doing that.
+                if (attacker == target) { Log.Write("Entity attempted to attack itself!", logType.debug); continue; } // Damaging one's self is bad. Prevent entities from doing that.
                 else if (attacker == null || target == null)
                 {
                     string txt = "Attacker was null somehow! This definitely shouldn't happen.";
                     Log.Write(txt, logType.error); throw new ArgumentException(txt);
                 }
 
+                // store attacked position and the target's position.
                 int ax = attackPos.x, ay = attackPos.y;
                 int tx = target.position.x, ty = target.position.y;
 
                 if(ax == tx && ay == ty)
                 {
+                    Log.Write($"Found entity at {ax}, {ay}. Running attack!", logType.debug);
+
+                    // Record hp.
+                    //int oldHP = target.GetStat(statname.hp);
+
                     // Now run attack things.
                     int damage = attacker.GetDamage();
                     target.TakeDamage(damage);
