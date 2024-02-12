@@ -31,7 +31,7 @@ namespace mFriesen_S2TextBasedRPG
 
         public bool isDying = false;
 
-        public StatManager(int hp, int ap, int dr, int str)
+        public StatManager(int hp, int ap, int dr, int str, Entity owner)
         {
             this.hp = hp;
             this.ap = ap;

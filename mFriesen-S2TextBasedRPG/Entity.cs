@@ -60,16 +60,22 @@ namespace mFriesen_S2TextBasedRPG
             return damage;
         }
 
-        public void TakeDamage(int damage)
+        public void TakeDamage(int damage) // This should soon be depreciated.
+        {
+            int dr = GetArmorDR();
+
+            dr += statManager.GetStat(statname.dr);
+            statManager.TakeDamage(dr, damage);
+        }
+
+        private int GetArmorDR() // This should be called by the statmanager somehow.
         {
             int dr = 0; // base dr value. Hard code because it is again, a global standard value. Everything has 0 base defense.
             if (armorInventoryIndex != null)
             {
                 dr += ((ArmorItem)inventory[(int)armorInventoryIndex]).dr;
             }
-            dr += statManager.GetStat(statname.dr);
-
-            statManager.TakeDamage(dr, damage);
+            return dr;
         }
 
         public void Heal(healtype type, int value)
