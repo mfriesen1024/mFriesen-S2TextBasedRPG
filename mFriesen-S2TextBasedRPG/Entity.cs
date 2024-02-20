@@ -156,19 +156,39 @@ namespace mFriesen_S2TextBasedRPG
         int? rValue;
 
         // This constructor should be used if its an item pickup. An overload will be provided for restoration pickups.
-        public Pickup(Item item)
+        public Pickup(Vector2 position, Item item)
         {
+            this.position = position;
             rType = null;
             pType = pickupType.item;
             rValue = null;
             this.item = item;
         }
         // This constructor should be used for restoration pickups.
-        public Pickup (restorationType rType, int value)
+        public Pickup(Vector2 position, restorationType rType, int value)
         {
+            this.position = position;
             pType = pickupType.restoration;
             this.rType = rType; rValue = value;
             item = null;
+        }
+
+        private void SetDefaultValues()
+        {
+            statManager = null;
+        }
+
+        public override Entity DeepClone()
+        {
+            Pickup e = (Pickup)MemberwiseClone();
+            e.statManager = statManager.ShallowClone();
+            e.position = position.Clone();
+            e.displayTile = displayTile.Clone();
+            e.item = item;
+            e.rValue = rValue;
+            e.rType = rType;
+            e.pType = pType;
+            return e;
         }
     }
 }
