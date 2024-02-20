@@ -33,17 +33,6 @@ namespace mFriesen_S2TextBasedRPG
             return e;
         }
 
-        // Set stats manually.
-        public void ModStat(statname stat, int value)
-        {
-            statManager.ModStat(stat, value);
-        }
-        // Get method.
-        public int GetStat(statname stat)
-        {
-            return statManager.GetStat(stat);
-        }
-
         public abstract Vector2 GetAction(); // we'll use this to make the characters move separately.
 
         public int GetDamage()
@@ -68,7 +57,7 @@ namespace mFriesen_S2TextBasedRPG
             statManager.TakeDamage(dr, damage);
         }
 
-        private int GetArmorDR() // This should be called by the statmanager somehow.
+        public int GetArmorDR() // This should be called by the statmanager somehow.
         {
             int dr = 0; // base dr value. Hard code because it is again, a global standard value. Everything has 0 base defense.
             if (armorInventoryIndex != null)
@@ -91,7 +80,7 @@ namespace mFriesen_S2TextBasedRPG
 
         public Foe(int hp = 10, int ap = 0, int dr = 0, int str = 1)
         {
-            statManager = new StatManager(hp, ap, dr, str);
+            statManager = new StatManager(hp, ap, dr, str, this);
 
             // set display char
             displayTile.fg = System.ConsoleColor.Red; displayTile.bg = System.ConsoleColor.DarkRed;
@@ -125,7 +114,7 @@ namespace mFriesen_S2TextBasedRPG
 
         public Player(int hp = 10, int ap = 0, int dr = 0, int str = 1)
         {
-            statManager = new StatManager(hp, ap, dr, str);
+            statManager = new StatManager(hp, ap, dr, str, this);
 
             // set display char
             displayTile.fg = System.ConsoleColor.Blue; displayTile.bg = System.ConsoleColor.DarkBlue;
