@@ -163,6 +163,8 @@ namespace mFriesen_S2TextBasedRPG
             pType = pickupType.item;
             rValue = null;
             this.item = item;
+
+            SetDefaultValues();
         }
         // This constructor should be used for restoration pickups.
         public Pickup(Vector2 position, restorationType rType, int value)
@@ -171,13 +173,28 @@ namespace mFriesen_S2TextBasedRPG
             pType = pickupType.restoration;
             this.rType = rType; rValue = value;
             item = null;
+
+            SetDefaultValues();
         }
 
+        // This should be used to set the default values of the item, such as a few nulls, and its default tile.
         private void SetDefaultValues()
         {
+            // set nulls
+            inventory = null;
             statManager = null;
+            armorInventoryIndex = null;
+            weaponInventoryIndex = null;
+
+            // set tile
+            displayTile = new Tile();
+            displayTile.displayChar = '+';
+            displayTile.bg = ConsoleColor.DarkGreen;
+            displayTile.fg = ConsoleColor.White;
+            displayTile.hazard = Hazard.none;
         }
 
+        // A deep clone method, returning a completely clean duplicate of the pickup;
         public override Entity DeepClone()
         {
             Pickup e = (Pickup)MemberwiseClone();
