@@ -149,11 +149,11 @@ namespace mFriesen_S2TextBasedRPG
         public enum restorationType { hp, ap }
 
         // References and values
-        restorationType? rType;
-        pickupType pType;
+        public restorationType? rType;
+        public pickupType pType;
 
-        Item item;
-        int? rValue;
+        public Item item;
+        public int? rValue;
 
         // This constructor should be used if its an item pickup. An overload will be provided for restoration pickups.
         public Pickup(Vector2 position, Item item)
