@@ -15,7 +15,7 @@ namespace mFriesen_S2TextBasedRPG
         // Loaded Data
         static Foe[] foes; 
 
-        static void VerifyFolders() // Verifies that the folders requested exist.
+        public static void VerifyFolders() // Verifies that the folders requested exist.
         {
             for (int i = 0; i < folderNames.Length; i++)
             {
@@ -38,7 +38,7 @@ namespace mFriesen_S2TextBasedRPG
             }
         }
 
-        static void LoadFoes()
+        public static void LoadFoes()
         {
             // Read files and init arrays
             string[] foeNames = File.ReadAllLines(indexFileNames[foeFolderIndex]);
