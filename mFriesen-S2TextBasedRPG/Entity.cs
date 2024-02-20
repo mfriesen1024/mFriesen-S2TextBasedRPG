@@ -4,11 +4,6 @@ using System.Collections.Generic;
 
 namespace mFriesen_S2TextBasedRPG
 {
-    enum pickupType
-    {
-        item,
-        instant
-    }
 
     abstract class Entity
     {
@@ -20,7 +15,7 @@ namespace mFriesen_S2TextBasedRPG
         public int? armorInventoryIndex;
         public int? weaponInventoryIndex;
 
-        public Entity DeepClone()
+        public virtual Entity DeepClone()
         {
             Entity e = (Entity)MemberwiseClone();
             e.statManager = statManager.ShallowClone();
@@ -33,7 +28,10 @@ namespace mFriesen_S2TextBasedRPG
             return e;
         }
 
-        public abstract Vector2 GetAction(); // we'll use this to make the characters move separately.
+        public virtual Vector2 GetAction() // This should return the intended move action in world coordinates
+        {
+            return position;
+        }
 
         public int GetDamage()
         {
@@ -45,7 +43,7 @@ namespace mFriesen_S2TextBasedRPG
             damage += statManager.GetStat(statname.str);
 
             Log.Write($"Damage was requested. Got {damage}", logType.debug);
-            
+
             return damage;
         }
 
@@ -138,10 +136,39 @@ namespace mFriesen_S2TextBasedRPG
                 case ConsoleKey.Escape: Program.run = false; break;
             }
 
-            Log.Write($"Key = {input}. Old pos = {position.x}, {position.y}. Delta = {x}, {y}. new pos = {position.x+x}, {position.y+y}");
+            Log.Write($"Key = {input}. Old pos = {position.x}, {position.y}. Delta = {x}, {y}. new pos = {position.x + x}, {position.y + y}");
 
             // for testing purposes, break here.
             return new Vector2(position.x + x, position.y + y);
+        }
+    }
+
+    class Pickup : Entity
+    {
+        public enum pickupType { item, restoration }
+        public enum restorationType { hp, ap }
+
+        // References and values
+        restorationType? rType;
+        pickupType pType;
+
+        Item item;
+        int? rValue;
+
+        // This constructor should be used if its an item pickup. An overload will be provided for restoration pickups.
+        public Pickup(Item item)
+        {
+            rType = null;
+            pType = pickupType.item;
+            rValue = null;
+            this.item = item;
+        }
+        // This constructor should be used for restoration pickups.
+        public Pickup (restorationType rType, int value)
+        {
+            pType = pickupType.restoration;
+            this.rType = rType; rValue = value;
+            item = null;
         }
     }
 }
