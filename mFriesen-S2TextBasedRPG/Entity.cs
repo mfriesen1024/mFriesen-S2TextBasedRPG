@@ -10,7 +10,7 @@ namespace mFriesen_S2TextBasedRPG
         // Stores entity data that isn’t player/foe/neutral specific.
         public Vector2 position = new Vector2(0, 0);
         public Tile displayTile = new Tile();
-        
+
 
         public virtual Entity DeepClone()
         {
@@ -25,7 +25,7 @@ namespace mFriesen_S2TextBasedRPG
             return position;
         }
 
-        
+
     }
 
     abstract class Mob : Entity
@@ -34,7 +34,9 @@ namespace mFriesen_S2TextBasedRPG
         public StatManager statManager;
         public int? armorInventoryIndex;
         public int? weaponInventoryIndex;
-        public StatusEffect attackDebuff;
+        public StatusEffect? attackEffect;
+        public StatusEffect? currentEffect;
+        bool immobilized = false;
 
         public int GetArmorDR() // This should be called by the statmanager somehow.
         {
@@ -58,12 +60,27 @@ namespace mFriesen_S2TextBasedRPG
             m.statManager = statManager.ShallowClone();
             m.position = position.Clone();
             m.displayTile = displayTile.Clone();
-            m.attackDebuff = attackDebuff.Clone();
+            if (attackEffect != null) { m.attackEffect = ((StatusEffect)attackEffect).Clone(); }
             foreach (Item item in inventory)
             {
                 m.inventory.Add(item);
             }
             return m;
+        }
+
+        public void TickEffect()
+        {
+            if (currentEffect != null)
+            {
+                StatusEffect effect = (StatusEffect)currentEffect;
+                int value = effect.Tick();
+                switch (effect.type)
+                {
+                    case effectType.damageOverTime: statManager.TakeDamage(value); break;
+                    case effectType.immobilized: immobilized = true; break;
+                    default: throw new NotImplementedException("Effect type did not account for Mob.TickEffect");
+                }
+            }
         }
     }
 
@@ -143,7 +160,7 @@ namespace mFriesen_S2TextBasedRPG
             {
                 case Pickup.pickupType.item:
                     {
-                        if(pickup.item != null)
+                        if (pickup.item != null)
                         {
                             inventory.Add(pickup.item);
                             try
@@ -159,7 +176,7 @@ namespace mFriesen_S2TextBasedRPG
                             }
                             catch (Exception ignored) { }
                         }
-                        else { Log.Write("Pickup item was null! This is wrong!", logType.error);}
+                        else { Log.Write("Pickup item was null! This is wrong!", logType.error); }
                         break;
                     }
                 case Pickup.pickupType.restoration:

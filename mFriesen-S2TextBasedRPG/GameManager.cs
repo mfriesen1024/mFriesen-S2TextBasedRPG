@@ -99,6 +99,8 @@ namespace mFriesen_S2TextBasedRPG
                 {
                     actor.position = target;
                 }
+
+                actor.TickEffect();
             }
 
             // If any entity is dying, remove them.
@@ -196,10 +198,11 @@ namespace mFriesen_S2TextBasedRPG
                     Log.Write($"Found entity at {ax}, {ay}. Running attack!", logType.debug);
 
                     // Record hp.
-                    //int oldHP = target.GetStat(statname.hp);
+                    // int oldHP = target.GetStat(statname.hp);
 
                     // Now run attack things.
                     int damage = attacker.statManager.GetDamage();
+                    if (attacker.attackEffect != null) { target.currentEffect = attacker.attackEffect; }
                     target.statManager.TakeDamage(damage);
                     result = true;
                 }

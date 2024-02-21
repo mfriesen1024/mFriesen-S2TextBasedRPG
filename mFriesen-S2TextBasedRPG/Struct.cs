@@ -63,8 +63,8 @@ namespace mFriesen_S2TextBasedRPG
 
     struct StatusEffect
     {
-        effectType type;
-        public string name {  get; private set; }
+        public effectType type { get; private set; }
+        public string name { get; private set; }
         int timer;
         int value;
 
