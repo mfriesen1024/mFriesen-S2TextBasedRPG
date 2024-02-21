@@ -23,7 +23,7 @@ namespace mFriesen_S2TextBasedRPG
 {
     internal class StatManager
     {
-        Entity owner;
+        Mob owner;
 
         int hp;
         int ap;
@@ -33,7 +33,7 @@ namespace mFriesen_S2TextBasedRPG
 
         public bool isDying = false;
 
-        public StatManager(int hp, int ap, int dr, int str, Entity owner)
+        public StatManager(int hp, int ap, int dr, int str, Mob owner)
         {
             this.owner = owner;
 
@@ -115,6 +115,20 @@ namespace mFriesen_S2TextBasedRPG
         }
 
         public void TakeDamage(int dr, int damage) { TakeDamage(damage); } // temporary overload
+
+        public int GetDamage()
+        {
+            int damage = 1; // base damage value. hard code it because damage should never be 0.
+            if (owner.weaponInventoryIndex != null)
+            {
+                damage += ((WeaponItem)owner.inventory[(int)owner.weaponInventoryIndex]).str;
+            }
+            damage += str;
+
+            Log.Write($"Damage was requested. Got {damage}", logType.debug);
+
+            return damage;
+        }
 
         public void Heal(healtype type, int value) // This should be used to heal. Negative HP/AP values should be set via ModStat
         {

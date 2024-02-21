@@ -36,28 +36,6 @@ namespace mFriesen_S2TextBasedRPG
         public int? weaponInventoryIndex;
         public StatusEffect attackDebuff;
 
-        public int GetDamage()
-        {
-            int damage = 1; // base damage value. hard code it because damage should never be 0.
-            if (weaponInventoryIndex != null)
-            {
-                damage += ((WeaponItem)inventory[(int)weaponInventoryIndex]).str;
-            }
-            damage += statManager.GetStat(statname.str);
-
-            Log.Write($"Damage was requested. Got {damage}", logType.debug);
-
-            return damage;
-        }
-
-        public void TakeDamage(int damage) // This should soon be depreciated.
-        {
-            int dr = GetArmorDR();
-
-            dr += statManager.GetStat(statname.dr);
-            statManager.TakeDamage(dr, damage);
-        }
-
         public int GetArmorDR() // This should be called by the statmanager somehow.
         {
             int dr = 0; // base dr value. Hard code because it is again, a global standard value. Everything has 0 base defense.

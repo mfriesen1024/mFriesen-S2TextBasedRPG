@@ -26,7 +26,7 @@ namespace mFriesen_S2TextBasedRPG
         public static Foe[] foeTemplates; // store foe templates
         static Area currentArea; // tracks the current area
         static Map currentMap; // Track current map.
-        static List<Entity> mobs = new List<Entity>();
+        static List<Mob> mobs = new List<Mob>();
         static List<Entity> displayEntities = new List<Entity>();
         static List<Pickup> pickups = new List<Pickup>();
         static string[] storedDialogue; // store dialogue (load from file)
@@ -84,7 +84,7 @@ namespace mFriesen_S2TextBasedRPG
             for (int i = 0; i < targetLocs.Count; i++)
             {
                 Vector2 target = targetLocs[i];
-                Entity actor = mobs[i];
+                Mob actor = mobs[i];
                 Pickup pickup = PickupCheck(target);
 
                 actionResult result = WallCheck(target, i.ToString());
@@ -104,8 +104,8 @@ namespace mFriesen_S2TextBasedRPG
             // If any entity is dying, remove them.
             for (int i = 0; i < mobs.Count; i++)
             {
-                Entity e = mobs[i];
-                if (e.statManager.isDying) { mobs.Remove(e); displayEntities.Remove(e); }
+                Mob m = mobs[i];
+                if (m.statManager.isDying) { mobs.Remove(m); displayEntities.Remove(m); }
             }
 
             // End game if player died, and render the map to tell them that they have died.
@@ -119,8 +119,8 @@ namespace mFriesen_S2TextBasedRPG
         {
             currentArea = areas[index];
 
-            mobs = new List<Entity> { player };
-            mobs.AddRange(currentArea.encounter);
+            mobs = new List<Mob> { player };
+            foreach (Entity e in currentArea.encounter) { mobs.Add((Mob)e); }
             displayEntities.AddRange(mobs);
             displayEntities.AddRange(currentArea.pickups);
             pickups.AddRange(currentArea.pickups);
@@ -175,10 +175,10 @@ namespace mFriesen_S2TextBasedRPG
             return result;
         }
 
-        static bool TryAttack(Entity attacker, Vector2 attackPos)
+        static bool TryAttack(Mob attacker, Vector2 attackPos)
         {
             bool result = false;
-            foreach (Entity target in mobs)
+            foreach (Mob target in mobs)
             {
                 if (attacker == target) { Log.Write("Entity attempted to attack itself!", logType.debug); continue; } // Damaging one's self is bad. Prevent entities from doing that.
                 else if (attacker == null || target == null)
@@ -199,8 +199,8 @@ namespace mFriesen_S2TextBasedRPG
                     //int oldHP = target.GetStat(statname.hp);
 
                     // Now run attack things.
-                    int damage = attacker.GetDamage();
-                    target.TakeDamage(damage);
+                    int damage = attacker.statManager.GetDamage();
+                    target.statManager.TakeDamage(damage);
                     result = true;
                 }
             }
