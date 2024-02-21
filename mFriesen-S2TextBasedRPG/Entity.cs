@@ -136,7 +136,7 @@ namespace mFriesen_S2TextBasedRPG
                 case ConsoleKey.Escape: GameManager.run = false; break;
             }
 
-            Log.Write($"Key = {input}. Old pos = {position.x}, {position.y}. Delta = {x}, {y}. new pos = {position.x + x}, {position.y + y}");
+            //Log.Write($"Key = {input}. Old pos = {position.x}, {position.y}. Delta = {x}, {y}. new pos = {position.x + x}, {position.y + y}", logType.debug);
 
             // for testing purposes, break here.
             return new Vector2(position.x + x, position.y + y);
