@@ -141,6 +141,46 @@ namespace mFriesen_S2TextBasedRPG
             // for testing purposes, break here.
             return new Vector2(position.x + x, position.y + y);
         }
+
+        public void UsePickup(Pickup pickup)
+        {
+            switch (pickup.pType)
+            {
+                case Pickup.pickupType.item:
+                    {
+                        if(pickup.item != null)
+                        {
+                            inventory.Add(pickup.item);
+                            try
+                            {
+                                ArmorItem a = (ArmorItem)pickup.item;
+                                armorInventoryIndex = inventory.Count;
+                            }
+                            catch (Exception ignored) { }
+                            try
+                            {
+                                WeaponItem w = (WeaponItem)pickup.item;
+                                weaponInventoryIndex = inventory.Count;
+                            }
+                            catch (Exception ignored) { }
+                        }
+                        else { Log.Write("Pickup item was null! This is wrong!", logType.error);}
+                        break;
+                    }
+                case Pickup.pickupType.restoration:
+                    try
+                    {
+                        switch (pickup.rType)
+                        {
+                            case Pickup.restorationType.hp: statManager.Heal(healtype.health, (int)pickup.rValue); break;
+                            case Pickup.restorationType.ap: statManager.Heal(healtype.absorption, (int)pickup.rValue); break;
+                        }
+                    }
+                    catch (NullReferenceException nre) { Log.Write(nre.Message, logType.error); Log.Write(nre.StackTrace, logType.debug); }
+                    break;
+                default: throw new NotImplementedException(pickup.pType.ToString() + " Is not implemented in Player.UsePickup();.");
+            }
+        }
     }
 
     class Pickup : Entity

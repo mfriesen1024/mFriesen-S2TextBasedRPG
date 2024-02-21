@@ -30,6 +30,17 @@ namespace mFriesen_S2TextBasedRPG
         {
             return (Vector2)MemberwiseClone();
         }
+
+        public override bool Equals(object obj)
+        {
+            bool result = false;
+            if (obj is Vector2)
+            {
+                Vector2 v2 = (Vector2)obj;
+                if (x == v2.x && y == v2.y) { result = true; }
+            }
+            return result;
+        }
     }
     struct Tile
     {

@@ -26,8 +26,9 @@ namespace mFriesen_S2TextBasedRPG
         public static Foe[] foeTemplates; // store foe templates
         static Area currentArea; // tracks the current area
         static Map currentMap; // Track current map.
-        public static List<Entity> mobs = new List<Entity>();
-        public static List<Entity> displayEntities = new List<Entity>();
+        static List<Entity> mobs = new List<Entity>();
+        static List<Entity> displayEntities = new List<Entity>();
+        static List<Pickup> pickups = new List<Pickup>();
         static string[] storedDialogue; // store dialogue (load from file)
         static string[] currentDialogue; // store the current dialogue passage to read
 
@@ -84,9 +85,15 @@ namespace mFriesen_S2TextBasedRPG
             {
                 Vector2 target = targetLocs[i];
                 Entity actor = mobs[i];
+                Pickup pickup = PickupCheck(target);
 
                 actionResult result = WallCheck(target, i.ToString());
                 if (TryAttack(actor, target)) { result = actionResult.fail; }
+                if (pickup != null)
+                {
+                    result = actionResult.fail;
+                    if (i == 0) { ((Player)actor).UsePickup(pickup); pickups.Remove(pickup); displayEntities.Remove(pickup); }
+                }
 
                 if (result == actionResult.move)
                 {
@@ -116,6 +123,7 @@ namespace mFriesen_S2TextBasedRPG
             mobs.AddRange(currentArea.encounter);
             displayEntities.AddRange(mobs);
             displayEntities.AddRange(currentArea.pickups);
+            pickups.AddRange(currentArea.pickups);
 
             currentMap = currentArea.map;
         }
@@ -149,6 +157,21 @@ namespace mFriesen_S2TextBasedRPG
                 Log.Write($"Encountered exception {e.GetType()}. Triggering entity is {name}. targetPos is {targetPos.x}, {targetPos.y}.", logType.debug);
             }
             finally { Log.Write($"Target Coords are {targetPos.x}, {targetPos.y}. Result is {result}", logType.debug); }
+            return result;
+        }
+
+        static Pickup PickupCheck(Vector2 targetPos)
+        {
+            Pickup result = null;
+
+            foreach (Pickup p in pickups)
+            {
+                if (p.position.Equals(targetPos))
+                {
+                    result = p; break;
+                }
+            }
+
             return result;
         }
 
