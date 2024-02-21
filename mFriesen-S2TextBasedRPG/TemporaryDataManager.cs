@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SimpleLogger;
+using System.Collections.Generic;
 
 namespace mFriesen_S2TextBasedRPG
 {
@@ -14,9 +15,9 @@ namespace mFriesen_S2TextBasedRPG
         public static void GenerateThings()
         {
             GenerateFoes();
-            GenerateAreas();
             GenerateItems();
             GeneratePickups();
+            GenerateAreas();
 
             // Generate the player.
             player = new Player();
@@ -38,6 +39,7 @@ namespace mFriesen_S2TextBasedRPG
             Area demoArea = new Area("demoArea");
             Foe[] demoEncounter = { (Foe)foes[0].DeepClone(), (Foe)foes[0].DeepClone(), (Foe)foes[0].DeepClone() };
             { demoEncounter[0].position = new Vector2(2, 8); demoEncounter[1].position = new Vector2(6, 2); demoEncounter[2].position = new Vector2(4, 5); }
+            Log.Write("test string", logType.debug);
             demoArea.pickups[0].position = new Vector2(3, 6);
             demoArea.pickups[1].position = new Vector2(7, 4);
             demoArea.encounter = demoEncounter;
