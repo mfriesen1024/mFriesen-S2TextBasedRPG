@@ -87,7 +87,7 @@ namespace mFriesen_S2TextBasedRPG
     class Foe : Mob
     {
         public enum movementType { stationary, random, linear }
-        public movementType movement;
+        public movementType movement = movementType.random;
         public Vector2 start;
         public Vector2 end;
         public int moveSpeed = 1;
@@ -113,13 +113,19 @@ namespace mFriesen_S2TextBasedRPG
             r = GameManager.GetRandom();
             bool axis = false;
             if (movement == movementType.random) { axis = Convert.ToBoolean(r.Next(0, 2)); }
-            if (movement == movementType.linear) { axis = GetLinearMovementAxis(); }
             while (value == 0)
             {
                 GameManager.GetRandom();
                 int temp = r.Next(-10, 11);
                 if (temp > 0) { value = 1; }
-                if (temp < 0) { value = -1;}
+                if (temp < 0) { value = -1; }
+            }
+            if (movement == movementType.linear)
+            {
+                axis = GetLinearMovementAxis();
+                char axisChar = ' ';
+                if (axis) {  axisChar = 'y'; } else { axisChar = 'x'; }
+                value = GetLinearValue(axisChar);
             }
 
             if (axis) { x = value; } else { y = value; }
@@ -127,6 +133,23 @@ namespace mFriesen_S2TextBasedRPG
 
             Log.Write($"End debugging random GetAction, Current pos: {position.x}, {position.y} Moving by: {x}, {y}. New pos: {position.x + x}, {position.y + y}", logType.debug);
             return new Vector2(position.x + x, position.y + y);
+        }
+
+        int GetLinearValue(char axis)
+        {
+            Vector2 target;
+            if (isReturning) { target = start; } else { target = end; }
+
+            int x1 = target.x, y1 = target.y;
+            int x2 = position.x, y2 = position.y;
+
+            // get differences.
+            int xDiff = x2 - x1;
+            int yDiff = y2 - y1;
+
+            int x, y; if (xDiff < 0) { x = -1; } else { x = 1; }
+            if (yDiff < 0) { y = -1; } else { y = 1; }
+            if (axis == 'x') { return x; } else if (axis == 'y') { return y; } else { throw new ArgumentException("invalid axis"); }
         }
 
         bool GetLinearMovementAxis()
