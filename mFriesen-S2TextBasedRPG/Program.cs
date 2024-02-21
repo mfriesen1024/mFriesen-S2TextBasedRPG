@@ -8,9 +8,6 @@ namespace mFriesen_S2TextBasedRPG
     {
         static string[] directories = { "data\\maps", "data\\areas", "data\\encounters", "data\\foes", "data\\items" };
 
-        public static bool run = true; // This will be disabled when we want to end the game.
-        public static bool win = false; // this is enabled if we want win dialogue.
-
         static string tempWinText = "You won.";
         static string tempLoseText = "You died.";
 
@@ -24,16 +21,6 @@ namespace mFriesen_S2TextBasedRPG
 
             GameManager.areasFName = "data\\areaNames.txt";
             GameManager.Start();
-
-
-
-            while (run)
-            {
-                GameManager.Update();
-            }
-
-            if (win) { Console.Clear(); Console.WriteLine(tempWinText); }
-            else { Console.Clear(); Console.WriteLine(tempLoseText); }
 
             Console.ReadKey();
         }
@@ -59,7 +46,7 @@ namespace mFriesen_S2TextBasedRPG
             {
                 Environment.Exit(1);
             }
-            DataManager.folderNames = directories;
+            //DataManager.folderNames = directories;
         }
     }
 }

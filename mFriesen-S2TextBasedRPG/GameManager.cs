@@ -16,6 +16,9 @@ namespace mFriesen_S2TextBasedRPG
     {
         public static Player player;
 
+        public static bool run = true; // This will be disabled when we want to end the game.
+        public static bool win = false; // this is enabled if we want win dialogue.
+
         static Random random;
         static int seed = DateTime.Now.Millisecond;
 
@@ -55,6 +58,13 @@ namespace mFriesen_S2TextBasedRPG
             LoadArea(0);
 
             currentMap.RenderMap();
+
+            Run();
+        }
+
+        static void Run()
+        {
+            while (run) { Update(); }
         }
 
         public static void Update()
@@ -89,7 +99,7 @@ namespace mFriesen_S2TextBasedRPG
             }
 
             // End game if player died, and render the map to tell them that they have died.
-            if (player.statManager.isDying) { Program.run = false; currentMap.RenderMap(entities.ToArray()); }
+            if (player.statManager.isDying) { run = false; currentMap.RenderMap(entities.ToArray()); }
 
             // End game if all mobs are dead.
             TempWinCheck();
@@ -171,8 +181,8 @@ namespace mFriesen_S2TextBasedRPG
         {
             if(entities.Count == 1)
             {
-                Program.win = true;
-                Program.run = false;
+                win = true;
+                run = false;
             }
         }
     }

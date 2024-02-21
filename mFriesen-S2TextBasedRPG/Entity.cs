@@ -133,7 +133,7 @@ namespace mFriesen_S2TextBasedRPG
                 case ConsoleKey.RightArrow: x = 1; break;
                 case ConsoleKey.A:
                 case ConsoleKey.LeftArrow: x = -1; break;
-                case ConsoleKey.Escape: Program.run = false; break;
+                case ConsoleKey.Escape: GameManager.run = false; break;
             }
 
             Log.Write($"Key = {input}. Old pos = {position.x}, {position.y}. Delta = {x}, {y}. new pos = {position.x + x}, {position.y + y}");
