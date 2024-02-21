@@ -13,6 +13,7 @@
         int[] warpIndexes; // use to determine where to warp the player.
         public Entity[] encounter;
         public Map map; // house map data.
+        public Pickup[] pickups;
 
         public Area(string name)
         {

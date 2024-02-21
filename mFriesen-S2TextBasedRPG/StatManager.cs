@@ -23,6 +23,8 @@ namespace mFriesen_S2TextBasedRPG
 {
     internal class StatManager
     {
+        Entity owner;
+
         int hp;
         int ap;
         int dr;
@@ -31,8 +33,10 @@ namespace mFriesen_S2TextBasedRPG
 
         public bool isDying = false;
 
-        public StatManager(int hp, int ap, int dr, int str)
+        public StatManager(int hp, int ap, int dr, int str, Entity owner)
         {
+            this.owner = owner;
+
             this.hp = hp;
             this.ap = ap;
             this.dr = dr;
@@ -71,9 +75,12 @@ namespace mFriesen_S2TextBasedRPG
 
         // Need to add damage/heal death things.
 
-        public void TakeDamage(int dr, int damage)
+        public void TakeDamage(int damage)
         {
-            // First, is damage greater than 0?
+            // Get damage reduction
+            int dr = this.dr + owner.GetArmorDR();
+
+            // Is damage greater than 0?
             if (damage < 1)
             {
                 string txt = "Damage must be greater than 0. If you want to do wacky things with health, use ModStat()";
@@ -106,6 +113,8 @@ namespace mFriesen_S2TextBasedRPG
                 hp -= damage; if (hp < 0) { hp = 0; isDying = true; }
             }
         }
+
+        public void TakeDamage(int dr, int damage) { TakeDamage(damage); } // temporary overload
 
         public void Heal(healtype type, int value) // This should be used to heal. Negative HP/AP values should be set via ModStat
         {

@@ -1,7 +1,6 @@
 ﻿using SimpleLogger;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 
 namespace mFriesen_S2TextBasedRPG
@@ -16,6 +15,9 @@ namespace mFriesen_S2TextBasedRPG
     {
         public static Player player;
 
+        public static bool run = true; // This will be disabled when we want to end the game.
+        public static bool win = false; // this is enabled if we want win dialogue.
+
         static Random random;
         static int seed = DateTime.Now.Millisecond;
 
@@ -24,7 +26,9 @@ namespace mFriesen_S2TextBasedRPG
         public static Foe[] foeTemplates; // store foe templates
         static Area currentArea; // tracks the current area
         static Map currentMap; // Track current map.
-        public static List<Entity> entities = new List<Entity>();
+        static List<Entity> mobs = new List<Entity>();
+        static List<Entity> displayEntities = new List<Entity>();
+        static List<Pickup> pickups = new List<Pickup>();
         static string[] storedDialogue; // store dialogue (load from file)
         static string[] currentDialogue; // store the current dialogue passage to read
 
@@ -55,41 +59,57 @@ namespace mFriesen_S2TextBasedRPG
             LoadArea(0);
 
             currentMap.RenderMap();
+
+            Run();
+        }
+
+        static void Run()
+        {
+            while (run) { Update(); }
         }
 
         public static void Update()
         {
             // At the start, render the map.
-            currentMap.RenderMap(entities.ToArray());
+            currentMap.RenderMap(displayEntities.ToArray());
 
             // Attempt to get actions for each player.
             List<Vector2> targetLocs = new List<Vector2>();
-            foreach (Entity e in entities) { targetLocs.Add(e.GetAction()); }
+            foreach (Entity e in mobs) { targetLocs.Add(e.GetAction()); }
+
+            // Get positions for items
+            List<Vector2> pickupLocs = new List<Vector2>();
 
             // Run action.
             for (int i = 0; i < targetLocs.Count; i++)
             {
                 Vector2 target = targetLocs[i];
-                Entity actor = entities[i];
+                Entity actor = mobs[i];
+                Pickup pickup = PickupCheck(target);
 
                 actionResult result = WallCheck(target, i.ToString());
                 if (TryAttack(actor, target)) { result = actionResult.fail; }
+                if (pickup != null)
+                {
+                    result = actionResult.fail;
+                    if (i == 0) { ((Player)actor).UsePickup(pickup); pickups.Remove(pickup); displayEntities.Remove(pickup); }
+                }
 
-                if(result == actionResult.move)
+                if (result == actionResult.move)
                 {
                     actor.position = target;
                 }
             }
 
             // If any entity is dying, remove them.
-            for (int i = 0; i < entities.Count; i++)
+            for (int i = 0; i < mobs.Count; i++)
             {
-                Entity e = entities[i];
-                if (e.statManager.isDying) { entities.RemoveAt(i); }
+                Entity e = mobs[i];
+                if (e.statManager.isDying) { mobs.Remove(e); displayEntities.Remove(e); }
             }
 
             // End game if player died, and render the map to tell them that they have died.
-            if (player.statManager.isDying) { Program.run = false; currentMap.RenderMap(entities.ToArray()); }
+            if (player.statManager.isDying) { run = false; currentMap.RenderMap(displayEntities.ToArray()); }
 
             // End game if all mobs are dead.
             TempWinCheck();
@@ -98,8 +118,13 @@ namespace mFriesen_S2TextBasedRPG
         public static void LoadArea(int index)
         {
             currentArea = areas[index];
-            entities = new List<Entity> { player };
-            entities.AddRange(currentArea.encounter);
+
+            mobs = new List<Entity> { player };
+            mobs.AddRange(currentArea.encounter);
+            displayEntities.AddRange(mobs);
+            displayEntities.AddRange(currentArea.pickups);
+            pickups.AddRange(currentArea.pickups);
+
             currentMap = currentArea.map;
         }
 
@@ -135,10 +160,25 @@ namespace mFriesen_S2TextBasedRPG
             return result;
         }
 
+        static Pickup PickupCheck(Vector2 targetPos)
+        {
+            Pickup result = null;
+
+            foreach (Pickup p in pickups)
+            {
+                if (p.position.Equals(targetPos))
+                {
+                    result = p; break;
+                }
+            }
+
+            return result;
+        }
+
         static bool TryAttack(Entity attacker, Vector2 attackPos)
         {
             bool result = false;
-            foreach (Entity target in entities)
+            foreach (Entity target in mobs)
             {
                 if (attacker == target) { Log.Write("Entity attempted to attack itself!", logType.debug); continue; } // Damaging one's self is bad. Prevent entities from doing that.
                 else if (attacker == null || target == null)
@@ -151,7 +191,7 @@ namespace mFriesen_S2TextBasedRPG
                 int ax = attackPos.x, ay = attackPos.y;
                 int tx = target.position.x, ty = target.position.y;
 
-                if(ax == tx && ay == ty)
+                if (ax == tx && ay == ty)
                 {
                     Log.Write($"Found entity at {ax}, {ay}. Running attack!", logType.debug);
 
@@ -169,10 +209,10 @@ namespace mFriesen_S2TextBasedRPG
 
         static void TempWinCheck()
         {
-            if(entities.Count == 1)
+            if (mobs.Count == 1)
             {
-                Program.win = true;
-                Program.run = false;
+                win = true;
+                run = false;
             }
         }
     }

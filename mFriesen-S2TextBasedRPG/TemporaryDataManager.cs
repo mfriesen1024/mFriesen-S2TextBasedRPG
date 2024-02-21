@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SimpleLogger;
+using System.Collections.Generic;
 
 namespace mFriesen_S2TextBasedRPG
 {
@@ -8,13 +9,15 @@ namespace mFriesen_S2TextBasedRPG
         public static List<Area> areas;
         public static List<WeaponItem> weapons;
         public static List<ArmorItem> armorItems;
+        public static List<Pickup> pickups;
         public static Player player;
 
         public static void GenerateThings()
         {
             GenerateFoes();
-            GenerateAreas();
             GenerateItems();
+            GeneratePickups();
+            GenerateAreas();
 
             // Generate the player.
             player = new Player();
@@ -36,6 +39,11 @@ namespace mFriesen_S2TextBasedRPG
             Area demoArea = new Area("demoArea");
             Foe[] demoEncounter = { (Foe)foes[0].DeepClone(), (Foe)foes[0].DeepClone(), (Foe)foes[0].DeepClone() };
             { demoEncounter[0].position = new Vector2(2, 8); demoEncounter[1].position = new Vector2(6, 2); demoEncounter[2].position = new Vector2(4, 5); }
+            Log.Write("test string", logType.debug);
+            pickups[0].position = new Vector2(3, 6);
+            pickups[1].position = new Vector2(7, 4);
+            pickups[2].position = new Vector2(1, 1);
+            demoArea.pickups = pickups.ToArray();
             demoArea.encounter = demoEncounter;
             areas.Add(demoArea);
         }
@@ -54,6 +62,14 @@ namespace mFriesen_S2TextBasedRPG
             armorItems.Add(new ArmorItem());
             armorItems.Add(new ArmorItem(3));
             armorItems.Add(new ArmorItem(6));
+        }
+
+        static void GeneratePickups()
+        {
+            pickups = new List<Pickup>();
+            pickups.Add(new Pickup(new Vector2(0, 0), Pickup.restorationType.hp, 30));
+            pickups.Add(new Pickup(new Vector2(0, 0), Pickup.restorationType.ap, 15));
+            pickups.Add(new Pickup(new Vector2(0, 0), weapons[1]));
         }
     }
 }
