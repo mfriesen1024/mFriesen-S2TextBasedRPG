@@ -154,13 +154,13 @@ namespace mFriesen_S2TextBasedRPG
                             try
                             {
                                 ArmorItem a = (ArmorItem)pickup.item;
-                                armorInventoryIndex = inventory.Count;
+                                armorInventoryIndex = inventory.Count - 1;
                             }
                             catch (Exception ignored) { }
                             try
                             {
                                 WeaponItem w = (WeaponItem)pickup.item;
-                                weaponInventoryIndex = inventory.Count;
+                                weaponInventoryIndex = inventory.Count - 1;
                             }
                             catch (Exception ignored) { }
                         }
