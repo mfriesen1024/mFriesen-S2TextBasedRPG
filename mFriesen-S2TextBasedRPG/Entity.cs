@@ -80,6 +80,7 @@ namespace mFriesen_S2TextBasedRPG
             m.statManager = statManager.ShallowClone();
             m.position = position.Clone();
             m.displayTile = displayTile.Clone();
+            m.attackDebuff = attackDebuff.Clone();
             foreach (Item item in inventory)
             {
                 m.inventory.Add(item);
