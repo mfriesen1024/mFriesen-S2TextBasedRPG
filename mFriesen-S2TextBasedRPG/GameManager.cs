@@ -105,7 +105,7 @@ namespace mFriesen_S2TextBasedRPG
             for (int i = 0; i < mobs.Count; i++)
             {
                 Entity e = mobs[i];
-                if (e.statManager.isDying) { mobs.RemoveAt(i); }
+                if (e.statManager.isDying) { mobs.Remove(e); displayEntities.Remove(e); }
             }
 
             // End game if player died, and render the map to tell them that they have died.
