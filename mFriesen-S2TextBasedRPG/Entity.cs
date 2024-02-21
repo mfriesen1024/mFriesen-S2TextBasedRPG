@@ -36,7 +36,7 @@ namespace mFriesen_S2TextBasedRPG
         public int? weaponInventoryIndex;
         public StatusEffect? attackEffect;
         public StatusEffect? currentEffect;
-        bool immobilized = false;
+        public bool immobilized = false;
 
         public int GetArmorDR() // This should be called by the statmanager somehow.
         {
@@ -86,7 +86,12 @@ namespace mFriesen_S2TextBasedRPG
 
     class Foe : Mob
     {
-        // Foe specific things here, if any.
+        public enum movementType { stationary, random, linear }
+        public movementType movement;
+        public Vector2 start;
+        public Vector2 end;
+        public int moveSpeed = 1;
+        bool isReturning;
 
         public Foe(int hp = 10, int ap = 0, int dr = 0, int str = 1)
         {
@@ -97,24 +102,48 @@ namespace mFriesen_S2TextBasedRPG
             displayTile.displayChar = 'E';
         }
 
-        public override Vector2 GetAction() // Goal is to randomly generate the direction of movement.
+        public override Vector2 GetAction()
         {
+            if (position.Equals(end)) { isReturning = true; } else if (position.Equals(start)) { isReturning = false; }
             Log.Write("Debugging random GetAction", logType.debug);
             Random r;
-            int value, x = 0, y = 0;
+            int value = 0, x = 0, y = 0;
 
             // this is probably a wacky way of doing this, but I need 2 bools.
             r = GameManager.GetRandom();
-            bool axis = Convert.ToBoolean(r.Next(0, 2));
-            r = GameManager.GetRandom();
-            bool sign = Convert.ToBoolean(r.Next(0, 2));
-
-            if (sign) { value = 1; } else { value = -1; }
+            bool axis = false;
+            if (movement == movementType.random) { axis = Convert.ToBoolean(r.Next(0, 2)); }
+            if (movement == movementType.linear) { axis = GetLinearMovementAxis(); }
+            while (value == 0)
+            {
+                GameManager.GetRandom();
+                int temp = r.Next(-10, 11);
+                if (temp > 0) { value = 1; }
+                if (temp < 0) { value = -1;}
+            }
 
             if (axis) { x = value; } else { y = value; }
+            if (movement == movementType.stationary || immobilized) { x = 0; y = 0; }
 
             Log.Write($"End debugging random GetAction, Current pos: {position.x}, {position.y} Moving by: {x}, {y}. New pos: {position.x + x}, {position.y + y}", logType.debug);
             return new Vector2(position.x + x, position.y + y);
+        }
+
+        bool GetLinearMovementAxis()
+        {
+            Vector2 target;
+            if (isReturning) { target = start; } else { target = end; }
+
+            int x1 = target.x, y1 = target.y;
+            int x2 = position.x, y2 = position.y;
+
+            // get differences.
+            int xDiff = x1 - x2;
+            int yDiff = y1 - y2;
+            if (xDiff < 0) { xDiff *= -1; }
+            if (yDiff < 0) { yDiff *= -1; }
+
+            if (yDiff > xDiff) { return true; } else { return false; }
         }
     }
 
