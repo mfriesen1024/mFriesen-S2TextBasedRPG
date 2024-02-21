@@ -64,7 +64,7 @@ namespace mFriesen_S2TextBasedRPG
     struct StatusEffect
     {
         effectType type;
-        string name;
+        public string name {  get; private set; }
         int timer;
         int value;
 
@@ -79,6 +79,12 @@ namespace mFriesen_S2TextBasedRPG
         public StatusEffect Clone()
         {
             return (StatusEffect)MemberwiseClone();
+        }
+
+        public int Tick()
+        {
+            timer--;
+            return value;
         }
     }
 }
