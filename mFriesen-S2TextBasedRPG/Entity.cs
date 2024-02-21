@@ -10,21 +10,13 @@ namespace mFriesen_S2TextBasedRPG
         // Stores entity data that isn’t player/foe/neutral specific.
         public Vector2 position = new Vector2(0, 0);
         public Tile displayTile = new Tile();
-        public List<Item> inventory = new List<Item>();
-        public StatManager statManager;
-        public int? armorInventoryIndex;
-        public int? weaponInventoryIndex;
+        
 
         public virtual Entity DeepClone()
         {
             Entity e = (Entity)MemberwiseClone();
-            e.statManager = statManager.ShallowClone();
             e.position = position.Clone();
             e.displayTile = displayTile.Clone();
-            foreach (Item item in inventory)
-            {
-                e.inventory.Add(item);
-            }
             return e;
         }
 
@@ -32,6 +24,17 @@ namespace mFriesen_S2TextBasedRPG
         {
             return position;
         }
+
+        
+    }
+
+    abstract class Mob : Entity
+    {
+        public List<Item> inventory = new List<Item>();
+        public StatManager statManager;
+        public int? armorInventoryIndex;
+        public int? weaponInventoryIndex;
+        public StatusEffect attackDebuff;
 
         public int GetDamage()
         {
@@ -70,9 +73,22 @@ namespace mFriesen_S2TextBasedRPG
             // pass the command on to statmanager.
             statManager.Heal(type, value);
         }
+
+        public virtual Mob DeepClone() // idk if this should be virtual new or not.
+        {
+            Mob m = (Mob)MemberwiseClone();
+            m.statManager = statManager.ShallowClone();
+            m.position = position.Clone();
+            m.displayTile = displayTile.Clone();
+            foreach (Item item in inventory)
+            {
+                m.inventory.Add(item);
+            }
+            return m;
+        }
     }
 
-    class Foe : Entity
+    class Foe : Mob
     {
         // Foe specific things here, if any.
 
@@ -106,7 +122,7 @@ namespace mFriesen_S2TextBasedRPG
         }
     }
 
-    class Player : Entity
+    class Player : Mob
     {
         // Player specific things here.
 
@@ -220,12 +236,6 @@ namespace mFriesen_S2TextBasedRPG
         // This should be used to set the default values of the item, such as a few nulls, and its default tile.
         private void SetDefaultValues()
         {
-            // set nulls
-            inventory = null;
-            statManager = null;
-            armorInventoryIndex = null;
-            weaponInventoryIndex = null;
-
             // set tile
             displayTile = new Tile();
             displayTile.displayChar = '+';
@@ -238,7 +248,6 @@ namespace mFriesen_S2TextBasedRPG
         public override Entity DeepClone()
         {
             Pickup e = (Pickup)MemberwiseClone();
-            e.statManager = statManager.ShallowClone();
             e.position = position.Clone();
             e.displayTile = displayTile.Clone();
             e.item = item;
