@@ -112,23 +112,26 @@ namespace mFriesen_S2TextBasedRPG
             // this is probably a wacky way of doing this, but I need 2 bools.
             r = GameManager.GetRandom();
             bool axis = false;
-            if (movement == movementType.random) { axis = Convert.ToBoolean(r.Next(0, 2)); }
-            while (value == 0)
+            if (movement == movementType.random)
             {
-                GameManager.GetRandom();
-                int temp = r.Next(-10, 11);
-                if (temp > 0) { value = 1; }
-                if (temp < 0) { value = -1; }
+                axis = Convert.ToBoolean(r.Next(0, 2));
+                while (value == 0)
+                {
+                    GameManager.GetRandom();
+                    int temp = r.Next(-10, 11);
+                    if (temp > 0) { value = 1; }
+                    if (temp < 0) { value = -1; }
+                }
             }
             if (movement == movementType.linear)
             {
                 axis = GetLinearMovementAxis();
                 char axisChar = ' ';
-                if (axis) {  axisChar = 'y'; } else { axisChar = 'x'; }
+                if (axis) { axisChar = 'y'; } else { axisChar = 'x'; }
                 value = GetLinearValue(axisChar);
             }
 
-            if (axis) { x = value; } else { y = value; }
+            if (axis) { y = value; } else { x = value; }
             if (movement == movementType.stationary || immobilized) { x = 0; y = 0; }
 
             Log.Write($"End debugging random GetAction, Current pos: {position.x}, {position.y} Moving by: {x}, {y}. New pos: {position.x + x}, {position.y + y}", logType.debug);
@@ -144,8 +147,8 @@ namespace mFriesen_S2TextBasedRPG
             int x2 = position.x, y2 = position.y;
 
             // get differences.
-            int xDiff = x2 - x1;
-            int yDiff = y2 - y1;
+            int xDiff = x1 - x2;
+            int yDiff = y1 - y2;
 
             int x, y; if (xDiff < 0) { x = -1; } else { x = 1; }
             if (yDiff < 0) { y = -1; } else { y = 1; }
