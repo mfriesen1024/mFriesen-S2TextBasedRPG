@@ -76,6 +76,9 @@ namespace mFriesen_S2TextBasedRPG
             List<Vector2> targetLocs = new List<Vector2>();
             foreach (Entity e in entities) { targetLocs.Add(e.GetAction()); }
 
+            // Get positions for items
+            List<Vector2> pickupLocs = new List<Vector2>();
+
             // Run action.
             for (int i = 0; i < targetLocs.Count; i++)
             {
