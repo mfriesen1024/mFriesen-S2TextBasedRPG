@@ -42,6 +42,7 @@ namespace mFriesen_S2TextBasedRPG
             if (recentFoe == null) { foeCheck = false; } else { foeCheck = true; }
 
             // Get stats and status.
+            WeaponItem playerWeapon;
             playerHP = playerSM.GetStat(statname.hp);
             playerMaxHP = playerSM.maxHP;
             playerAP = playerSM.GetStat(statname.ap);
@@ -64,7 +65,7 @@ namespace mFriesen_S2TextBasedRPG
             // First, lets update the stats.
             UpdateStatus();
 
-            string playerStats = $"Player: Health == {playerHP}/{playerMaxHP} Absorption == {playerAP} " +
+            string playerStats = $"Player: Health == {playerHP}/{playerMaxHP} Absorption == {playerAP} Strength == {playerSTR} " +
                 $"Damage Reduction == {playerDR} Effective Health == {playerHP + playerAP + playerDR}\n" +
                 $"The player is {playerStatus}";
 

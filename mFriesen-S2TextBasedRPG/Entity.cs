@@ -32,8 +32,8 @@ namespace mFriesen_S2TextBasedRPG
     {
         public List<Item> inventory = new List<Item>();
         public StatManager statManager;
-        public int? armorInventoryIndex;
-        public int? weaponInventoryIndex;
+        public ArmorItem armor;
+        public WeaponItem weapon;
         public StatusEffect? attackEffect;
         public StatusEffect? currentEffect;
         public bool immobilized = false;
@@ -42,9 +42,9 @@ namespace mFriesen_S2TextBasedRPG
         public int GetArmorDR() // This should be called by the statmanager somehow.
         {
             int dr = 0; // base dr value. Hard code because it is again, a global standard value. Everything has 0 base defense.
-            if (armorInventoryIndex != null)
+            if (armor != null)
             {
-                dr += ((ArmorItem)inventory[(int)armorInventoryIndex]).dr;
+                dr += armor.dr;
             }
             return dr;
         }
@@ -225,13 +225,13 @@ namespace mFriesen_S2TextBasedRPG
                             try
                             {
                                 ArmorItem a = (ArmorItem)pickup.item;
-                                armorInventoryIndex = inventory.Count - 1;
+                                armor = (ArmorItem)pickup.item;
                             }
                             catch (Exception ignored) { }
                             try
                             {
                                 WeaponItem w = (WeaponItem)pickup.item;
-                                weaponInventoryIndex = inventory.Count - 1;
+                                weapon = (WeaponItem)pickup.item;
                             }
                             catch (Exception ignored) { }
                         }
