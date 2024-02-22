@@ -10,10 +10,12 @@ namespace mFriesen_S2TextBasedRPG
         public static List<WeaponItem> weapons;
         public static List<ArmorItem> armorItems;
         public static List<Pickup> pickups;
+        public static List<StatusEffect> statusEffects;
         public static Player player;
 
         public static void GenerateThings()
         {
+            GenerateStatusEffects();
             GenerateFoes();
             GenerateItems();
             GeneratePickups();
@@ -28,12 +30,14 @@ namespace mFriesen_S2TextBasedRPG
         static void GenerateFoes()
         {
             foes = new List<Foe>();
-            foes.Add(new Foe(1, 5, 0));
-            foes[0].name = "Goblin"; // Create a rather weak goblin. Once its vitality goes away, its a 1hit.
-            foes.Add(new Foe(5, 0, 2));
-            foes[1].name = "Skeleton";// Create a more resilient skeleton. It can take a hit or 2.
-            foes.Add(new Foe(15, 10, 5));
-            foes[2].name = "Dragon"; // Create a formidable dragon.
+            foes.Add(new Foe(1, 5, 0)); // Create a rather weak goblin. Once its vitality goes away, its a 1hit.
+            foes[0].name = "Goblin";
+            foes.Add(new Foe(5, 0, 1)); // Create a more resilient skeleton. It can take a hit or 2.
+            foes[1].name = "Skeleton";
+            foes.Add(new Foe(15, 10, 5, 5)); // Create a formidable dragon.
+            foes[2].name = "Dragon";
+            foes[2].movement = Foe.movementType.stationary;
+            foes[2].attackEffect = statusEffects[0];
         }
 
         static void GenerateAreas()
@@ -46,7 +50,6 @@ namespace mFriesen_S2TextBasedRPG
                 demoEncounter[1].position = new Vector2(9, 18);
                 demoEncounter[2].position = new Vector2(6, 12);
                 demoEncounter[3].position = new Vector2(6, 6);
-                demoEncounter[3].movement = Foe.movementType.stationary; // make the dragon not move.
             }
             demoEncounter[0].movement = Foe.movementType.linear; demoEncounter[0].start = new Vector2(2, 6); demoEncounter[0].end = new Vector2(1, 1);
             Log.Write("test string", logType.debug);
@@ -81,6 +84,12 @@ namespace mFriesen_S2TextBasedRPG
             pickups.Add(new Pickup(new Vector2(7, 16), Pickup.restorationType.ap, 15));
             pickups.Add(new Pickup(new Vector2(1, 1), weapons[2]));
             pickups.Add(new Pickup(new Vector2(3, 5), armorItems[1]));
+        }
+
+        static void GenerateStatusEffects()
+        {
+            statusEffects = new List<StatusEffect>();
+            statusEffects.Add(new StatusEffect(effectType.damageOverTime, "DragonFire", 3, 3)); // Dragon should produce fire.
         }
     }
 }
