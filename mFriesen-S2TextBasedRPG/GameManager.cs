@@ -106,7 +106,7 @@ namespace mFriesen_S2TextBasedRPG
                     actor.position = target;
                 }
 
-                actor.TickEffect();
+                if (actor.TickEffect()) { actor.currentEffect = null; }
             }
 
             // If any entity is dying, remove them.
