@@ -21,6 +21,7 @@ namespace mFriesen_S2TextBasedRPG
         static int playerHP, playerMaxHP, playerAP, playerDR, playerSTR;
         public static Foe recentFoe; static healthStatus foeStatus;
         static int foeSTR; static string foeName;
+        static bool foeCheck;
 
         static string legend = "";
 
@@ -41,9 +42,8 @@ namespace mFriesen_S2TextBasedRPG
 
         static void UpdateStatus() // This gets the mob statmanagers and retrieves some stats from them.
         {
-            // find statmanagers
             StatManager playerSM = player.statManager;
-            StatManager foeSM = recentFoe.statManager;
+            if (recentFoe == null) { foeCheck = false; } else { foeCheck = true; }
 
             // Get stats and status.
             playerHP = playerSM.GetStat(statname.hp);
@@ -52,9 +52,15 @@ namespace mFriesen_S2TextBasedRPG
             playerDR = playerSM.GetStat(statname.dr);
             playerSTR = playerSM.GetStat(statname.str);
             playerStatus = GetHealthStatus(playerHP, playerSM.maxHP, playerSM.GetStat(statname.ap));
-            foeName = recentFoe.name;
-            foeSTR = foeSM.GetStat(statname.str);
-            foeStatus = GetHealthStatus(foeSM.GetStat(statname.hp), foeSM.maxHP, foeSM.GetStat(statname.ap));
+
+            if (foeCheck)
+            {
+            StatManager foeSM = recentFoe.statManager;
+
+                foeName = recentFoe.name;
+                foeSTR = foeSM.GetStat(statname.str);
+                foeStatus = GetHealthStatus(foeSM.GetStat(statname.hp), foeSM.maxHP, foeSM.GetStat(statname.ap));
+            }
         }
 
         public static void Update(bool print = true)
@@ -65,8 +71,9 @@ namespace mFriesen_S2TextBasedRPG
             string playerStats = $"Player: Health == {playerHP}/{playerMaxHP} Absorption == {playerAP} " +
                 $"Damage Reduction == {playerDR} Effective Health == {playerHP + playerAP + playerDR}\n" +
                 $"The player is {playerStatus}";
+            string recentFoeStats = "No recent foe.";
 
-            string recentFoeStats = $"Recently encountered: Type == {foeName} Str == {foeSTR} Foe status is {foeStatus}";
+            if (foeCheck) { recentFoeStats = $"Recently encountered: Type == {foeName} Str == {foeSTR} Foe status is {foeStatus}"; }
 
             if (print)
             {
