@@ -95,6 +95,9 @@ namespace mFriesen_S2TextBasedRPG
                     if (i == 0) { ((Player)actor).UsePickup(pickup); pickups.Remove(pickup); displayEntities.Remove(pickup); }
                 }
 
+                // now check if immobile, and if true, cancel movement.
+                if ((actor is Foe && ((Foe)actor).movement == Foe.movementType.stationary)|| actor.immobilized) { result = actionResult.fail; }
+
                 if (result == actionResult.move)
                 {
                     actor.position = target;

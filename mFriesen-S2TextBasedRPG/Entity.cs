@@ -112,7 +112,7 @@ namespace mFriesen_S2TextBasedRPG
             // this is probably a wacky way of doing this, but I need 2 bools.
             r = GameManager.GetRandom();
             bool axis = false;
-            if (movement == movementType.random)
+            if (movement == movementType.random || movement == movementType.stationary) // include stationary as it will attack randomly.
             {
                 axis = Convert.ToBoolean(r.Next(0, 2));
                 while (value == 0)
@@ -132,7 +132,7 @@ namespace mFriesen_S2TextBasedRPG
             }
 
             if (axis) { y = value; } else { x = value; }
-            if (movement == movementType.stationary || immobilized) { x = 0; y = 0; }
+            //if (movement == movementType.stationary || immobilized) { x = 0; y = 0; }
 
             Log.Write($"End debugging random GetAction, Current pos: {position.x}, {position.y} Moving by: {x}, {y}. New pos: {position.x + x}, {position.y + y}", logType.debug);
             return new Vector2(position.x + x, position.y + y);
