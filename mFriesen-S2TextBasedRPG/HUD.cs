@@ -22,6 +22,8 @@ namespace mFriesen_S2TextBasedRPG
         public static Foe recentFoe; static healthStatus foeStatus;
         static int foeSTR; static string foeName;
 
+        static string legend = "";
+
 
 
         static healthStatus GetHealthStatus(int hp, int maxhp, int ap = 0)
@@ -55,7 +57,7 @@ namespace mFriesen_S2TextBasedRPG
             foeStatus = GetHealthStatus(foeSM.GetStat(statname.hp), foeSM.maxHP, foeSM.GetStat(statname.ap));
         }
 
-        public static void Update()
+        public static void Update(bool print = true)
         {
             // First, lets update the stats.
             UpdateStatus();
@@ -63,6 +65,15 @@ namespace mFriesen_S2TextBasedRPG
             string playerStats = $"Player: Health == {playerHP}/{playerMaxHP} Absorption == {playerAP} " +
                 $"Damage Reduction == {playerDR} Effective Health == {playerHP + playerAP + playerDR}\n" +
                 $"The player is {playerStatus}";
+
+            string recentFoeStats = $"Recently encountered: Type == {foeName} Str == {foeSTR} Foe status is {foeStatus}";
+
+            if (print)
+            {
+                Console.WriteLine(playerStats);
+                Console.WriteLine(recentFoeStats);
+                Console.WriteLine(legend);
+            }
         }
     }
 }
