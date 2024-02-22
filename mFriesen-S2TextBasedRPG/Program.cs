@@ -6,6 +6,7 @@ namespace mFriesen_S2TextBasedRPG
 {
     internal class Program
     {
+        static string dirInfoName = "data\\dirinfo.txt";
         static string[] directories = { "data\\maps", "data\\areas", "data\\encounters", "data\\foes", "data\\items" };
 
         static string tempWinText = "You won.";
@@ -17,7 +18,8 @@ namespace mFriesen_S2TextBasedRPG
             Log.debug = false;
 
             // Data loading
-            DataLoading();
+            if (File.Exists(dirInfoName)) { directories = File.ReadAllLines(dirInfoName); } else { try { File.Create(dirInfoName).Close(); } catch (Exception ignored) { } }
+            try { DataLoading(); } catch (Exception e) { Log.Write(e.Message, logType.error); Environment.Exit(-1); }
 
             GameManager.areasFName = "data\\areaNames.txt";
             GameManager.Start();
@@ -46,7 +48,7 @@ namespace mFriesen_S2TextBasedRPG
             {
                 Environment.Exit(1);
             }
-            //DataManager.folderNames = directories;
+            DataManager.Startup(directories);
         }
     }
 }
