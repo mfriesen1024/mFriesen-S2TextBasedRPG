@@ -29,7 +29,7 @@ namespace mFriesen_S2TextBasedRPG
         int ap;
         int dr;
         int str;
-        int maxHP;
+        public int maxHP {  get; private set; }
 
         public bool isDying = false;
 

@@ -37,6 +37,7 @@ namespace mFriesen_S2TextBasedRPG
         public StatusEffect? attackEffect;
         public StatusEffect? currentEffect;
         public bool immobilized = false;
+        public string name;
 
         public int GetArmorDR() // This should be called by the statmanager somehow.
         {
@@ -58,6 +59,7 @@ namespace mFriesen_S2TextBasedRPG
         {
             Mob m = (Mob)MemberwiseClone();
             m.statManager = statManager.ShallowClone();
+            m.name = name;
             m.position = position.Clone();
             m.displayTile = displayTile.Clone();
             if (attackEffect != null) { m.attackEffect = ((StatusEffect)attackEffect).Clone(); }
@@ -180,6 +182,8 @@ namespace mFriesen_S2TextBasedRPG
         public Player(int hp = 10, int ap = 0, int dr = 0, int str = 1)
         {
             statManager = new StatManager(hp, ap, dr, str, this);
+
+            name = "player";
 
             // set display char
             displayTile.fg = System.ConsoleColor.Blue; displayTile.bg = System.ConsoleColor.DarkBlue;
