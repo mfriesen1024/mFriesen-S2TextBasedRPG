@@ -82,7 +82,7 @@ namespace mFriesen_S2TextBasedRPG
             pickups = new List<Pickup>();
             pickups.Add(new Pickup(new Vector2(9, 8), Pickup.restorationType.hp, 30));
             pickups.Add(new Pickup(new Vector2(7, 16), Pickup.restorationType.ap, 15));
-            pickups.Add(new Pickup(new Vector2(1, 1), weapons[2]));
+            pickups.Add(new Pickup(new Vector2(1, 1), weapons[1]));
             pickups.Add(new Pickup(new Vector2(3, 5), armorItems[1]));
         }
 
