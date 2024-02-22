@@ -140,6 +140,7 @@ namespace mFriesen_S2TextBasedRPG
             foeTemplates = TemporaryDataManager.foes.ToArray();
             areas = TemporaryDataManager.areas.ToArray();
             player = TemporaryDataManager.player;
+            HUD.player = player;
         }
 
         public static Random GetRandom()

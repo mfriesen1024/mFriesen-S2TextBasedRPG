@@ -47,6 +47,7 @@
     <Compile Include="Encounter.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="GameManager.cs" />
+    <Compile Include="HUD.cs" />
     <Compile Include="Item.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Map.cs" />
