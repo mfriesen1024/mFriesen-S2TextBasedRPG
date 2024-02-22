@@ -58,8 +58,11 @@ namespace mFriesen_S2TextBasedRPG
         public static void Update()
         {
             // First, lets update the stats.
+            UpdateStatus();
 
-            string playerStats = $"Player";
+            string playerStats = $"Player: Health == {playerHP}/{playerMaxHP} Absorption == {playerAP} " +
+                $"Damage Reduction == {playerDR} Effective Health == {playerHP + playerAP + playerDR}\n" +
+                $"The player is {playerStatus}";
         }
     }
 }
