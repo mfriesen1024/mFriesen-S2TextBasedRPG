@@ -53,9 +53,6 @@ namespace mFriesen_S2TextBasedRPG
             }
             demoEncounter[0].movement = Foe.movementType.linear; demoEncounter[0].start = new Vector2(2, 6); demoEncounter[0].end = new Vector2(1, 1);
             Log.Write("test string", logType.debug);
-            pickups[0].position = new Vector2(3, 6);
-            pickups[1].position = new Vector2(7, 4);
-            pickups[2].position = new Vector2(1, 1);
             demoArea.pickups = pickups.ToArray();
             demoArea.encounter = demoEncounter;
             areas.Add(demoArea);
