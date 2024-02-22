@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace mFriesen_S2TextBasedRPG
 {
@@ -32,9 +28,9 @@ namespace mFriesen_S2TextBasedRPG
             healthStatus result;
             int ehp = hp + ap;
             if (ehp > maxhp) { result = healthStatus.Healthy; }
-            else if (ehp > (int)(maxhp * 0.5f)) {  result = healthStatus.Injured; }
+            else if (ehp > (int)(maxhp * 0.5f)) { result = healthStatus.Injured; }
             else if (ehp > (int)(maxhp * 0.1f)) { result = healthStatus.Bloodied; }
-            else if (ehp > 0) {  result = healthStatus.Critical; }
+            else if (ehp > 0) { result = healthStatus.Critical; }
             else { result = healthStatus.Dead; }
 
             return result;
@@ -55,7 +51,7 @@ namespace mFriesen_S2TextBasedRPG
 
             if (foeCheck)
             {
-            StatManager foeSM = recentFoe.statManager;
+                StatManager foeSM = recentFoe.statManager;
 
                 foeName = recentFoe.name;
                 foeSTR = foeSM.GetStat(statname.str);
@@ -71,6 +67,7 @@ namespace mFriesen_S2TextBasedRPG
             string playerStats = $"Player: Health == {playerHP}/{playerMaxHP} Absorption == {playerAP} " +
                 $"Damage Reduction == {playerDR} Effective Health == {playerHP + playerAP + playerDR}\n" +
                 $"The player is {playerStatus}";
+
             string recentFoeStats = "No recent foe.";
 
             if (foeCheck) { recentFoeStats = $"Recently encountered: Type == {foeName} Str == {foeSTR} Foe status is {foeStatus}"; }
