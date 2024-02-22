@@ -73,6 +73,9 @@ namespace mFriesen_S2TextBasedRPG
             // At the start, render the map.
             currentMap.RenderMap(displayEntities.ToArray());
 
+            // Set last encountered foe to null;
+            HUD.recentFoe = null;
+
             // Attempt to get actions for each player.
             List<Vector2> targetLocs = new List<Vector2>();
             foreach (Entity e in mobs) { targetLocs.Add(e.GetAction()); }
@@ -209,6 +212,8 @@ namespace mFriesen_S2TextBasedRPG
                     if (attacker.attackEffect != null) { target.currentEffect = attacker.attackEffect; }
                     target.statManager.TakeDamage(damage);
                     result = true;
+
+                    if (attacker == player) { HUD.recentFoe = (Foe)target; }
                 }
             }
             return result;

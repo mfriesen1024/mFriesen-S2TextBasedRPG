@@ -21,16 +21,19 @@ namespace mFriesen_S2TextBasedRPG
 
             // Generate the player.
             player = new Player();
-            player.position = new Vector2 (8, 15);
+            player.position = new Vector2(8, 15);
             player.inventory.Add(weapons[0]); // give the player a stick.
         }
 
         static void GenerateFoes()
         {
             foes = new List<Foe>();
-            foes.Add(new Foe(1, 5, 0)); // Create a rather weak goblin. Once its vitality goes away, its a 1hit.
-            foes.Add(new Foe(5, 0, 2)); // Create a more resilient skeleton. It can take a hit or 2.
-            foes.Add(new Foe(15, 10, 5)); // Create a formidable dragon.
+            foes.Add(new Foe(1, 5, 0));
+            foes[0].name = "Goblin"; // Create a rather weak goblin. Once its vitality goes away, its a 1hit.
+            foes.Add(new Foe(5, 0, 2));
+            foes[1].name = "Skeleton";// Create a more resilient skeleton. It can take a hit or 2.
+            foes.Add(new Foe(15, 10, 5));
+            foes[2].name = "Dragon"; // Create a formidable dragon.
         }
 
         static void GenerateAreas()
