@@ -70,7 +70,7 @@ namespace mFriesen_S2TextBasedRPG
             return m;
         }
 
-        public void TickEffect()
+        public bool TickEffect()
         {
             if (currentEffect != null)
             {
@@ -82,7 +82,10 @@ namespace mFriesen_S2TextBasedRPG
                     case effectType.immobilized: immobilized = true; break;
                     default: throw new NotImplementedException("Effect type did not account for Mob.TickEffect");
                 }
+                // If timer <= 0, return true, so we remove the effect.
+                if (effect.timer <= 0) { return true; }
             }
+            return false;
         }
     }
 

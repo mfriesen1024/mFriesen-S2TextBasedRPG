@@ -8,7 +8,7 @@ namespace mFriesen_S2TextBasedRPG
         Injured,
         Bloodied,
         Critical,
-        Dead
+        Dying
     }
 
     static class HUD
@@ -31,7 +31,7 @@ namespace mFriesen_S2TextBasedRPG
             else if (ehp >= (int)(maxhp * 0.5f)) { result = healthStatus.Injured; }
             else if (ehp >= (int)(maxhp * 0.1f)) { result = healthStatus.Bloodied; }
             else if (ehp > 0) { result = healthStatus.Critical; }
-            else { result = healthStatus.Dead; }
+            else { result = healthStatus.Dying; }
 
             return result;
         }
