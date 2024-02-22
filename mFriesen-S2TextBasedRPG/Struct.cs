@@ -7,6 +7,12 @@ namespace mFriesen_S2TextBasedRPG
         none,
         wall
     }
+    enum effectType
+    {
+        damageOverTime,
+        immobilized
+    }
+
     struct Trigger
     {
         public Vector2 topCorner;
@@ -20,6 +26,7 @@ namespace mFriesen_S2TextBasedRPG
             return t;
         }
     }
+
     struct Vector2
     {
         public int y, x;
@@ -51,6 +58,33 @@ namespace mFriesen_S2TextBasedRPG
         public Tile Clone()
         {
             return (Tile)MemberwiseClone();
+        }
+    }
+
+    struct StatusEffect
+    {
+        public effectType type { get; private set; }
+        public string name { get; private set; }
+        int timer;
+        int value;
+
+        public StatusEffect(effectType type, string name, int timer, int value)
+        {
+            this.type = type;
+            this.name = name;
+            this.timer = timer;
+            this.value = value;
+        }
+
+        public StatusEffect Clone()
+        {
+            return (StatusEffect)MemberwiseClone();
+        }
+
+        public int Tick()
+        {
+            timer--;
+            return value;
         }
     }
 }

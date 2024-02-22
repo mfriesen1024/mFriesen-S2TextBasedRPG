@@ -10,21 +10,13 @@ namespace mFriesen_S2TextBasedRPG
         // Stores entity data that isn’t player/foe/neutral specific.
         public Vector2 position = new Vector2(0, 0);
         public Tile displayTile = new Tile();
-        public List<Item> inventory = new List<Item>();
-        public StatManager statManager;
-        public int? armorInventoryIndex;
-        public int? weaponInventoryIndex;
+
 
         public virtual Entity DeepClone()
         {
             Entity e = (Entity)MemberwiseClone();
-            e.statManager = statManager.ShallowClone();
             e.position = position.Clone();
             e.displayTile = displayTile.Clone();
-            foreach (Item item in inventory)
-            {
-                e.inventory.Add(item);
-            }
             return e;
         }
 
@@ -33,27 +25,18 @@ namespace mFriesen_S2TextBasedRPG
             return position;
         }
 
-        public int GetDamage()
-        {
-            int damage = 1; // base damage value. hard code it because damage should never be 0.
-            if (weaponInventoryIndex != null)
-            {
-                damage += ((WeaponItem)inventory[(int)weaponInventoryIndex]).str;
-            }
-            damage += statManager.GetStat(statname.str);
 
-            Log.Write($"Damage was requested. Got {damage}", logType.debug);
+    }
 
-            return damage;
-        }
-
-        public void TakeDamage(int damage) // This should soon be depreciated.
-        {
-            int dr = GetArmorDR();
-
-            dr += statManager.GetStat(statname.dr);
-            statManager.TakeDamage(dr, damage);
-        }
+    abstract class Mob : Entity
+    {
+        public List<Item> inventory = new List<Item>();
+        public StatManager statManager;
+        public int? armorInventoryIndex;
+        public int? weaponInventoryIndex;
+        public StatusEffect? attackEffect;
+        public StatusEffect? currentEffect;
+        public bool immobilized = false;
 
         public int GetArmorDR() // This should be called by the statmanager somehow.
         {
@@ -70,11 +53,45 @@ namespace mFriesen_S2TextBasedRPG
             // pass the command on to statmanager.
             statManager.Heal(type, value);
         }
+
+        public virtual Mob DeepClone() // idk if this should be virtual new or not.
+        {
+            Mob m = (Mob)MemberwiseClone();
+            m.statManager = statManager.ShallowClone();
+            m.position = position.Clone();
+            m.displayTile = displayTile.Clone();
+            if (attackEffect != null) { m.attackEffect = ((StatusEffect)attackEffect).Clone(); }
+            foreach (Item item in inventory)
+            {
+                m.inventory.Add(item);
+            }
+            return m;
+        }
+
+        public void TickEffect()
+        {
+            if (currentEffect != null)
+            {
+                StatusEffect effect = (StatusEffect)currentEffect;
+                int value = effect.Tick();
+                switch (effect.type)
+                {
+                    case effectType.damageOverTime: statManager.TakeDamage(value); break;
+                    case effectType.immobilized: immobilized = true; break;
+                    default: throw new NotImplementedException("Effect type did not account for Mob.TickEffect");
+                }
+            }
+        }
     }
 
-    class Foe : Entity
+    class Foe : Mob
     {
-        // Foe specific things here, if any.
+        public enum movementType { stationary, random, linear }
+        public movementType movement = movementType.random;
+        public Vector2 start;
+        public Vector2 end;
+        public int moveSpeed = 1;
+        bool isReturning;
 
         public Foe(int hp = 10, int ap = 0, int dr = 0, int str = 1)
         {
@@ -85,28 +102,78 @@ namespace mFriesen_S2TextBasedRPG
             displayTile.displayChar = 'E';
         }
 
-        public override Vector2 GetAction() // Goal is to randomly generate the direction of movement.
+        public override Vector2 GetAction()
         {
+            if (position.Equals(end)) { isReturning = true; } else if (position.Equals(start)) { isReturning = false; }
             Log.Write("Debugging random GetAction", logType.debug);
             Random r;
-            int value, x = 0, y = 0;
+            int value = 0, x = 0, y = 0;
 
             // this is probably a wacky way of doing this, but I need 2 bools.
             r = GameManager.GetRandom();
-            bool axis = Convert.ToBoolean(r.Next(0, 2));
-            r = GameManager.GetRandom();
-            bool sign = Convert.ToBoolean(r.Next(0, 2));
+            bool axis = false;
+            if (movement == movementType.random || movement == movementType.stationary) // include stationary as it will attack randomly.
+            {
+                axis = Convert.ToBoolean(r.Next(0, 2));
+                while (value == 0)
+                {
+                    GameManager.GetRandom();
+                    int temp = r.Next(-10, 11);
+                    if (temp > 0) { value = 1; }
+                    if (temp < 0) { value = -1; }
+                }
+            }
+            if (movement == movementType.linear)
+            {
+                axis = GetLinearMovementAxis();
+                char axisChar = ' ';
+                if (axis) { axisChar = 'y'; } else { axisChar = 'x'; }
+                value = GetLinearValue(axisChar);
+            }
 
-            if (sign) { value = 1; } else { value = -1; }
-
-            if (axis) { x = value; } else { y = value; }
+            if (axis) { y = value; } else { x = value; }
+            //if (movement == movementType.stationary || immobilized) { x = 0; y = 0; }
 
             Log.Write($"End debugging random GetAction, Current pos: {position.x}, {position.y} Moving by: {x}, {y}. New pos: {position.x + x}, {position.y + y}", logType.debug);
             return new Vector2(position.x + x, position.y + y);
         }
+
+        int GetLinearValue(char axis)
+        {
+            Vector2 target;
+            if (isReturning) { target = start; } else { target = end; }
+
+            int x1 = target.x, y1 = target.y;
+            int x2 = position.x, y2 = position.y;
+
+            // get differences.
+            int xDiff = x1 - x2;
+            int yDiff = y1 - y2;
+
+            int x, y; if (xDiff < 0) { x = -1; } else { x = 1; }
+            if (yDiff < 0) { y = -1; } else { y = 1; }
+            if (axis == 'x') { return x; } else if (axis == 'y') { return y; } else { throw new ArgumentException("invalid axis"); }
+        }
+
+        bool GetLinearMovementAxis()
+        {
+            Vector2 target;
+            if (isReturning) { target = start; } else { target = end; }
+
+            int x1 = target.x, y1 = target.y;
+            int x2 = position.x, y2 = position.y;
+
+            // get differences.
+            int xDiff = x1 - x2;
+            int yDiff = y1 - y2;
+            if (xDiff < 0) { xDiff *= -1; }
+            if (yDiff < 0) { yDiff *= -1; }
+
+            if (yDiff > xDiff) { return true; } else { return false; }
+        }
     }
 
-    class Player : Entity
+    class Player : Mob
     {
         // Player specific things here.
 
@@ -148,7 +215,7 @@ namespace mFriesen_S2TextBasedRPG
             {
                 case Pickup.pickupType.item:
                     {
-                        if(pickup.item != null)
+                        if (pickup.item != null)
                         {
                             inventory.Add(pickup.item);
                             try
@@ -164,7 +231,7 @@ namespace mFriesen_S2TextBasedRPG
                             }
                             catch (Exception ignored) { }
                         }
-                        else { Log.Write("Pickup item was null! This is wrong!", logType.error);}
+                        else { Log.Write("Pickup item was null! This is wrong!", logType.error); }
                         break;
                     }
                 case Pickup.pickupType.restoration:
@@ -220,12 +287,6 @@ namespace mFriesen_S2TextBasedRPG
         // This should be used to set the default values of the item, such as a few nulls, and its default tile.
         private void SetDefaultValues()
         {
-            // set nulls
-            inventory = null;
-            statManager = null;
-            armorInventoryIndex = null;
-            weaponInventoryIndex = null;
-
             // set tile
             displayTile = new Tile();
             displayTile.displayChar = '+';
@@ -238,7 +299,6 @@ namespace mFriesen_S2TextBasedRPG
         public override Entity DeepClone()
         {
             Pickup e = (Pickup)MemberwiseClone();
-            e.statManager = statManager.ShallowClone();
             e.position = position.Clone();
             e.displayTile = displayTile.Clone();
             e.item = item;

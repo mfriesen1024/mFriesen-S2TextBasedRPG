@@ -38,7 +38,8 @@ namespace mFriesen_S2TextBasedRPG
             areas = new List<Area>();
             Area demoArea = new Area("demoArea");
             Foe[] demoEncounter = { (Foe)foes[0].DeepClone(), (Foe)foes[0].DeepClone(), (Foe)foes[0].DeepClone() };
-            { demoEncounter[0].position = new Vector2(2, 8); demoEncounter[1].position = new Vector2(6, 2); demoEncounter[2].position = new Vector2(4, 5); }
+            { demoEncounter[0].position = new Vector2(2, 6); demoEncounter[1].position = new Vector2(6, 2); demoEncounter[2].position = new Vector2(4, 5); }
+            demoEncounter[0].movement = Foe.movementType.linear; demoEncounter[0].start = new Vector2(2, 6); demoEncounter[0].end = new Vector2(1, 1);
             Log.Write("test string", logType.debug);
             pickups[0].position = new Vector2(3, 6);
             pickups[1].position = new Vector2(7, 4);
