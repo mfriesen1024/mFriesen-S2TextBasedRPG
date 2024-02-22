@@ -20,8 +20,8 @@ namespace mFriesen_S2TextBasedRPG
             GenerateAreas();
 
             // Generate the player.
-            player = new Player();
-            player.position = new Vector2(8, 15);
+            player = new Player(20);
+            player.position = new Vector2(6, 20);
             player.inventory.Add(weapons[0]); // give the player a stick.
         }
 
@@ -46,6 +46,7 @@ namespace mFriesen_S2TextBasedRPG
                 demoEncounter[1].position = new Vector2(9, 18);
                 demoEncounter[2].position = new Vector2(6, 12);
                 demoEncounter[3].position = new Vector2(6, 6);
+                demoEncounter[3].movement = Foe.movementType.stationary; // make the dragon not move.
             }
             demoEncounter[0].movement = Foe.movementType.linear; demoEncounter[0].start = new Vector2(2, 6); demoEncounter[0].end = new Vector2(1, 1);
             Log.Write("test string", logType.debug);
@@ -64,21 +65,22 @@ namespace mFriesen_S2TextBasedRPG
 
             // Define some weapons.
             weapons.Add(new WeaponItem());
-            weapons.Add(new WeaponItem(3));
             weapons.Add(new WeaponItem(6));
+            weapons.Add(new WeaponItem(12));
 
             // Define some armor.
             armorItems.Add(new ArmorItem());
-            armorItems.Add(new ArmorItem(3));
-            armorItems.Add(new ArmorItem(6));
+            armorItems.Add(new ArmorItem(4));
+            armorItems.Add(new ArmorItem(8));
         }
 
         static void GeneratePickups()
         {
             pickups = new List<Pickup>();
-            pickups.Add(new Pickup(new Vector2(0, 0), Pickup.restorationType.hp, 30));
-            pickups.Add(new Pickup(new Vector2(0, 0), Pickup.restorationType.ap, 15));
-            pickups.Add(new Pickup(new Vector2(0, 0), weapons[1]));
+            pickups.Add(new Pickup(new Vector2(9, 8), Pickup.restorationType.hp, 30));
+            pickups.Add(new Pickup(new Vector2(7, 16), Pickup.restorationType.ap, 15));
+            pickups.Add(new Pickup(new Vector2(1, 1), weapons[2]));
+            pickups.Add(new Pickup(new Vector2(3, 5), armorItems[1]));
         }
     }
 }
