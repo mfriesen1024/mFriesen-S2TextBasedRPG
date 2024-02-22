@@ -27,9 +27,9 @@ namespace mFriesen_S2TextBasedRPG
         {
             healthStatus result;
             int ehp = hp + ap;
-            if (ehp > maxhp) { result = healthStatus.Healthy; }
-            else if (ehp > (int)(maxhp * 0.5f)) { result = healthStatus.Injured; }
-            else if (ehp > (int)(maxhp * 0.1f)) { result = healthStatus.Bloodied; }
+            if (ehp >= maxhp) { result = healthStatus.Healthy; }
+            else if (ehp >= (int)(maxhp * 0.5f)) { result = healthStatus.Injured; }
+            else if (ehp >= (int)(maxhp * 0.1f)) { result = healthStatus.Bloodied; }
             else if (ehp > 0) { result = healthStatus.Critical; }
             else { result = healthStatus.Dead; }
 
