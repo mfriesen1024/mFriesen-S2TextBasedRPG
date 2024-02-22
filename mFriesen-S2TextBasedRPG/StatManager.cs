@@ -29,7 +29,7 @@ namespace mFriesen_S2TextBasedRPG
         int ap;
         int dr;
         int str;
-        int maxHP;
+        public int maxHP { get; private set; }
 
         public bool isDying = false;
 
@@ -62,8 +62,8 @@ namespace mFriesen_S2TextBasedRPG
             {
                 case statname.hp: Return = hp; break;
                 case statname.ap: Return = ap; break;
-                case statname.dr: Return = dr; break;
-                case statname.str: Return = str; break;
+                case statname.dr: if (owner.armor != null) { return dr + owner.armor.dr; } else { return dr; } break;
+                case statname.str: if (owner.weapon != null) { return str + owner.weapon.str; } else { return str; } break;
             }
             return Return;
         }
@@ -119,9 +119,9 @@ namespace mFriesen_S2TextBasedRPG
         public int GetDamage()
         {
             int damage = 1; // base damage value. hard code it because damage should never be 0.
-            if (owner.weaponInventoryIndex != null)
+            if (owner.weapon != null)
             {
-                damage += ((WeaponItem)owner.inventory[(int)owner.weaponInventoryIndex]).str;
+                damage += owner.weapon.str;
             }
             damage += str;
 

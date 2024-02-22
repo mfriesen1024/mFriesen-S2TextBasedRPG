@@ -150,6 +150,9 @@ namespace mFriesen_S2TextBasedRPG
 
             // Write border
             Console.ForegroundColor = ConsoleColor.White; Console.BackgroundColor = ConsoleColor.Black; Console.WriteLine(end);
+        
+            // Hud update should be called upon rendering map, so do that now.
+            HUD.Update();
         }
 
         /*

@@ -32,18 +32,19 @@ namespace mFriesen_S2TextBasedRPG
     {
         public List<Item> inventory = new List<Item>();
         public StatManager statManager;
-        public int? armorInventoryIndex;
-        public int? weaponInventoryIndex;
+        public ArmorItem armor;
+        public WeaponItem weapon;
         public StatusEffect? attackEffect;
         public StatusEffect? currentEffect;
         public bool immobilized = false;
+        public string name;
 
         public int GetArmorDR() // This should be called by the statmanager somehow.
         {
             int dr = 0; // base dr value. Hard code because it is again, a global standard value. Everything has 0 base defense.
-            if (armorInventoryIndex != null)
+            if (armor != null)
             {
-                dr += ((ArmorItem)inventory[(int)armorInventoryIndex]).dr;
+                dr += armor.dr;
             }
             return dr;
         }
@@ -58,6 +59,7 @@ namespace mFriesen_S2TextBasedRPG
         {
             Mob m = (Mob)MemberwiseClone();
             m.statManager = statManager.ShallowClone();
+            m.name = name;
             m.position = position.Clone();
             m.displayTile = displayTile.Clone();
             if (attackEffect != null) { m.attackEffect = ((StatusEffect)attackEffect).Clone(); }
@@ -181,6 +183,8 @@ namespace mFriesen_S2TextBasedRPG
         {
             statManager = new StatManager(hp, ap, dr, str, this);
 
+            name = "player";
+
             // set display char
             displayTile.fg = System.ConsoleColor.Blue; displayTile.bg = System.ConsoleColor.DarkBlue;
             displayTile.displayChar = '@';
@@ -221,13 +225,13 @@ namespace mFriesen_S2TextBasedRPG
                             try
                             {
                                 ArmorItem a = (ArmorItem)pickup.item;
-                                armorInventoryIndex = inventory.Count - 1;
+                                armor = (ArmorItem)pickup.item;
                             }
                             catch (Exception ignored) { }
                             try
                             {
                                 WeaponItem w = (WeaponItem)pickup.item;
-                                weaponInventoryIndex = inventory.Count - 1;
+                                weapon = (WeaponItem)pickup.item;
                             }
                             catch (Exception ignored) { }
                         }
