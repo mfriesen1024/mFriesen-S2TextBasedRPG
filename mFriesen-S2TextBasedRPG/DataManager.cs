@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace mFriesen_S2TextBasedRPG
 {
     internal class DataManager
     {
+        static string indexAdd = "\\index.txt";
         static string[] dirs;
 
         // Data goes here.
@@ -21,7 +18,7 @@ namespace mFriesen_S2TextBasedRPG
             foreach (string d in directories)
             {
                 Directory.CreateDirectory(d);
-                string index = d + "\\index.txt";
+                string index = d + indexAdd;
                 if (!File.Exists(index)) { File.Create(index).Close(); }
             }
         }
@@ -31,9 +28,22 @@ namespace mFriesen_S2TextBasedRPG
 
         }
 
-        void LoadEffects()
+        void LoadEffects(string extension)
         {
-            string
+            string[] fileNames = File.ReadAllLines(dirs[0] + indexAdd);
+            statusEffects = new List<StatusEffect>();
+
+            foreach (string file in fileNames)
+            {
+                string[] data = File.ReadAllLines(file + "." + extension);
+
+                statusEffects.Add(new StatusEffect(
+                    type: (effectType)int.Parse(data[0]),
+                    name: data[1],
+                    timer: int.Parse(data[2]),
+                    value: int.Parse(data[3])
+                    ));
+            }
         }
     }
 }
