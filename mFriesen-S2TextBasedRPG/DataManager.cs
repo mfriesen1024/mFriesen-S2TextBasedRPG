@@ -114,13 +114,22 @@ namespace mFriesen_S2TextBasedRPG
             {
                 try
                 {
+                    // Get data
                     string[] data = File.ReadAllLines(dir + "\\" + fileNames[fileIndex] + "." + extension);
+
+                    // Make tile
+                    object[] tileData = { data[5][0], Map.TryHexParse(data[5][1]), Map.TryHexParse(data[5][2]), 0 };
+                    Tile tile = new Tile { displayChar = (char)tileData[0], fg = (ConsoleColor)tileData[1], bg = (ConsoleColor)tileData[2], hazard = (Hazard)tileData[3] };
+
+                    // Create foe.
                     Foe foe = new Foe(int.Parse(data[1]), int.Parse(data[2]), int.Parse(data[3]), int.Parse(data[4]))
                     {
                         name = data[0],
-                        attackEffect = statusEffects[int.Parse(data[5])],
-                        weapon = (WeaponItem)items[int.Parse(data[6])],
-                        armor = (ArmorItem)items[int.Parse(data[7])]
+                        displayTile = tile,
+                        movement = (Foe.movementType)int.Parse(data[6]),
+                        attackEffect = statusEffects[int.Parse(data[7])],
+                        weapon = (WeaponItem)items[int.Parse(data[8])],
+                        armor = (ArmorItem)items[int.Parse(data[9])]
                     };
                     foes.Add(foe);
                     count++;
