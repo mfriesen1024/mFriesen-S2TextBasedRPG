@@ -15,7 +15,7 @@ namespace mFriesen_S2TextBasedRPG
         static void Main(string[] args)
         {
             Log.SetName("LogMain");
-            Log.debug = false;
+            Log.debug = true;
 
             // Data loading
             if (File.Exists(dirInfoName)) { directories = File.ReadAllLines(dirInfoName); } else { try { File.Create(dirInfoName).Close(); } catch (Exception ignored) { } }

@@ -69,7 +69,7 @@ namespace mFriesen_S2TextBasedRPG
 
                         if(f > 0) // if fileIndex is greater than characterfile, try convert from hex to int.
                         {
-                            TryHexParse(c);
+                            i = TryHexParse(c);
                         }
 
                         switch (f) // Switch based on the current fName.
@@ -197,6 +197,7 @@ namespace mFriesen_S2TextBasedRPG
                     case 'f': i = 15; break;
                 }
             }
+            Log.Write($"Hex parse was requested. Got {i}. Char was {c}, string was {s}.", logType.debug);
             return i;
         }
     }
