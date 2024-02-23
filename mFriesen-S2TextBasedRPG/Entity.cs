@@ -105,6 +105,9 @@ namespace mFriesen_S2TextBasedRPG
             // set display char
             displayTile.fg = System.ConsoleColor.Red; displayTile.bg = System.ConsoleColor.DarkRed;
             displayTile.displayChar = 'E';
+
+            start = position.Clone();
+            end = new Vector2(position.x + 5, position.y);
         }
 
         public override Vector2 GetAction()
