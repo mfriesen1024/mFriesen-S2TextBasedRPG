@@ -19,13 +19,13 @@ namespace mFriesen_S2TextBasedRPG
             GenerateFoes();
             GenerateItems();
             GeneratePickups();
+            OverrideTempItems();
             GenerateAreas();
 
             // Generate the player.
             //player = new Player(20);
 
             // Inject the new data here.
-            OverrideTempItems();
 
             player.position = new Vector2(6, 20);
             //player.inventory.Add(weapons[0]); // give the player a stick.

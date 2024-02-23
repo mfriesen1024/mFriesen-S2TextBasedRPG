@@ -134,7 +134,7 @@ namespace mFriesen_S2TextBasedRPG
                     Tile tile = new Tile { displayChar = (char)tileData[0], fg = (ConsoleColor)tileData[1], bg = (ConsoleColor)tileData[2], hazard = (Hazard)tileData[3] };
 
                     // Create foe.
-                    Foe foe = new Foe(int.Parse(data[1]), int.Parse(data[2]), int.Parse(data[3]), int.Parse(data[4]))
+                    Foe foe = new Foe(int.Parse(data[1]), int.Parse(data[2]), int.Parse(data[3]), int.Parse(data[4]), false)
                     {
                         name = data[0],
                         displayTile = tile,

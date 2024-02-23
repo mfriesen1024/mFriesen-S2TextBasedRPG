@@ -98,13 +98,16 @@ namespace mFriesen_S2TextBasedRPG
         public int moveSpeed = 1;
         bool isReturning;
 
-        public Foe(int hp = 10, int ap = 0, int dr = 0, int str = 1)
+        public Foe(int hp = 10, int ap = 0, int dr = 0, int str = 1, bool useDefaultTile = true)
         {
             statManager = new StatManager(hp, ap, dr, str, this);
 
             // set display char
-            displayTile.fg = System.ConsoleColor.Red; displayTile.bg = System.ConsoleColor.DarkRed;
-            displayTile.displayChar = 'E';
+            if (useDefaultTile)
+            {
+                displayTile.fg = System.ConsoleColor.Red; displayTile.bg = System.ConsoleColor.DarkRed;
+                displayTile.displayChar = 'E';
+            }
 
             start = position.Clone();
             end = new Vector2(position.x + 5, position.y);
