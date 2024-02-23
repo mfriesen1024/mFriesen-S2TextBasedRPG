@@ -69,17 +69,7 @@ namespace mFriesen_S2TextBasedRPG
 
                         if(f > 0) // if fileIndex is greater than characterfile, try convert from hex to int.
                         {
-                            try { i = int.Parse(s); } catch (Exception ignored) {
-                                switch (c)
-                                {
-                                    case 'a': i = 10; break;
-                                    case 'b': i = 11; break;
-                                    case 'c': i = 12; break;
-                                    case 'd': i = 13; break;
-                                    case 'e': i = 14; break;
-                                    case 'f': i = 15; break;
-                                }
-                            }
+                            TryHexParse(c);
                         }
 
                         switch (f) // Switch based on the current fName.
@@ -188,6 +178,26 @@ namespace mFriesen_S2TextBasedRPG
                 }
             }
             return localTiles;
+        }
+
+        public static int TryHexParse(char c)
+        {
+            string s = c.ToString();
+            int i;
+            try { i = int.Parse(s); }
+            catch (Exception ignored)
+            {
+                switch (c)
+                {
+                    case 'a': i = 10; break;
+                    case 'b': i = 11; break;
+                    case 'c': i = 12; break;
+                    case 'd': i = 13; break;
+                    case 'e': i = 14; break;
+                    case 'f': i = 15; break;
+                }
+            }
+            return i;
         }
     }
 }
