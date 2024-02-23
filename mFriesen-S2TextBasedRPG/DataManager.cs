@@ -90,7 +90,7 @@ namespace mFriesen_S2TextBasedRPG
                 }
                 catch (Exception e) { Log.Write("Failed to load an item: " + e.Message, logType.error); Log.Write(e.StackTrace, logType.debug); }
             }
-            Log.Write($"Loaded {items.Count} effects.");
+            Log.Write($"Loaded {items.Count} items.");
         }
 
 
