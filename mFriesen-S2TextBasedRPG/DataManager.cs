@@ -29,10 +29,10 @@ namespace mFriesen_S2TextBasedRPG
 
         public static void Load()
         {
-
+            LoadEffects();
         }
 
-        void LoadEffects(string extension)
+        static void LoadEffects(string extension = "txt")
         {
             string dir = dirs[1];
             string[] fileNames = File.ReadAllLines(dir + indexAdd);
@@ -42,7 +42,9 @@ namespace mFriesen_S2TextBasedRPG
             {
                 try
                 {
-                    string[] data = File.ReadAllLines(dir + "\\" + file + "." + extension);
+                    string fileName = dir + "\\" + file + "." + extension;
+                    if (!File.Exists(fileName)) { File.Create(fileName); throw new FileNotFoundException($"{fileName} was not found, so it was created."); }
+                    string[] data = File.ReadAllLines(fileName);
 
                     statusEffects.Add(new StatusEffect(
                         type: (effectType)int.Parse(data[0]),
@@ -58,7 +60,7 @@ namespace mFriesen_S2TextBasedRPG
 
         enum itemType { armor, weapon }
 
-        void LoadItems(string extension)
+        static void LoadItems(string extension = "txt")
         {
             string dir = dirs[2];
             string[] fileNames = File.ReadAllLines(dir + indexAdd);
@@ -68,7 +70,9 @@ namespace mFriesen_S2TextBasedRPG
             {
                 try
                 {
-                    string[] data = File.ReadAllLines(dir + "\\" + file + "." + extension);
+                    string fileName = dir + "\\" + file + "." + extension;
+                    if (!File.Exists(fileName)) { File.Create(fileName); throw new FileNotFoundException($"{fileName} was not found, so it was created."); }
+                    string[] data = File.ReadAllLines(fileName);
 
                     if (data[0] != "")
                     {
@@ -88,7 +92,7 @@ namespace mFriesen_S2TextBasedRPG
 
 
         // Load entities from files. Format will be documented via github wiki, if I ever make one.
-        void LoadEntities(string extension)
+        static void LoadEntities(string extension = "txt")
         {
             string dir = dirs[3];
             string[] fileNames = File.ReadAllLines(dir + indexAdd);
@@ -98,13 +102,16 @@ namespace mFriesen_S2TextBasedRPG
             // Load player separately
             try
             {
-            string[] playerData = File.ReadAllLines(dir + "\\" + fileNames[0] + "." + extension);
-            player = new Player(int.Parse(playerData[0]), int.Parse(playerData[1]), int.Parse(playerData[2]), int.Parse(playerData[3]))
-            {
-                attackEffect = statusEffects[int.Parse(playerData[4])],
-                weapon = (WeaponItem)items[int.Parse(playerData[5])],
-                armor = (ArmorItem)items[int.Parse(playerData[6])]
-            };
+                string fileName = dir + "\\" + fileNames[0] + "." + extension;
+                if (!File.Exists(fileName)) { File.Create(fileName); throw new FileNotFoundException($"{fileName} was not found, so it was created."); }
+                string[] playerData = File.ReadAllLines(fileName);
+
+                player = new Player(int.Parse(playerData[0]), int.Parse(playerData[1]), int.Parse(playerData[2]), int.Parse(playerData[3]))
+                {
+                    attackEffect = statusEffects[int.Parse(playerData[4])],
+                    weapon = (WeaponItem)items[int.Parse(playerData[5])],
+                    armor = (ArmorItem)items[int.Parse(playerData[6])]
+                };
                 count++;
             }
             catch (Exception e) { Log.Write("Failed to load an effect: " + e.Message, logType.error); Log.Write(e.StackTrace, logType.debug); }
@@ -115,7 +122,9 @@ namespace mFriesen_S2TextBasedRPG
                 try
                 {
                     // Get data
-                    string[] data = File.ReadAllLines(dir + "\\" + fileNames[fileIndex] + "." + extension);
+                    string fileName = dir + "\\" + fileNames[fileIndex] + "." + extension;
+                    if (!File.Exists(fileName)) { File.Create(fileName); throw new FileNotFoundException($"{fileName} was not found, so it was created."); }
+                    string[] data = File.ReadAllLines(fileName);
 
                     // Make tile
                     object[] tileData = { data[5][0], Map.TryHexParse(data[5][1]), Map.TryHexParse(data[5][2]), 0 };
