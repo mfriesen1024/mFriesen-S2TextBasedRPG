@@ -78,7 +78,7 @@ namespace mFriesen_S2TextBasedRPG
                 int value = effect.Tick();
                 switch (effect.type)
                 {
-                    case effectType.damageOverTime: statManager.TakeDamage(value); break;
+                    case effectType.damageOverTime: try { statManager.TakeDamage(value); } catch (Exception ignored) { } break;
                     case effectType.immobilized: immobilized = true; break;
                     default: throw new NotImplementedException("Effect type did not account for Mob.TickEffect");
                 }
