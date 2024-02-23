@@ -25,11 +25,14 @@ namespace mFriesen_S2TextBasedRPG
                 string index = d + indexAdd;
                 if (!File.Exists(index)) { File.Create(index).Close(); }
             }
+            Load();
         }
 
         public static void Load()
         {
             LoadEffects();
+            LoadItems();
+            LoadEntities();
         }
 
         static void LoadEffects(string extension = "txt")
