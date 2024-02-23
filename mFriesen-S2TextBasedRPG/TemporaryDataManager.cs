@@ -22,9 +22,19 @@ namespace mFriesen_S2TextBasedRPG
             GenerateAreas();
 
             // Generate the player.
-            player = new Player(20);
+            //player = new Player(20);
+
+            // Inject the new data here.
+            OverrideTempItems();
+
             player.position = new Vector2(6, 20);
-            player.inventory.Add(weapons[0]); // give the player a stick.
+            //player.inventory.Add(weapons[0]); // give the player a stick.
+        }
+
+        static void OverrideTempItems() // This will be used as a temporary method to transition between temporary loading and our new loader.
+        {
+            foes = DataManager.foes;
+            player = DataManager.player;
         }
 
         static void GenerateFoes()
