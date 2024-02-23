@@ -117,7 +117,7 @@ namespace mFriesen_S2TextBasedRPG
                 };
                 count++;
             }
-            catch (Exception e) { Log.Write("Failed to load an effect: " + e.Message, logType.error); Log.Write(e.StackTrace, logType.debug); }
+            catch (Exception e) { Log.Write("Failed to load the player: " + e.Message, logType.error); Log.Write(e.StackTrace, logType.debug); }
 
             // Now load foes
             for (int fileIndex = 1; fileIndex < fileNames.Length; fileIndex++)
