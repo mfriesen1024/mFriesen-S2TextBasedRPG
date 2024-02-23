@@ -78,7 +78,7 @@ namespace mFriesen_S2TextBasedRPG
                 int value = effect.Tick();
                 switch (effect.type)
                 {
-                    case effectType.damageOverTime: statManager.TakeDamage(value); break;
+                    case effectType.damageOverTime: try { statManager.TakeDamage(value); } catch (Exception ignored) { } break;
                     case effectType.immobilized: immobilized = true; break;
                     default: throw new NotImplementedException("Effect type did not account for Mob.TickEffect");
                 }
@@ -98,13 +98,19 @@ namespace mFriesen_S2TextBasedRPG
         public int moveSpeed = 1;
         bool isReturning;
 
-        public Foe(int hp = 10, int ap = 0, int dr = 0, int str = 1)
+        public Foe(int hp = 10, int ap = 0, int dr = 0, int str = 1, bool useDefaultTile = true)
         {
             statManager = new StatManager(hp, ap, dr, str, this);
 
             // set display char
-            displayTile.fg = System.ConsoleColor.Red; displayTile.bg = System.ConsoleColor.DarkRed;
-            displayTile.displayChar = 'E';
+            if (useDefaultTile)
+            {
+                displayTile.fg = System.ConsoleColor.Red; displayTile.bg = System.ConsoleColor.DarkRed;
+                displayTile.displayChar = 'E';
+            }
+
+            start = position.Clone();
+            end = new Vector2(position.x + 5, position.y);
         }
 
         public override Vector2 GetAction()

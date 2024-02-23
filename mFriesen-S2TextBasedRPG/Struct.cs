@@ -66,7 +66,7 @@ namespace mFriesen_S2TextBasedRPG
         public effectType type { get; private set; }
         public string name { get; private set; }
         public int timer { get; private set; }
-        int value;
+        public int value { get; private set; }
 
         public StatusEffect(effectType type, string name, int timer, int value)
         {

@@ -14,7 +14,7 @@ namespace mFriesen_S2TextBasedRPG
     static class HUD
     {
         public static Player player; static healthStatus playerStatus;
-        static int playerHP, playerMaxHP, playerAP, playerDR, playerSTR;
+        static int playerHP, playerMaxHP, playerAP, playerDR, playerSTR; static string playerEffectText;
         public static Foe recentFoe; static healthStatus foeStatus;
         static int foeSTR; static string foeName;
         static bool foeCheck;
@@ -58,6 +58,9 @@ namespace mFriesen_S2TextBasedRPG
                 foeSTR = foeSM.GetStat(statname.str);
                 foeStatus = GetHealthStatus(foeSM.GetStat(statname.hp), foeSM.maxHP, foeSM.GetStat(statname.ap));
             }
+
+            if (player.currentEffect  != null) { playerEffectText = ((StatusEffect)player.currentEffect).name; }
+            else { playerEffectText = "No Effect"; }
         }
 
         public static void Update(bool print = true)
@@ -67,7 +70,7 @@ namespace mFriesen_S2TextBasedRPG
 
             string playerStats = $"Player: Health == {playerHP}/{playerMaxHP} Absorption == {playerAP} Strength == {playerSTR} " +
                 $"Damage Reduction == {playerDR} Effective Health == {playerHP + playerAP + playerDR}\n" +
-                $"The player is {playerStatus}";
+                $"The player is {playerStatus}. The player has effect {playerEffectText}";
 
             string recentFoeStats = "No recent foe.";
 
