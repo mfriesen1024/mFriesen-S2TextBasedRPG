@@ -60,6 +60,7 @@ namespace mFriesen_S2TextBasedRPG
             }
 
             if (player.currentEffect  != null) { playerEffectText = ((StatusEffect)player.currentEffect).name; }
+            else { playerEffectText = "No Effect"; }
         }
 
         public static void Update(bool print = true)
