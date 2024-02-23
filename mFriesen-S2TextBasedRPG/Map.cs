@@ -183,7 +183,7 @@ namespace mFriesen_S2TextBasedRPG
         public static int TryHexParse(char c)
         {
             string s = c.ToString();
-            int i;
+            int i = 0;
             try { i = int.Parse(s); }
             catch (Exception ignored)
             {
