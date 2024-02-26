@@ -12,15 +12,21 @@ namespace mFriesen_S2TextBasedRPG
         damageOverTime,
         immobilized
     }
+    enum triggerType
+    {
+        warp,
+        win
+    }
 
     struct Trigger
     {
         public Vector2 topCorner;
         public Vector2 bottomCorner;
+        public triggerType type;
 
         public Trigger Clone()
         {
-            Trigger t = new Trigger();
+            Trigger t = (Trigger)MemberwiseClone();
             t.topCorner = topCorner.Clone();
             t.bottomCorner = bottomCorner.Clone();
             return t;
