@@ -20,9 +20,10 @@ namespace mFriesen_S2TextBasedRPG
 
     struct Trigger
     {
-        public Vector2 topCorner;
-        public Vector2 bottomCorner;
+        public Vector2 topCorner; // Should be the lower set of values
+        public Vector2 bottomCorner; // Should be the higher set of values
         public triggerType type;
+        public int nextArea {  get; private set; }
 
         public Trigger Clone()
         {
@@ -30,6 +31,28 @@ namespace mFriesen_S2TextBasedRPG
             t.topCorner = topCorner.Clone();
             t.bottomCorner = bottomCorner.Clone();
             return t;
+        }
+
+        // This checks if the given mob is in the triggerzone defined by the bounds topCorner, bottomCorner
+        // Normally, this should be the player, but we take into account the possibility that it won't be.
+        public void CheckTrigger(Mob mob) 
+        {
+            bool xCheck = mob.position.x >= topCorner.x && mob.position.x <= bottomCorner.x;
+            bool yCheck = mob.position.y >= topCorner.y && mob.position.y <= bottomCorner.y;
+
+            if(xCheck && yCheck)
+            {
+                OnTriggerActivate();
+            }
+        }
+
+        void OnTriggerActivate()
+        {
+            switch (type)
+            {
+                case triggerType.warp: GameManager.LoadArea(nextArea); break;
+                case triggerType.win: GameManager.win = true; GameManager.run = false; break;
+            }
         }
     }
 
