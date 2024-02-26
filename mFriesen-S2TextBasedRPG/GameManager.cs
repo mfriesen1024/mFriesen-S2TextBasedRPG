@@ -32,6 +32,9 @@ namespace mFriesen_S2TextBasedRPG
         static string[] storedDialogue; // store dialogue (load from file)
         static string[] currentDialogue; // store the current dialogue passage to read
 
+        static string tempWinText = "You won.";
+        static string tempLoseText = "You died.";
+
         public static void LoadAreas()
         {
             if (File.Exists(areasFName))
@@ -66,6 +69,10 @@ namespace mFriesen_S2TextBasedRPG
         static void Run()
         {
             while (run) { Update(); }
+
+            Console.Clear();
+            if (win) { Console.WriteLine(tempWinText); }
+            else { Console.WriteLine(tempLoseText); }
         }
 
         public static void Update()

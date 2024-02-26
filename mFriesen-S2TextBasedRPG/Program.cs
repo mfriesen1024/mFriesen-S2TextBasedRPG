@@ -9,9 +9,6 @@ namespace mFriesen_S2TextBasedRPG
         static string dirInfoName = "data\\dirinfo.txt";
         static string[] directories = { "data\\maps", "data\\areas", "data\\encounters", "data\\foes", "data\\items" };
 
-        static string tempWinText = "You won.";
-        static string tempLoseText = "You died.";
-
         static void Main(string[] args)
         {
             Log.SetName("LogMain");
