@@ -15,6 +15,7 @@ namespace mFriesen_S2TextBasedRPG
         public static List<Item> items;
         public static Player player;
         public static List<Foe> foes;
+        public static List<Area> areas;
 
         public static void Startup(string[] directories)
         {
@@ -171,11 +172,31 @@ namespace mFriesen_S2TextBasedRPG
 
                     triggers.Add(new Trigger(tc, bc, (triggerType)int.Parse(data[4]), int.Parse(data[5])));
                 }
-                catch (Exception e) { Log.Write(e.Message, logType.error); Log.Write(e.StackTrace, logType.debug); }
+                catch (Exception e) { Log.Write($"Failed to load a trigger: {e.Message}", logType.error); Log.Write(e.StackTrace, logType.debug); }
             }
             Log.Write($"Loaded {triggers.Count} triggers.");
 
             return triggers.ToArray();
+        }
+
+        static void LoadAreas(string extension = "txt")
+        {
+            string dir = dirs[4];
+            string[] fileNames = File.ReadAllLines(dir + indexAdd);
+            areas = new List<Area>();
+
+            foreach (string name in fileNames)
+            {
+                try
+                {
+                    string fileName = name + "." + extension;
+                    if (!File.Exists(fileName)) { File.Create(fileName); throw new FileNotFoundException($"{fileName} was not found, so it was created."); }
+                    string[] data = File.ReadAllLines(fileName);
+
+                    Area area = new Area(name);
+                }
+                catch (Exception e) { Log.Write($"Failed to load an area: {e.Message}", logType.error); Log.Write(e.StackTrace, logType.debug); }
+            }
         }
     }
 }
