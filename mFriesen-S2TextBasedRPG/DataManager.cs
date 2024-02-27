@@ -155,7 +155,8 @@ namespace mFriesen_S2TextBasedRPG
         // Load triggers from files.
         static Trigger[] LoadTriggers(string location, string extension = "txt")
         {
-            string[] fileNames = File.ReadAllLines(location);
+            if (!Directory.Exists(location)) { Directory.CreateDirectory(location); File.Create(location + indexAdd).Close(); throw new DirectoryNotFoundException($"{location} was not found, so it was created."); }
+            string[] fileNames = File.ReadAllLines(location + indexAdd);
             List<Trigger> triggers = new List<Trigger>();
 
 
@@ -163,7 +164,7 @@ namespace mFriesen_S2TextBasedRPG
             {
                 try
                 {
-                    string fileName = location + "\\triggers" + file + "." + extension;
+                    string fileName = location + "triggers\\" + file + "." + extension;
                     if (!File.Exists(fileName)) { File.Create(fileName); throw new FileNotFoundException($"{fileName} was not found, so it was created."); }
                     string[] data = File.ReadAllLines(fileName);
 
@@ -189,9 +190,12 @@ namespace mFriesen_S2TextBasedRPG
             {
                 try
                 {
-                    string fileName = name + "." + extension;
+                    string fileName = dir + "\\" + name + "." + extension;
                     if (!File.Exists(fileName)) { File.Create(fileName); throw new FileNotFoundException($"{fileName} was not found, so it was created."); }
                     string[] data = File.ReadAllLines(fileName);
+
+                    string triggerLoc = dir + "\\" + name + "triggers";
+                    Trigger[] triggers = LoadTriggers(triggerLoc);
 
                     Area area = new Area(name);
                 }
