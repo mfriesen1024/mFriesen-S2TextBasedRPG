@@ -150,5 +150,32 @@ namespace mFriesen_S2TextBasedRPG
             }
             Log.Write($"Loaded {count} entities.");
         }
+
+        // Load triggers from files.
+        static Trigger[] LoadTriggers(string location, string extension = "txt")
+        {
+            string[] fileNames = File.ReadAllLines(location);
+            List<Trigger> triggers = new List<Trigger>();
+
+
+            foreach (string file in fileNames)
+            {
+                try
+                {
+                    string fileName = location + "\\triggers" + file + "." + extension;
+                    if (!File.Exists(fileName)) { File.Create(fileName); throw new FileNotFoundException($"{fileName} was not found, so it was created."); }
+                    string[] data = File.ReadAllLines(fileName);
+
+                    Vector2 tc = new Vector2(int.Parse(data[0]), int.Parse(data[1]));
+                    Vector2 bc = new Vector2(int.Parse(data[2]), int.Parse(data[3]));
+
+                    triggers.Add(new Trigger(tc, bc, (triggerType)int.Parse(data[4]), int.Parse(data[5])));
+                }
+                catch (Exception e) { Log.Write(e.Message, logType.error); Log.Write(e.StackTrace, logType.debug); }
+            }
+            Log.Write($"Loaded {triggers.Count} triggers.");
+
+            return triggers.ToArray();
+        }
     }
 }

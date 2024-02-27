@@ -25,6 +25,14 @@ namespace mFriesen_S2TextBasedRPG
         public triggerType type;
         public int nextArea {  get; private set; }
 
+        public Trigger(Vector2 tc, Vector2 bc, triggerType t, int area)
+        {
+            topCorner = tc;
+            bottomCorner = bc;
+            type = t;
+            nextArea = area;
+        }
+
         public Trigger Clone()
         {
             Trigger t = (Trigger)MemberwiseClone();
