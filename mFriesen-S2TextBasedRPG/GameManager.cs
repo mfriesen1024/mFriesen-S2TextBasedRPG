@@ -143,13 +143,11 @@ namespace mFriesen_S2TextBasedRPG
             currentMap = currentArea.map;
         }
 
-        static void LoadData()
+        static void LoadData() // This system is currently spaghettified. Refactoring should be done soon:tm:.
         {
-            // eventually, this should be replaced with proper data loading, but for now, just load temporary things.
-            TemporaryDataManager.GenerateThings();
-            foeTemplates = TemporaryDataManager.foes.ToArray();
-            areas = TemporaryDataManager.areas.ToArray();
-            player = TemporaryDataManager.player;
+            foeTemplates = DataManager.foes.ToArray();
+            areas = DataManager.areas.ToArray();
+            player = DataManager.player;
             HUD.player = player;
         }
 
