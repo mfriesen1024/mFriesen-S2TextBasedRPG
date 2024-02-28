@@ -34,7 +34,7 @@ namespace mFriesen_S2TextBasedRPG
             LoadEffects();
             LoadItems();
             LoadEntities();
-            LoadPickups();
+            LoadAreas();
         }
 
         static void LoadEffects(string extension = "txt")
@@ -237,9 +237,14 @@ namespace mFriesen_S2TextBasedRPG
                     Pickup[] pickups = LoadPickups(pickupsLoc);
 
                     Area area = new Area(name);
+                    area.pickups = pickups;
+                    area.SetTriggers(triggers);
+
+                    areas.Add(area);
                 }
                 catch (Exception e) { Log.Write($"Failed to load an area: {e.Message}", logType.error); Log.Write(e.StackTrace, logType.debug); }
             }
+            Log.Write($"Loaded {areas.Count} areas");
         }
     }
 }
