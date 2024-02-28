@@ -8,7 +8,8 @@ namespace mFriesen_S2TextBasedRPG
     internal class DataManager
     {
         static string indexAdd = "\\index.txt";
-        static string[] dirs;
+        static string dirInfoName = "data\\dirinfo.txt";
+        static string[] directories;
 
         // Data goes here.
         public static List<StatusEffect> statusEffects;
@@ -17,9 +18,10 @@ namespace mFriesen_S2TextBasedRPG
         public static List<Foe> foes;
         public static List<Area> areas;
 
-        public static void Startup(string[] directories)
+        public static void Init()
         {
-            dirs = directories;
+            LoadDirs();
+
             foreach (string d in directories)
             {
                 Directory.CreateDirectory(d);
@@ -39,7 +41,7 @@ namespace mFriesen_S2TextBasedRPG
 
         static void LoadEffects(string extension = "txt")
         {
-            string dir = dirs[1];
+            string dir = directories[1];
             string[] fileNames = File.ReadAllLines(dir + indexAdd);
             statusEffects = new List<StatusEffect>();
 
@@ -67,7 +69,7 @@ namespace mFriesen_S2TextBasedRPG
 
         static void LoadItems(string extension = "txt")
         {
-            string dir = dirs[2];
+            string dir = directories[2];
             string[] fileNames = File.ReadAllLines(dir + indexAdd);
             items = new List<Item>();
 
@@ -99,7 +101,7 @@ namespace mFriesen_S2TextBasedRPG
         // Load entities from files. Format will be documented via github wiki, if I ever make one.
         static void LoadEntities(string extension = "txt")
         {
-            string dir = dirs[3];
+            string dir = directories[3];
             string[] fileNames = File.ReadAllLines(dir + indexAdd);
             foes = new List<Foe>();
             int count = 0;
@@ -219,7 +221,7 @@ namespace mFriesen_S2TextBasedRPG
 
         static void LoadAreas(string extension = "txt")
         {
-            string dir = dirs[4];
+            string dir = directories[4];
             string[] fileNames = File.ReadAllLines(dir + indexAdd);
             areas = new List<Area>();
 
@@ -263,6 +265,27 @@ namespace mFriesen_S2TextBasedRPG
                 catch (Exception e) { Log.Write($"Failed to load an area: {e.Message}", logType.error); Log.Write(e.StackTrace, logType.debug); }
             }
             Log.Write($"Loaded {areas.Count} areas");
+        }
+
+        static void LoadDirs()
+        {
+            if (!Directory.Exists("data"))
+            {
+                Log.Write("Data folder doesn't exist!", logType.error);
+                Directory.CreateDirectory("data");
+                Log.Write("Data folder created, yelling at player.");
+                Console.WriteLine("You didn't have a data folder. We made a new one, but you'll need to download a campaign. Delete the isEmpty file when you're done.");
+                Console.WriteLine("Press a key to exit.");
+                File.Create("data\\isEmpty").Close();
+                Console.ReadKey();
+                Environment.Exit(1);
+            }
+            if (File.Exists("data\\isEmpty"))
+            {
+                Environment.Exit(1);
+            }
+
+            if (File.Exists(dirInfoName)) { directories = File.ReadAllLines(dirInfoName); } else { try { File.Create(dirInfoName).Close(); } catch (Exception ignored) { } }
         }
     }
 }

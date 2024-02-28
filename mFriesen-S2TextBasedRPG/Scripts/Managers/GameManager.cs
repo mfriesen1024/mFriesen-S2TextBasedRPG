@@ -39,6 +39,9 @@ namespace mFriesen_S2TextBasedRPG
 
         public static void Start()
         {
+            DataManager.Init();
+
+            // This is bad. remove soon pls
             LoadData();
 
             // set first area active.
