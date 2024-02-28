@@ -15,6 +15,7 @@ namespace mFriesen_S2TextBasedRPG
         public static List<Item> items;
         public static Player player;
         public static List<Foe> foes;
+        public static List<Pickup> pickups;
         public static List<Area> areas;
 
         public static void Startup(string[] directories)
@@ -34,6 +35,7 @@ namespace mFriesen_S2TextBasedRPG
             LoadEffects();
             LoadItems();
             LoadEntities();
+            LoadPickups();
         }
 
         static void LoadEffects(string extension = "txt")
@@ -152,6 +154,41 @@ namespace mFriesen_S2TextBasedRPG
             Log.Write($"Loaded {count} entities.");
         }
 
+        private static void LoadPickups(string extension = "txt")
+        {
+            string dir = dirs[4] + "\\pickups";
+            if (!Directory.Exists(dir)) { Directory.CreateDirectory(dir); File.Create(dir + indexAdd); throw new DirectoryNotFoundException($"{dir} was not found, so it was created."); }
+            string[] fileNames = File.ReadAllLines(dir + indexAdd);
+            pickups = new List<Pickup>();
+            foreach (string file in fileNames)
+            {
+                try
+                {
+                    string fileName = dir + "\\" + file + "." + extension;
+                    if (!File.Exists(fileName)) { File.Create(fileName); throw new FileNotFoundException($"{fileName} was not found, so it was created."); }
+                    string[] data = File.ReadAllLines(fileName);
+
+                    int iPType = int.Parse(data[0]); Pickup.pickupType pType = (Pickup.pickupType)iPType;
+                    int value = int.Parse(data[1]);
+                    int iRType; Pickup.restorationType rType = 0;
+                    int x = int.Parse(data[2]); int y = int.Parse(data[3]); Vector2 pos = new Vector2(x, y);
+                    try { iRType = int.Parse(data[4]); rType = (Pickup.restorationType)iRType; } catch (Exception ignored) { }
+
+                    Pickup pickup;
+                    switch (pType)
+                    {
+                        case Pickup.pickupType.item: pickup = new Pickup(pos, items[value]); break;
+                        case Pickup.pickupType.restoration: pickup = new Pickup(pos, rType, value); break;
+                        default: throw new NotImplementedException($"{pType} is not implemented in pickup loader.");
+                    }
+
+                    pickups.Add(pickup);
+                }
+                catch (Exception e) { Log.Write("Failed to load a pickup: " + e.Message, logType.error); Log.Write(e.StackTrace, logType.debug); }
+            }
+            Log.Write($"Loaded {pickups.Count} pickups.");
+        }
+
         // Load triggers from files.
         static Trigger[] LoadTriggers(string location, string extension = "txt")
         {
@@ -182,7 +219,7 @@ namespace mFriesen_S2TextBasedRPG
 
         static void LoadAreas(string extension = "txt")
         {
-            string dir = dirs[4];
+            string dir = dirs[5];
             string[] fileNames = File.ReadAllLines(dir + indexAdd);
             areas = new List<Area>();
 
