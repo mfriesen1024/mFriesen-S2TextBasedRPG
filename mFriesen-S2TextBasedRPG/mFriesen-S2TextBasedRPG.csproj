@@ -50,6 +50,7 @@
     <Compile Include="Scripts\EntityThings\StatManager.cs" />
     <Compile Include="Scripts\ExternalResources\Log.cs" />
     <Compile Include="Scripts\Managers\DataManager.cs" />
+    <Compile Include="Scripts\Managers\EntityManager.cs" />
     <Compile Include="Scripts\Managers\GameManager.cs" />
     <Compile Include="Scripts\Program.cs" />
     <Compile Include="Scripts\Rendering\HUD.cs" />
