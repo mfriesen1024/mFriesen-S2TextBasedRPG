@@ -201,7 +201,7 @@ namespace mFriesen_S2TextBasedRPG
             {
                 try
                 {
-                    string fileName = location + "triggers\\" + file + "." + extension;
+                    string fileName = location + "\\" + file + "." + extension;
                     if (!File.Exists(fileName)) { File.Create(fileName); throw new FileNotFoundException($"{fileName} was not found, so it was created."); }
                     string[] data = File.ReadAllLines(fileName);
 
