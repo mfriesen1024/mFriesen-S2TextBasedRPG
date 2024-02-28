@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SimpleLogger;
+using System;
 
 namespace mFriesen_S2TextBasedRPG
 {
@@ -52,6 +53,8 @@ namespace mFriesen_S2TextBasedRPG
             {
                 OnTriggerActivate();
             }
+
+            Log.Write($"Ran CheckTrigger, mob position is {mob.position} topcorner is {topCorner} bottomcorner is {bottomCorner}. xCheck is {xCheck} yCheck is {yCheck}", logType.debug);
         }
 
         void OnTriggerActivate()
@@ -84,6 +87,11 @@ namespace mFriesen_S2TextBasedRPG
                 if (x == v2.x && y == v2.y) { result = true; }
             }
             return result;
+        }
+
+        public override string ToString()
+        {
+            return $"{x}, {y}";
         }
     }
     struct Tile

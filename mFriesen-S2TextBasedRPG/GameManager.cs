@@ -126,12 +126,15 @@ namespace mFriesen_S2TextBasedRPG
             // End game if player died, and render the map to tell them that they have died.
             if (player.statManager.isDying) { run = false; currentMap.RenderMap(displayEntities.ToArray()); }
 
+            currentArea.CheckTriggers(player);
+
             // End game if all mobs are dead.
-            TempWinCheck();
+            //TempWinCheck();
         }
 
         public static void LoadArea(int index)
         {
+            Log.Write($"Loading area {index}");
             currentArea = areas[index];
 
             mobs = new List<Mob> { player };
