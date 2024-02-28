@@ -15,7 +15,6 @@ namespace mFriesen_S2TextBasedRPG
         public static List<Item> items;
         public static Player player;
         public static List<Foe> foes;
-        public static List<Pickup> pickups;
         public static List<Area> areas;
 
         public static void Startup(string[] directories)
@@ -154,17 +153,16 @@ namespace mFriesen_S2TextBasedRPG
             Log.Write($"Loaded {count} entities.");
         }
 
-        private static void LoadPickups(string extension = "txt")
+        private static Pickup[] LoadPickups(string location, string extension = "txt")
         {
-            string dir = dirs[4] + "\\pickups";
-            if (!Directory.Exists(dir)) { Directory.CreateDirectory(dir); File.Create(dir + indexAdd); throw new DirectoryNotFoundException($"{dir} was not found, so it was created."); }
-            string[] fileNames = File.ReadAllLines(dir + indexAdd);
-            pickups = new List<Pickup>();
+            if (!Directory.Exists(location)) { Directory.CreateDirectory(location); File.Create(location + indexAdd); throw new DirectoryNotFoundException($"{location} was not found, so it was created."); }
+            string[] fileNames = File.ReadAllLines(location + indexAdd);
+            List<Pickup> pickups = new List<Pickup>();
             foreach (string file in fileNames)
             {
                 try
                 {
-                    string fileName = dir + "\\" + file + "." + extension;
+                    string fileName = location + "\\" + file + "." + extension;
                     if (!File.Exists(fileName)) { File.Create(fileName); throw new FileNotFoundException($"{fileName} was not found, so it was created."); }
                     string[] data = File.ReadAllLines(fileName);
 
@@ -187,6 +185,8 @@ namespace mFriesen_S2TextBasedRPG
                 catch (Exception e) { Log.Write("Failed to load a pickup: " + e.Message, logType.error); Log.Write(e.StackTrace, logType.debug); }
             }
             Log.Write($"Loaded {pickups.Count} pickups.");
+
+            return pickups.ToArray();
         }
 
         // Load triggers from files.
@@ -232,7 +232,9 @@ namespace mFriesen_S2TextBasedRPG
                     string[] data = File.ReadAllLines(fileName);
 
                     string triggerLoc = dir + "\\" + name + "triggers";
+                    string pickupsLoc = dir + "\\" + name + "pickups";
                     Trigger[] triggers = LoadTriggers(triggerLoc);
+                    Pickup[] pickups = LoadPickups(pickupsLoc);
 
                     Area area = new Area(name);
                 }
