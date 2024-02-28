@@ -15,6 +15,7 @@ namespace mFriesen_S2TextBasedRPG
         public static List<Item> items;
         public static Player player;
         public static List<Foe> foes;
+        public static List<Area> areas;
 
         public static void Startup(string[] directories)
         {
@@ -33,6 +34,7 @@ namespace mFriesen_S2TextBasedRPG
             LoadEffects();
             LoadItems();
             LoadEntities();
+            LoadAreas();
         }
 
         static void LoadEffects(string extension = "txt")
@@ -149,6 +151,118 @@ namespace mFriesen_S2TextBasedRPG
                 catch (Exception e) { Log.Write("Failed to load an entity: " + e.Message, logType.error); Log.Write(e.StackTrace, logType.debug); }
             }
             Log.Write($"Loaded {count} entities.");
+        }
+
+        private static Pickup[] LoadPickups(string location, string extension = "txt")
+        {
+            if (!Directory.Exists(location)) { Directory.CreateDirectory(location); File.Create(location + indexAdd); throw new DirectoryNotFoundException($"{location} was not found, so it was created."); }
+            string[] fileNames = File.ReadAllLines(location + indexAdd);
+            List<Pickup> pickups = new List<Pickup>();
+            foreach (string file in fileNames)
+            {
+                try
+                {
+                    string fileName = location + "\\" + file + "." + extension;
+                    if (!File.Exists(fileName)) { File.Create(fileName); throw new FileNotFoundException($"{fileName} was not found, so it was created."); }
+                    string[] data = File.ReadAllLines(fileName);
+
+                    int iPType = int.Parse(data[0]); Pickup.pickupType pType = (Pickup.pickupType)iPType;
+                    int value = int.Parse(data[1]);
+                    int iRType; Pickup.restorationType rType = 0;
+                    int x = int.Parse(data[2]); int y = int.Parse(data[3]); Vector2 pos = new Vector2(x, y);
+                    try { iRType = int.Parse(data[4]); rType = (Pickup.restorationType)iRType; } catch (Exception ignored) { }
+
+                    Pickup pickup;
+                    switch (pType)
+                    {
+                        case Pickup.pickupType.item: pickup = new Pickup(pos, items[value]); break;
+                        case Pickup.pickupType.restoration: pickup = new Pickup(pos, rType, value); break;
+                        default: throw new NotImplementedException($"{pType} is not implemented in pickup loader.");
+                    }
+
+                    pickups.Add(pickup);
+                }
+                catch (Exception e) { Log.Write("Failed to load a pickup: " + e.Message, logType.error); Log.Write(e.StackTrace, logType.debug); }
+            }
+            Log.Write($"Loaded {pickups.Count} pickups.");
+
+            return pickups.ToArray();
+        }
+
+        // Load triggers from files.
+        static Trigger[] LoadTriggers(string location, string extension = "txt")
+        {
+            if (!Directory.Exists(location)) { Directory.CreateDirectory(location); File.Create(location + indexAdd).Close(); throw new DirectoryNotFoundException($"{location} was not found, so it was created."); }
+            string[] fileNames = File.ReadAllLines(location + indexAdd);
+            List<Trigger> triggers = new List<Trigger>();
+
+
+            foreach (string file in fileNames)
+            {
+                try
+                {
+                    string fileName = location + "\\" + file + "." + extension;
+                    if (!File.Exists(fileName)) { File.Create(fileName); throw new FileNotFoundException($"{fileName} was not found, so it was created."); }
+                    string[] data = File.ReadAllLines(fileName);
+
+                    Vector2 tc = new Vector2(int.Parse(data[0]), int.Parse(data[1]));
+                    Vector2 bc = new Vector2(int.Parse(data[2]), int.Parse(data[3]));
+
+                    triggers.Add(new Trigger(tc, bc, (triggerType)int.Parse(data[4]), int.Parse(data[5])));
+                }
+                catch (Exception e) { Log.Write($"Failed to load a trigger: {e.Message}", logType.error); Log.Write(e.StackTrace, logType.debug); }
+            }
+            Log.Write($"Loaded {triggers.Count} triggers.");
+
+            return triggers.ToArray();
+        }
+
+        static void LoadAreas(string extension = "txt")
+        {
+            string dir = dirs[4];
+            string[] fileNames = File.ReadAllLines(dir + indexAdd);
+            areas = new List<Area>();
+
+            foreach (string name in fileNames)
+            {
+                try
+                {
+                    string fileName = dir + "\\" + name + "." + extension;
+                    if (!File.Exists(fileName)) { File.Create(fileName); throw new FileNotFoundException($"{fileName} was not found, so it was created."); }
+                    string[] data = File.ReadAllLines(fileName);
+
+                    // Load pickups and triggers
+                    string triggerLoc = dir + "\\" + name + "triggers";
+                    string pickupsLoc = dir + "\\" + name + "pickups";
+                    Trigger[] triggers = LoadTriggers(triggerLoc);
+                    Pickup[] pickups = LoadPickups(pickupsLoc);
+
+                    // Assign pickups and triggers
+                    Area area = new Area(name);
+                    area.pickups = pickups;
+                    area.SetTriggers(triggers);
+
+                    // entity instantiation, first assign variables.
+                    int entityInstStart = int.Parse(data[0]);
+                    int entityInstEnd = int.Parse(data[1]);
+
+                    // make list and instantiate from instructions in file.
+                    List<Foe> encounter = new List<Foe>();
+                    for (int i = entityInstStart; i <= entityInstEnd; i += 3)
+                    {
+                        int index = i;
+                        Foe foe = (Foe)foes[int.Parse(data[index])].DeepClone();
+                        Vector2 position = new Vector2(int.Parse(data[index + 1]), int.Parse(data[index + 2]));
+                        foe.position = position;
+                        encounter.Add(foe);
+                    }
+                    area.encounter = encounter.ToArray();
+
+                    areas.Add(area);
+                }
+                catch (Exception e) { Log.Write($"Failed to load an area: {e.Message}", logType.error); Log.Write(e.StackTrace, logType.debug); }
+            }
+            Log.Write($"Loaded {areas.Count} areas");
         }
     }
 }
