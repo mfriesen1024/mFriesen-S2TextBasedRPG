@@ -231,14 +231,32 @@ namespace mFriesen_S2TextBasedRPG
                     if (!File.Exists(fileName)) { File.Create(fileName); throw new FileNotFoundException($"{fileName} was not found, so it was created."); }
                     string[] data = File.ReadAllLines(fileName);
 
+                    // Load pickups and triggers
                     string triggerLoc = dir + "\\" + name + "triggers";
                     string pickupsLoc = dir + "\\" + name + "pickups";
                     Trigger[] triggers = LoadTriggers(triggerLoc);
                     Pickup[] pickups = LoadPickups(pickupsLoc);
 
+                    // Assign pickups and triggers
                     Area area = new Area(name);
                     area.pickups = pickups;
                     area.SetTriggers(triggers);
+
+                    // entity instantiation, first assign variables.
+                    int entityInstStart = int.Parse(data[0]);
+                    int entityInstEnd = int.Parse(data[1]);
+
+                    // make list and instantiate from instructions in file.
+                    List<Foe> encounter = new List<Foe>();
+                    for (int i = entityInstStart; i <= entityInstEnd; i += 3)
+                    {
+                        int index = i;
+                        Foe foe = (Foe)foes[int.Parse(data[index])].DeepClone();
+                        Vector2 position = new Vector2(int.Parse(data[index + 1]), int.Parse(data[index + 2]));
+                        foe.position = position;
+                        encounter.Add(foe);
+                    }
+                    area.encounter = encounter.ToArray();
 
                     areas.Add(area);
                 }

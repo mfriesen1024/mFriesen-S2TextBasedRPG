@@ -3,10 +3,7 @@
     internal class Area
     {
         // Class stores everything for a certain room.
-        string name; // use to determine what files to read to grab data.
-
-        // File loading strings. THIS MUST BE KEPT UP TO DATE!
-        string[] fNames = new string[5];
+        string name; // use to determine what files to read to grab map.
 
         // Variables
         Trigger[] triggers; // warp the player to a new area, based on the warp index.
