@@ -219,7 +219,7 @@ namespace mFriesen_S2TextBasedRPG
 
         static void LoadAreas(string extension = "txt")
         {
-            string dir = dirs[5];
+            string dir = dirs[4];
             string[] fileNames = File.ReadAllLines(dir + indexAdd);
             areas = new List<Area>();
 
