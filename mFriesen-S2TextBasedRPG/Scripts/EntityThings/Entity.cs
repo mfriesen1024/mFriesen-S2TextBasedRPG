@@ -153,6 +153,37 @@ namespace mFriesen_S2TextBasedRPG
             return new Vector2(position.x + x, position.y + y);
         }
 
+        public override void Update()
+        {
+            Vector2 target = GetAction();
+            Foe actor = this;
+
+            // Check the coordinates
+            Mob mob; Pickup pickup;
+            EntityManager.CheckCoords(target, out pickup, out mob);
+
+            actionResult result = LevelManager.WallCheck(target);
+            if (mob != null)
+            {
+                result = actionResult.fail;
+                if(mob != this)
+                {
+                    mob.statManager.TakeDamage(statManager.GetDamage());
+                    if (attackEffect != null) { mob.currentEffect = currentEffect; }
+                }
+            }
+
+            // now check if immobile, and if true, cancel movement.
+            if (actor.immobilized) { result = actionResult.fail; }
+
+            if (result == actionResult.move)
+            {
+                actor.position = target;
+            }
+
+            if (actor.TickEffect()) { actor.currentEffect = null; }
+        }
+
         int GetLinearValue(char axis)
         {
             Vector2 target;
@@ -185,11 +216,6 @@ namespace mFriesen_S2TextBasedRPG
             if (yDiff < 0) { yDiff *= -1; }
 
             if (yDiff > xDiff) { return true; } else { return false; }
-        }
-
-        public override void Update()
-        {
-            throw new NotImplementedException();
         }
     }
 
