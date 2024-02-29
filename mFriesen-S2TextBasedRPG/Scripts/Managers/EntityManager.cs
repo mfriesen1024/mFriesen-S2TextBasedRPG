@@ -45,7 +45,7 @@ namespace mFriesen_S2TextBasedRPG
             }
         }
 
-        public static Entity[] GetDisplayEntities()
+        public static Entity[] GetDisplayEntities() // Returns all entities to display.
         {
             List<Entity> entities = new List<Entity>(foes) { player }; entities.AddRange(pickups); return entities.ToArray();
         }
