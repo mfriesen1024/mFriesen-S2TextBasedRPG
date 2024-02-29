@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace mFriesen_S2TextBasedRPG
 {
@@ -14,13 +11,16 @@ namespace mFriesen_S2TextBasedRPG
 
         public static void LoadFromArea(Area area) // Call this from levelmanager.
         {
-            pickups = new List<Pickup>( area.pickups);
+            pickups = new List<Pickup>(area.pickups);
             player = GameManager.player;
             foes = new List<Foe>(area.encounter);
         }
 
         public static void Update() // Should update everything. Call from GameManager
         {
+            player.Update();
+            foreach (Foe foe in foes) { foe.Update(); }
+
 
         }
 
@@ -32,10 +32,10 @@ namespace mFriesen_S2TextBasedRPG
         internal static void CheckCoords(Vector2 coords, out Pickup pickup, out Mob mob)
         {
             // Get mob list.
-            List<Mob> mobs = new List<Mob> { player}; mobs.AddRange(foes);
+            List<Mob> mobs = new List<Mob> { player }; mobs.AddRange(foes);
             pickup = null; mob = null;
 
-            foreach(Mob mob2 in foes)
+            foreach (Mob mob2 in foes)
             {
                 if (mob2.position.Equals(coords)) { mob = mob2; return; }
             }
@@ -43,6 +43,11 @@ namespace mFriesen_S2TextBasedRPG
             {
                 if (pickup2.position.Equals(coords)) { pickup = pickup2; return; }
             }
+        }
+
+        public static Entity[] GetDisplayEntities()
+        {
+            List<Entity> entities = new List<Entity>(foes) { player }; entities.AddRange(pickups); return entities.ToArray();
         }
     }
 }
