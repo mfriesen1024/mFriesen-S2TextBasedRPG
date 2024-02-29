@@ -4,24 +4,38 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace mFriesen_S2TextBasedRPG.Scripts.Managers
+namespace mFriesen_S2TextBasedRPG
 {
-    internal static class EntityManager
+    static class EntityManager
     {
-        static Pickup[] pickups;
+        static List<Pickup> pickups;
         public static Player player;
-        static Foe[] foes;
+        static List<Foe> foes;
 
         public static void LoadFromArea(Area area) // Call this from levelmanager.
         {
-            pickups = area.pickups;
+            pickups = new List<Pickup>( area.pickups);
             player = GameManager.player;
-            foes = area.encounter.ToArray();
+            foes = new List<Foe>(area.encounter);
         }
 
         public static void Update() // Should update everything. Call from GameManager
         {
 
+        }
+
+        internal static Pickup PickupCheck(Vector2 target)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static void DeleteItem(Entity entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static void CheckCoords(Vector2 coords, out Pickup pickup, out Mob mob)
+        {
         }
     }
 }
