@@ -273,8 +273,6 @@ namespace mFriesen_S2TextBasedRPG
 
         public override void Update()
         {
-            throw new NotImplementedException();
-
             Vector2 target = GetAction();
             Player actor = this;
 
@@ -283,9 +281,15 @@ namespace mFriesen_S2TextBasedRPG
             EntityManager.CheckCoords(target, out pickup, out mob);
 
             actionResult result = LevelManager.WallCheck(target);
-            if (mob != null) { result = actionResult.fail; }
+            if (mob != null) {
+                result = actionResult.fail;
+                if(mob is Foe)
+                {
+                    mob.statManager.TakeDamage(statManager.GetDamage());
+                    if(attackEffect != null) { mob.currentEffect = currentEffect; }
+                }
+            }
 
-            // Move this to EntityManager
             if (pickup != null)
             {
                 result = actionResult.fail;
