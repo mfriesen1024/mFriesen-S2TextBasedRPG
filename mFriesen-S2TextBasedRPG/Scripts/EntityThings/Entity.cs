@@ -55,7 +55,7 @@ namespace mFriesen_S2TextBasedRPG
             statManager.Heal(type, value);
         }
 
-        public virtual Mob DeepClone() // idk if this should be virtual new or not.
+        public virtual new Mob DeepClone() // idk if this should be virtual new or not.
         {
             Mob m = (Mob)MemberwiseClone();
             m.statManager = statManager.ShallowClone();
@@ -87,6 +87,10 @@ namespace mFriesen_S2TextBasedRPG
             }
             return false;
         }
+
+        protected virtual new Vector2 GetAction() { return new Vector2(); }
+
+        public abstract void Update();
     }
 
     class Foe : Mob
@@ -113,7 +117,7 @@ namespace mFriesen_S2TextBasedRPG
             end = new Vector2(position.x + 5, position.y);
         }
 
-        public override Vector2 GetAction()
+        protected override Vector2 GetAction()
         {
             if (position.Equals(end)) { isReturning = true; } else if (position.Equals(start)) { isReturning = false; }
             Log.Write("Debugging random GetAction", logType.debug);
@@ -182,6 +186,11 @@ namespace mFriesen_S2TextBasedRPG
 
             if (yDiff > xDiff) { return true; } else { return false; }
         }
+
+        public override void Update()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     class Player : Mob
@@ -199,7 +208,7 @@ namespace mFriesen_S2TextBasedRPG
             displayTile.displayChar = '@';
         }
 
-        public override Vector2 GetAction()
+        protected override Vector2 GetAction()
         {
             ConsoleKey input = Console.ReadKey(true).Key;
             int x = 0, y = 0;
@@ -260,6 +269,38 @@ namespace mFriesen_S2TextBasedRPG
                     break;
                 default: throw new NotImplementedException(pickup.pType.ToString() + " Is not implemented in Player.UsePickup();.");
             }
+        }
+
+        public override void Update()
+        {
+            throw new NotImplementedException();
+
+            Vector2 target = GetAction();
+            Player actor = this;
+
+            // Check the coordinates
+            Mob mob; Pickup pickup;
+            EntityManager.CheckCoords(target, out pickup, out mob);
+
+            actionResult result = LevelManager.WallCheck(target);
+            if (mob != null) { result = actionResult.fail; }
+
+            // Move this to EntityManager
+            if (pickup != null)
+            {
+                result = actionResult.fail;
+                actor.UsePickup(pickup); EntityManager.DeleteItem(pickup);
+            }
+
+            // now check if immobile, and if true, cancel movement.
+            if (actor.immobilized) { result = actionResult.fail; }
+
+            if (result == actionResult.move)
+            {
+                actor.position = target;
+            }
+
+            if (actor.TickEffect()) { actor.currentEffect = null; }
         }
     }
 
