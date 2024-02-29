@@ -52,6 +52,7 @@
     <Compile Include="Scripts\Managers\DataManager.cs" />
     <Compile Include="Scripts\Managers\EntityManager.cs" />
     <Compile Include="Scripts\Managers\GameManager.cs" />
+    <Compile Include="Scripts\Managers\LevelManager.cs" />
     <Compile Include="Scripts\Program.cs" />
     <Compile Include="Scripts\Rendering\HUD.cs" />
     <Compile Include="Scripts\Rendering\Map.cs" />
