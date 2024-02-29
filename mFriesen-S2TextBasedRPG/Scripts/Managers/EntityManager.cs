@@ -36,6 +36,18 @@ namespace mFriesen_S2TextBasedRPG
 
         internal static void CheckCoords(Vector2 coords, out Pickup pickup, out Mob mob)
         {
+            // Get mob list.
+            List<Mob> mobs = new List<Mob> { player}; mobs.AddRange(foes);
+            pickup = null; mob = null;
+
+            foreach(Mob mob2 in foes)
+            {
+                if (mob2.position.Equals(coords)) { mob = mob2; return; }
+            }
+            foreach (Pickup pickup2 in pickups)
+            {
+                if (pickup2.position.Equals(coords)) { pickup = pickup2; return; }
+            }
         }
     }
 }
