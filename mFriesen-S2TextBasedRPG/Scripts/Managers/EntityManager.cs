@@ -24,11 +24,6 @@ namespace mFriesen_S2TextBasedRPG
 
         }
 
-        internal static Pickup PickupCheck(Vector2 target)
-        {
-            throw new NotImplementedException();
-        }
-
         internal static void DeleteItem(Entity entity)
         {
             throw new NotImplementedException();
