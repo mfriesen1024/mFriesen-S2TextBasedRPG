@@ -60,6 +60,7 @@ namespace mFriesen_S2TextBasedRPG
 
         public static void Update()
         {
+            LevelManager.Update();
 
             // Temporarily comment out stuff we want to remove, to see if it causes problems.
 

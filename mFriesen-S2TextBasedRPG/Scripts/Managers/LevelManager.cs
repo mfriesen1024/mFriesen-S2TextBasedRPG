@@ -16,6 +16,12 @@ namespace mFriesen_S2TextBasedRPG
             LoadArea(0);
         }
 
+        public static void Update()
+        {
+            map.RenderMap();
+            EntityManager.Update();
+        }
+
         public static void LoadArea(int index)
         {
             currentArea = areas[index];
@@ -26,12 +32,16 @@ namespace mFriesen_S2TextBasedRPG
 
         internal static actionResult CheckLocation(Vector2 target)
         {
-            Hazard hazard = map.HazardCheck(target);
-            switch (hazard)
+            try
             {
-                case Hazard.wall: return actionResult.fail;
-                default: return actionResult.move;
+                Hazard hazard = map.HazardCheck(target);
+                switch (hazard)
+                {
+                    case Hazard.wall: return actionResult.fail;
+                    default: return actionResult.move;
+                }
             }
+            catch (IndexOutOfRangeException ignored) { return actionResult.fail; }
         }
     }
 }
