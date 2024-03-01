@@ -25,13 +25,15 @@ namespace mFriesen_S2TextBasedRPG
         public Vector2 bottomCorner; // Should be the higher set of values
         public triggerType type;
         public int nextArea {  get; private set; }
+        public Vector2 playerNewPos;
 
-        public Trigger(Vector2 tc, Vector2 bc, triggerType t, int area)
+        public Trigger(Vector2 tc, Vector2 bc, triggerType t, int area, Vector2 np)
         {
             topCorner = tc;
             bottomCorner = bc;
             type = t;
             nextArea = area;
+            playerNewPos = np;
         }
 
         public Trigger Clone()
@@ -39,6 +41,7 @@ namespace mFriesen_S2TextBasedRPG
             Trigger t = (Trigger)MemberwiseClone();
             t.topCorner = topCorner.Clone();
             t.bottomCorner = bottomCorner.Clone();
+            t.playerNewPos = playerNewPos;
             return t;
         }
 
@@ -61,7 +64,7 @@ namespace mFriesen_S2TextBasedRPG
         {
             switch (type)
             {
-                case triggerType.warp: LevelManager.LoadArea(nextArea); break;
+                case triggerType.warp: LevelManager.LoadArea(nextArea); EntityManager.player.position = playerNewPos; break;
                 case triggerType.win: GameManager.win = true; GameManager.run = false; break;
             }
         }
