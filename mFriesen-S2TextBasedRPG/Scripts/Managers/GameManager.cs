@@ -25,7 +25,7 @@ namespace mFriesen_S2TextBasedRPG
         static Area[] areas; // stores the areas.
         public static Foe[] foeTemplates; // store foe templates
         static Area currentArea; // tracks the current area
-        static Map currentMap; // Track current map.
+        public static Map currentMap; // Track current map.
         static List<Mob> mobs = new List<Mob>();
         static List<Entity> displayEntities = new List<Entity>();
         static List<Pickup> pickups = new List<Pickup>();
@@ -40,9 +40,6 @@ namespace mFriesen_S2TextBasedRPG
         public static void Start()
         {
             DataManager.Init();
-
-            // This is bad. remove soon pls
-            LoadData();
 
             // set first area active.
             LoadArea(0);
