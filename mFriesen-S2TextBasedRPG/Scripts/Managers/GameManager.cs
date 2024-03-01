@@ -40,9 +40,7 @@ namespace mFriesen_S2TextBasedRPG
         public static void Start()
         {
             DataManager.Init();
-
-            // set first area active.
-            LoadArea(0);
+            LevelManager.Init();
 
             currentMap.RenderMap();
 
