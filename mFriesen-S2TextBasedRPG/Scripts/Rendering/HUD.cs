@@ -21,7 +21,10 @@ namespace mFriesen_S2TextBasedRPG
 
         static string legend = "";
 
-
+        public static void Init()
+        {
+            player = EntityManager.player;
+        }
 
         static healthStatus GetHealthStatus(int hp, int maxhp, int ap = 0)
         {

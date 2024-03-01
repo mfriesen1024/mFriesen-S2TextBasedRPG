@@ -42,6 +42,8 @@ namespace mFriesen_S2TextBasedRPG
             DataManager.Init();
             LevelManager.Init();
 
+            HUD.Init();
+
             currentMap.RenderMap();
 
             Run();
