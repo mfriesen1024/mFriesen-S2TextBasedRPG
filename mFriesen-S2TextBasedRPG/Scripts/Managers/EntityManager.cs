@@ -11,7 +11,7 @@ namespace mFriesen_S2TextBasedRPG
         public static void LoadFromArea(Area area) // Call this from levelmanager.
         {
             pickups = new List<Pickup>(area.pickups);
-            player = GameManager.player;
+            player = DataManager.player;
             foes = new List<Foe>(area.encounter);
         }
 
