@@ -67,7 +67,7 @@ namespace mFriesen_S2TextBasedRPG
                         string s = c.ToString();
                         int i = 0;
 
-                        if(f > 0) // if fileIndex is greater than characterfile, try convert from hex to int.
+                        if (f > 0) // if fileIndex is greater than characterfile, try convert from hex to int.
                         {
                             i = TryHexParse(c);
                         }
@@ -95,21 +95,9 @@ namespace mFriesen_S2TextBasedRPG
             // Run clear first, make sure console is clear before we do crap.
             Console.Clear();
 
-            // Check if things are null, then add entities.
-            if (entities == null)
-            {
-                Log.Write("Entities are null. This may be intentional, it may not.", logType.warning);
-            }
             // create local tile array so I don't break the array when I add entities.
             Tile[,] localTiles = tiles;
-            if (entities != null)
-            {
-                localTiles = AddEntitiesToMap(localTiles, entities);
-            }
-            else if (this.entities != null)
-            {
-                localTiles = AddEntitiesToMap(localTiles, this.entities);
-            }
+            localTiles = AddEntitiesToMap(tiles, EntityManager.GetDisplayEntities());
 
             // Create top/bottom borders.
             string end = string.Empty;
@@ -140,7 +128,7 @@ namespace mFriesen_S2TextBasedRPG
 
             // Write border
             Console.ForegroundColor = ConsoleColor.White; Console.BackgroundColor = ConsoleColor.Black; Console.WriteLine(end);
-        
+
             // Hud update should be called upon rendering map, so do that now.
             HUD.Update();
         }
@@ -161,7 +149,7 @@ namespace mFriesen_S2TextBasedRPG
             {
                 for (int x = 0; x < localTiles.GetLength(1); x++)
                 {
-                        localTiles[y, x] = tiles[y, x]; // set tile to original position first to avoid headache.
+                    localTiles[y, x] = tiles[y, x]; // set tile to original tile first to avoid headache.
 
                     // Check if the position matches an entity position
                     for (int posIndex = 0; posIndex < entities.Length; posIndex++)
@@ -199,6 +187,12 @@ namespace mFriesen_S2TextBasedRPG
             }
             Log.Write($"Hex parse was requested. Got {i}. Char was {c}, string was {s}.", logType.debug);
             return i;
+        }
+
+        internal Hazard HazardCheck(Vector2 target)
+        {
+            // warning: may have x == y bug
+            return tiles[target.y, target.x].hazard;
         }
     }
 }
