@@ -61,7 +61,7 @@ namespace mFriesen_S2TextBasedRPG
         {
             switch (type)
             {
-                case triggerType.warp: GameManager.LoadArea(nextArea); break;
+                case triggerType.warp: LevelManager.LoadArea(nextArea); break;
                 case triggerType.win: GameManager.win = true; GameManager.run = false; break;
             }
         }
