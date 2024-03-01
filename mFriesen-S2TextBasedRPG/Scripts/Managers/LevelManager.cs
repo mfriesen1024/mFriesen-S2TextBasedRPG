@@ -21,6 +21,7 @@ namespace mFriesen_S2TextBasedRPG
             currentArea = areas[index];
             map = currentArea.map;
             GameManager.currentMap = map;
+            EntityManager.LoadFromArea(currentArea);
         }
 
         internal static actionResult CheckLocation(Vector2 target)
