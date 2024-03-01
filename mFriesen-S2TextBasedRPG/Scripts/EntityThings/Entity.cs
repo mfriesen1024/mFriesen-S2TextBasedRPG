@@ -162,7 +162,7 @@ namespace mFriesen_S2TextBasedRPG
             Mob mob; Pickup pickup;
             EntityManager.CheckCoords(target, out pickup, out mob);
 
-            actionResult result = LevelManager.WallCheck(target);
+            actionResult result = LevelManager.CheckLocation(target);
             if (mob != null)
             {
                 result = actionResult.fail;
@@ -306,7 +306,7 @@ namespace mFriesen_S2TextBasedRPG
             Mob mob; Pickup pickup;
             EntityManager.CheckCoords(target, out pickup, out mob);
 
-            actionResult result = LevelManager.WallCheck(target);
+            actionResult result = LevelManager.CheckLocation(target);
             if (mob != null) {
                 result = actionResult.fail;
                 if(mob is Foe)
