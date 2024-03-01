@@ -131,14 +131,6 @@ namespace mFriesen_S2TextBasedRPG
             currentMap = currentArea.map;
         }
 
-        static void LoadData() // This system is currently spaghettified. Refactoring should be done soon:tm:.
-        {
-            foeTemplates = DataManager.foes.ToArray();
-            areas = DataManager.areas.ToArray();
-            player = DataManager.player;
-            HUD.player = player;
-        }
-
         public static Random GetRandom()
         {
             seed++;
