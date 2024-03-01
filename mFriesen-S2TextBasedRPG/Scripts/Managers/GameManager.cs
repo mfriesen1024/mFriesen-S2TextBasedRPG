@@ -60,9 +60,10 @@ namespace mFriesen_S2TextBasedRPG
 
         public static void Update()
         {
-            // At the start, render the map.
-            currentMap.RenderMap(displayEntities.ToArray());
 
+            // Temporarily comment out stuff we want to remove, to see if it causes problems.
+
+            /*
             // Set last encountered foe to null;
             HUD.recentFoe = null;
 
@@ -113,6 +114,8 @@ namespace mFriesen_S2TextBasedRPG
 
             // End game if all mobs are dead.
             //TempWinCheck();
+
+            //*/
         }
 
         public static void LoadArea(int index)
