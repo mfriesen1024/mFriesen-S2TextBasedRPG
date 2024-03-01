@@ -8,7 +8,7 @@ namespace mFriesen_S2TextBasedRPG
     abstract class Entity
     {
         // Stores entity data that isn’t player/foe/neutral specific.
-        public Vector2 position = new Vector2(0, 0);
+        public Vector2 position = new Vector2(1, 1);
         public Tile displayTile = new Tile();
 
 
