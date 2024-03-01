@@ -4,7 +4,6 @@ namespace mFriesen_S2TextBasedRPG
 {
     static class LevelManager
     {
-        internal static actionResult WallCheck(Vector2 target)
         static Area[] areas;
         static public Area currentArea { get; private set; }
         static Map map;
@@ -13,8 +12,22 @@ namespace mFriesen_S2TextBasedRPG
         {
 
         }
+
+        public static void LoadArea(int index)
         {
-            throw new NotImplementedException();
+            currentArea = areas[index];
+            map = currentArea.map;
+            GameManager.currentMap = map;
+        }
+
+        internal static actionResult CheckLocation(Vector2 target)
+        {
+            Hazard hazard = map.HazardCheck(target);
+            switch (hazard)
+            {
+                case Hazard.wall: return actionResult.fail;
+                default: return actionResult.move;
+            }
         }
     }
 }
