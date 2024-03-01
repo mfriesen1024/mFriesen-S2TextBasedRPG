@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace mFriesen_S2TextBasedRPG
 {
@@ -20,13 +19,12 @@ namespace mFriesen_S2TextBasedRPG
         {
             player.Update();
             foreach (Foe foe in foes) { foe.Update(); }
-
-
         }
 
         internal static void DeleteItem(Entity entity)
         {
-            throw new NotImplementedException();
+            if (entity is Pickup) { pickups.Remove((Pickup)entity); }
+            if (entity is Foe) { foes.Remove((Foe)entity); }
         }
 
         internal static void CheckCoords(Vector2 coords, out Pickup pickup, out Mob mob)
