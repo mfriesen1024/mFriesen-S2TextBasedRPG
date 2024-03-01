@@ -10,7 +10,10 @@ namespace mFriesen_S2TextBasedRPG
 
         static public void Init() // Call from GameManager
         {
+            areas = DataManager.areas.ToArray();
 
+            // Load area once we've set everything up.
+            LoadArea(0);
         }
 
         public static void LoadArea(int index)
