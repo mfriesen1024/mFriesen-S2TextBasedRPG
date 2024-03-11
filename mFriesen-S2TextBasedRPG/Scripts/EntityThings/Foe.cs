@@ -81,6 +81,7 @@ namespace mFriesen_S2TextBasedRPG
                     mob.statManager.TakeDamage(statManager.GetDamage());
                     if (attackEffect != null) { mob.currentEffect = currentEffect; }
                 }
+                if(mob is Player) { Log.Write("Attempted to attack player, this.debug", logType.debug); }
             }
 
             // now check if immobile, and if true, cancel movement.
