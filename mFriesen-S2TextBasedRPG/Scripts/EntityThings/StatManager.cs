@@ -80,6 +80,8 @@ namespace mFriesen_S2TextBasedRPG
             // Get damage reduction
             int dr = this.dr + owner.GetArmorDR();
 
+            int debugInput = damage, debugHP = hp, debugAP = ap;
+
             // Is damage greater than 0?
             if (damage < 1)
             {
@@ -112,6 +114,9 @@ namespace mFriesen_S2TextBasedRPG
                 ap = 0;
                 hp -= damage; if (hp < 0) { hp = 0; isDying = true; }
             }
+
+            Log.Write($"TakeDamage was called. Damage was {debugInput}, HP was {debugHP}, AP was {debugAP}, dr is {dr}, " +
+                $"new AP is {ap}, new HP is {hp}", logType.debug);
         }
 
         public void TakeDamage(int dr, int damage) { TakeDamage(damage); } // temporary overload
