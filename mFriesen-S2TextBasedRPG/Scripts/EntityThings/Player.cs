@@ -97,6 +97,7 @@ namespace mFriesen_S2TextBasedRPG
                 {
                     mob.statManager.TakeDamage(statManager.GetDamage());
                     if(attackEffect != null) { mob.currentEffect = currentEffect; }
+                    HUD.recentFoe = (Foe)mob;
                 }
             }
 

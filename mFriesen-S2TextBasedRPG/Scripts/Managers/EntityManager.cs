@@ -19,7 +19,10 @@ namespace mFriesen_S2TextBasedRPG
         public static void Update() // Should update everything. Call from GameManager
         {
             player.Update();
-            foreach (Foe foe in foes) { foe.Update(); }
+            foreach (Foe foe in foes.ToArray()) { foe.Update();
+                if (foe.GetisDying()) { foes.Remove(foe); }
+            }
+            if (player.GetisDying()) { GameManager.run = false; }
         }
 
         internal static void DeleteItem(Entity entity)

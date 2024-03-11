@@ -87,6 +87,9 @@ namespace mFriesen_S2TextBasedRPG
             return false;
         }
 
+        public bool GetisDying()
+        { return statManager.isDying; }
+
         protected virtual new Vector2 GetAction() { return new Vector2(); }
 
         public abstract void Update();
