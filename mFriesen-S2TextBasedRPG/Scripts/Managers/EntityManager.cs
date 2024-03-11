@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SimpleLogger;
+using System.Collections.Generic;
 
 namespace mFriesen_S2TextBasedRPG
 {
@@ -29,17 +30,27 @@ namespace mFriesen_S2TextBasedRPG
 
         internal static void CheckCoords(Vector2 coords, out Pickup pickup, out Mob mob)
         {
+            Log.Write($"CheckCoords was called, coords are {coords}", logType.debug);
+
             // Get mob list.
             List<Mob> mobs = new List<Mob> { player }; mobs.AddRange(foes);
             pickup = null; mob = null;
 
             foreach (Mob mob2 in foes)
             {
-                if (mob2.position.Equals(coords)) { mob = mob2; return; }
+                if (mob2.position.Equals(coords))
+                {
+                    mob = mob2;
+                    Log.Write($"Mob coords found, coords are {mob.position}", logType.debug);
+                }
             }
             foreach (Pickup pickup2 in pickups)
             {
-                if (pickup2.position.Equals(coords)) { pickup = pickup2; return; }
+                if (pickup2.position.Equals(coords))
+                {
+                    pickup = pickup2;
+                    Log.Write($"Pickup coords found, coords are {pickup.position}", logType.debug);
+                }
             }
         }
 
