@@ -39,8 +39,9 @@ namespace mFriesen_S2TextBasedRPG
             List<Mob> mobs = new List<Mob> { player }; mobs.AddRange(foes);
             pickup = null; mob = null;
 
-            foreach (Mob mob2 in foes)
+            foreach (Mob mob2 in mobs)
             {
+                bool debug = true;
                 if (mob2.position.Equals(coords))
                 {
                     mob = mob2;
