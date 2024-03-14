@@ -11,33 +11,21 @@ namespace mFriesen_S2TextBasedRPG
         public restorationType? rType;
         public pickupType pType;
 
-        public Item item;
         public int? rValue;
 
-        // This constructor should be used if its an item pickup. An overload will be provided for restoration pickups.
-        public Pickup(Vector2 position, Item item)
-        {
-            this.position = position;
-            rType = null;
-            pType = pickupType.item;
-            rValue = null;
-            this.item = item;
-
-            SetDefaultValues();
-        }
+        
         // This constructor should be used for restoration pickups.
         public Pickup(Vector2 position, restorationType rType, int value)
         {
             this.position = position;
             pType = pickupType.restoration;
             this.rType = rType; rValue = value;
-            item = null;
 
             SetDefaultValues();
         }
 
         // This should be used to set the default values of the item, such as a few nulls, and its default tile.
-        private void SetDefaultValues()
+        virtual protected void SetDefaultValues()
         {
             // set tile
             displayTile = new Tile();
@@ -53,10 +41,43 @@ namespace mFriesen_S2TextBasedRPG
             Pickup e = (Pickup)MemberwiseClone();
             e.position = position.Clone();
             e.displayTile = displayTile.Clone();
-            e.item = item;
             e.rValue = rValue;
             e.rType = rType;
             e.pType = pType;
+            return e;
+        }
+    }
+
+    class ItemPickup : Pickup
+    {
+        public Item item { get; private set; }
+        public ItemPickup(Vector2 position, Item item)
+        {
+            this.position = position;
+            rType = null;
+            pType = pickupType.item;
+            rValue = null;
+            this.item = item;
+
+            SetDefaultValues();
+        }
+
+        protected override void SetDefaultValues()
+        {
+            // set tile
+            displayTile = new Tile();
+            displayTile.displayChar = 'i';
+            displayTile.bg = ConsoleColor.White;
+            displayTile.fg = ConsoleColor.Blue;
+            displayTile.hazard = Hazard.none;
+        }
+
+        public override Entity DeepClone()
+        {
+            ItemPickup e = (ItemPickup)MemberwiseClone();
+            e.position = position.Clone();
+            e.displayTile = displayTile.Clone();
+            e.item = item;
             return e;
         }
     }
