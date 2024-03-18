@@ -168,17 +168,18 @@ namespace mFriesen_S2TextBasedRPG
                     if (!File.Exists(fileName)) { File.Create(fileName); throw new FileNotFoundException($"{fileName} was not found, so it was created."); }
                     string[] data = File.ReadAllLines(fileName);
 
-                    int iPType = int.Parse(data[0]); Pickup.pickupType pType = (Pickup.pickupType)iPType;
-                    int value = int.Parse(data[1]);
-                    int iRType; Pickup.restorationType rType = 0;
+                    int iPType = int.Parse(data[0]); pickupType pType = (pickupType)iPType;
+                    int objectIndex = int.Parse(data[1]);
+                    int iRType; restorationType rType = 0;
                     int x = int.Parse(data[2]); int y = int.Parse(data[3]); Vector2 pos = new Vector2(x, y);
-                    try { iRType = int.Parse(data[4]); rType = (Pickup.restorationType)iRType; } catch (Exception ignored) { }
+                    try { iRType = int.Parse(data[4]); rType = (restorationType)iRType; } catch (Exception ignored) { }
 
                     Pickup pickup;
                     switch (pType)
                     {
-                        case Pickup.pickupType.item: pickup = new Pickup(pos, items[value]); break;
-                        case Pickup.pickupType.restoration: pickup = new Pickup(pos, rType, value); break;
+                        case pickupType.item: pickup = new ItemPickup(pos, items[objectIndex]); break;
+                        case pickupType.restoration: pickup = new RestorationPickup(pos, rType, objectIndex); break;
+                        case pickupType.effect: pickup = new EffectPickup(pos, statusEffects[objectIndex]); break;
                         default: throw new NotImplementedException($"{pType} is not implemented in pickup loader.");
                     }
 
