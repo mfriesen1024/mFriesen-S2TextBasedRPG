@@ -2,7 +2,7 @@
 
 namespace mFriesen_S2TextBasedRPG
 {
-    public enum pickupType { item, restoration }
+    public enum pickupType { item, restoration, effect }
     public enum restorationType { hp, ap }
     class Pickup : Entity
     {
@@ -86,6 +86,16 @@ namespace mFriesen_S2TextBasedRPG
             e.displayTile = displayTile.Clone();
             e.item = item;
             return e;
+        }
+    }
+
+    class EffectPickup : Pickup
+    {
+        public StatusEffect effect { get; private set; }
+        public EffectPickup(Vector2 position, StatusEffect effect)
+        {
+            this.effect = effect;
+            this.position = position;
         }
     }
 }
