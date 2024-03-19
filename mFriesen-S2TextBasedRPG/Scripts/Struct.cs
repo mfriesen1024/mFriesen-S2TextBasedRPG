@@ -114,6 +114,13 @@ namespace mFriesen_S2TextBasedRPG
         public ConsoleColor bg, fg; // Foreground and background colours
         public Hazard hazard;
 
+        public Tile(char _char = ' ', ConsoleColor _bg = ConsoleColor.Black, ConsoleColor _fg = ConsoleColor.Black, Hazard _hazard = Hazard.none)
+        {
+            displayChar = _char;
+            bg = _bg; fg = _fg;
+            hazard = _hazard;
+        }
+
         public Tile Clone()
         {
             return (Tile)MemberwiseClone();
