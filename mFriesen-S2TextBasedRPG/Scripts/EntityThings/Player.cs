@@ -1,5 +1,6 @@
 ﻿using SimpleLogger;
 using System;
+using System.Diagnostics;
 
 namespace mFriesen_S2TextBasedRPG
 {
@@ -43,43 +44,63 @@ namespace mFriesen_S2TextBasedRPG
 
         public void UsePickup(Pickup pickup)
         {
-            switch (pickup.pType)
+            if (pickup is ItemPickup)
             {
-                case Pickup.pickupType.item:
+                try
+                {
+                    ItemPickup iPickup = (ItemPickup)pickup;
+
                     {
-                        if (pickup.item != null)
+                        if (iPickup.item != null)
                         {
-                            inventory.Add(pickup.item);
+                            inventory.Add(iPickup.item);
                             try
                             {
-                                ArmorItem a = (ArmorItem)pickup.item;
-                                armor = (ArmorItem)pickup.item;
+                                ArmorItem a = (ArmorItem)iPickup.item;
+                                armor = (ArmorItem)iPickup.item;
                             }
                             catch (Exception ignored) { }
                             try
                             {
-                                WeaponItem w = (WeaponItem)pickup.item;
-                                weapon = (WeaponItem)pickup.item;
+                                WeaponItem w = (WeaponItem)iPickup.item;
+                                weapon = (WeaponItem)iPickup.item;
                             }
                             catch (Exception ignored) { }
                         }
                         else { Log.Write("Pickup item was null! This is wrong!", logType.error); }
-                        break;
                     }
-                case Pickup.pickupType.restoration:
-                    try
-                    {
-                        switch (pickup.rType)
-                        {
-                            case Pickup.restorationType.hp: statManager.Heal(healtype.health, (int)pickup.rValue); break;
-                            case Pickup.restorationType.ap: statManager.Heal(healtype.absorption, (int)pickup.rValue); break;
-                        }
-                    }
-                    catch (NullReferenceException nre) { Log.Write(nre.Message, logType.error); Log.Write(nre.StackTrace, logType.debug); }
-                    break;
-                default: throw new NotImplementedException(pickup.pType.ToString() + " Is not implemented in Player.UsePickup();.");
+                }
+                catch { }
             }
+
+            else if (pickup is RestorationPickup)
+            {
+                try
+                {
+                    RestorationPickup rPickup = (RestorationPickup)pickup;
+                    switch (rPickup.rType)
+                    {
+                        case restorationType.hp: statManager.Heal(healtype.health, rPickup.rValue); break;
+                        case restorationType.ap: statManager.Heal(healtype.absorption, rPickup.rValue); break;
+                    }
+                }
+                catch (NullReferenceException nre) { Log.Write(nre.Message, logType.error); Log.Write(nre.StackTrace, logType.debug); }
+            }
+
+            else if (pickup is EffectPickup)
+            {
+                try
+                {
+                    EffectPickup effectPickup = (EffectPickup)pickup;
+
+                    attackEffect = effectPickup.effect;
+                }
+                catch (Exception e) { Debug.WriteLine(e.Message); Debug.WriteLine(e.StackTrace); }
+            }
+
+            else { throw new NotImplementedException(pickup.GetType().ToString() + " Is not implemented in Player.UsePickup();."); }
         }
+
 
         public override void Update()
         {
@@ -91,12 +112,13 @@ namespace mFriesen_S2TextBasedRPG
             EntityManager.CheckCoords(target, out pickup, out mob);
 
             actionResult result = LevelManager.CheckLocation(target);
-            if (mob != null) {
+            if (mob != null)
+            {
                 result = actionResult.fail;
-                if(mob is Foe)
+                if (mob is Foe)
                 {
                     mob.statManager.TakeDamage(statManager.GetDamage());
-                    if(attackEffect != null) { mob.currentEffect = currentEffect; }
+                    if (attackEffect != null) { mob.currentEffect = currentEffect; }
                     HUD.recentFoe = (Foe)mob;
                 }
             }

@@ -45,11 +45,14 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scripts\Area.cs" />
+    <Compile Include="Scripts\EntityThings\EffectPickup.cs" />
     <Compile Include="Scripts\EntityThings\Entity.cs" />
     <Compile Include="Scripts\EntityThings\Foe.cs" />
     <Compile Include="Scripts\EntityThings\Item.cs" />
+    <Compile Include="Scripts\EntityThings\ItemPickup.cs" />
     <Compile Include="Scripts\EntityThings\Pickup.cs" />
     <Compile Include="Scripts\EntityThings\Player.cs" />
+    <Compile Include="Scripts\EntityThings\RestorationPickup.cs" />
     <Compile Include="Scripts\EntityThings\StatManager.cs" />
     <Compile Include="Scripts\ExternalResources\Log.cs" />
     <Compile Include="Scripts\Managers\DataManager.cs" />

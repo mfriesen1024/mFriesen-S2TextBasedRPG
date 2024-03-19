@@ -41,7 +41,6 @@ namespace mFriesen_S2TextBasedRPG
 
             foreach (Mob mob2 in mobs)
             {
-                bool debug = true;
                 if (mob2.position.Equals(coords))
                 {
                     mob = mob2;
