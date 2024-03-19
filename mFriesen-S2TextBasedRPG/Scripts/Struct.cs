@@ -27,6 +27,14 @@ namespace mFriesen_S2TextBasedRPG
         public int nextArea {  get; private set; }
         public Vector2 playerNewPos;
 
+        /// <summary>
+        /// Creates a new trigger
+        /// </summary>
+        /// <param name="tc">The top corner of the trigger.</param>
+        /// <param name="bc">The bottom corner of the trigger.</param>
+        /// <param name="t">The type of trigger to be used</param>
+        /// <param name="area">The area to be loaded, if type is warp. Win triggers can safely leave this as 0.</param>
+        /// <param name="np">The position to warp the player to upon loading the new area.</param>
         public Trigger(Vector2 tc, Vector2 bc, triggerType t, int area, Vector2 np)
         {
             topCorner = tc;

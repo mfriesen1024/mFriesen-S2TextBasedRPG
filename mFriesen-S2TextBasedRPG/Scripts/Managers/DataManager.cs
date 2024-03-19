@@ -212,7 +212,7 @@ namespace mFriesen_S2TextBasedRPG
                     Vector2 bc = new Vector2(int.Parse(data[2]), int.Parse(data[3]));
                     Vector2 np = new Vector2(int.Parse(data[4]), int.Parse(data[5]));
 
-                    triggers.Add(new Trigger(tc, bc, (triggerType)int.Parse(data[4]), int.Parse(data[5]), np));
+                    triggers.Add(new Trigger(tc, bc, (triggerType)int.Parse(data[6]), int.Parse(data[7]), np));
                 }
                 catch (Exception e) { Log.Write($"Failed to load a trigger: {e.Message}", logType.error); Log.Write(e.StackTrace, logType.debug); }
             }

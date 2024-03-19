@@ -1,11 +1,13 @@
-﻿using System;
+﻿using SimpleLogger;
+using System;
 
 namespace mFriesen_S2TextBasedRPG
 {
     static class LevelManager
     {
         static Area[] areas;
-        static public Area currentArea { get; private set; }
+        public static Area currentArea { get; private set; }
+        static Trigger[] triggers;
         static Map map;
 
         static public void Init() // Call from GameManager
@@ -20,12 +22,15 @@ namespace mFriesen_S2TextBasedRPG
         {
             map.RenderMap();
             EntityManager.Update();
+
+            CheckTriggers(EntityManager.GetMobs());
         }
 
         public static void LoadArea(int index)
         {
             currentArea = areas[index];
             map = currentArea.map;
+            triggers = currentArea.triggers;
             GameManager.currentMap = map;
             EntityManager.LoadFromArea(currentArea);
         }
@@ -42,6 +47,22 @@ namespace mFriesen_S2TextBasedRPG
                 }
             }
             catch (IndexOutOfRangeException ignored) { return actionResult.fail; }
+        }
+
+        static void CheckTriggers(Mob[] mobs)
+        {
+            foreach (Mob mob in mobs)
+            {
+                if (mob == null) { OnError(); continue; }
+
+                // Later, this will have code to determine if to warp, and if so where.
+                foreach (Trigger trigger in triggers)
+                {
+                    trigger.CheckTrigger(mob);
+                }
+
+                void OnError() { Log.Write($"Unable to check the entity's warp!", logType.error); }
+            }
         }
     }
 }
