@@ -1,6 +1,4 @@
-﻿using SimpleLogger;
-
-namespace mFriesen_S2TextBasedRPG
+﻿namespace mFriesen_S2TextBasedRPG
 {
     internal class Area
     {
@@ -23,24 +21,6 @@ namespace mFriesen_S2TextBasedRPG
 
             // Create map
             map = new Map(name);
-        }
-
-        public void CheckTriggers( Mob[] mobs)
-        {
-            foreach (Mob mob in mobs)
-            {
-                if (mob == null) { OnError(); return; }
-
-                // Later, this will have code to determine if to warp, and if so where.
-                foreach (Trigger trigger in triggers)
-                {
-                    trigger.CheckTrigger(mob);
-                }
-
-                void OnError() { Log.Write($"Unable to check the entity's warp!", logType.error); return; }
-
-                return;
-            }
         }
 
         public void SetTriggers(Trigger[] triggers) { this.triggers = triggers; }
