@@ -31,7 +31,18 @@ namespace mFriesen_S2TextBasedRPG.Scripts
         // We use a static constructor here because we don't intend to call it anywhere. We may have to remove this later for file loading of these settings.
         static GlobalConstants()
         {
+            playerDefaultTile = new Tile('@', ConsoleColor.Blue, ConsoleColor.DarkBlue);
+            foeDefaultTile = new Tile('E', ConsoleColor.Red, ConsoleColor.White);
 
+            pickupBaseDefaultTile = new Tile('P', ConsoleColor.DarkYellow, ConsoleColor.White);
+            pickupItemDefaultTile = new Tile('i', ConsoleColor.Blue, ConsoleColor.White);
+            pickupRestorationDefaultTile = new Tile('+', ConsoleColor.Green, ConsoleColor.White);
+            pickupEffectDefaultTile = new Tile('e', ConsoleColor.Cyan, ConsoleColor.Blue);
+
+            unarmored = new ArmorItem(0);
+            unarmed = new WeaponItem(0);
+
+            noEffect = new StatusEffect(effectType.damageOverTime, "none", 0, 0);
         }
     }
 }
