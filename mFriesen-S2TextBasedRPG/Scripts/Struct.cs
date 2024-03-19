@@ -26,6 +26,7 @@ namespace mFriesen_S2TextBasedRPG
         public triggerType type;
         public int nextArea {  get; private set; }
         public Vector2 playerNewPos;
+        bool allowNonPlayers;
 
         /// <summary>
         /// Creates a new trigger
@@ -35,13 +36,15 @@ namespace mFriesen_S2TextBasedRPG
         /// <param name="t">The type of trigger to be used</param>
         /// <param name="area">The area to be loaded, if type is warp. Win triggers can safely leave this as 0.</param>
         /// <param name="np">The position to warp the player to upon loading the new area.</param>
-        public Trigger(Vector2 tc, Vector2 bc, triggerType t, int area, Vector2 np)
+        /// <param name="anp">Whether or not to allow non players to activate the trigger.</param>
+        public Trigger(Vector2 tc, Vector2 bc, triggerType t, int area, Vector2 np, bool anp = false)
         {
             topCorner = tc;
             bottomCorner = bc;
             type = t;
             nextArea = area;
             playerNewPos = np;
+            allowNonPlayers = anp;
         }
 
         public Trigger Clone()
@@ -60,7 +63,7 @@ namespace mFriesen_S2TextBasedRPG
             bool xCheck = mob.position.x >= topCorner.x && mob.position.x <= bottomCorner.x;
             bool yCheck = mob.position.y >= topCorner.y && mob.position.y <= bottomCorner.y;
 
-            if(xCheck && yCheck)
+            if(xCheck && yCheck && (mob is Player || allowNonPlayers))
             {
                 OnTriggerActivate();
             }
