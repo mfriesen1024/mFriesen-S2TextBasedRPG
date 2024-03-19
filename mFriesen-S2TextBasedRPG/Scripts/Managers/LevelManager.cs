@@ -30,6 +30,7 @@ namespace mFriesen_S2TextBasedRPG
         {
             currentArea = areas[index];
             map = currentArea.map;
+            triggers = currentArea.triggers;
             GameManager.currentMap = map;
             EntityManager.LoadFromArea(currentArea);
         }
@@ -52,7 +53,7 @@ namespace mFriesen_S2TextBasedRPG
         {
             foreach (Mob mob in mobs)
             {
-                if (mob == null) { OnError(); return; }
+                if (mob == null) { OnError(); continue; }
 
                 // Later, this will have code to determine if to warp, and if so where.
                 foreach (Trigger trigger in triggers)
@@ -60,9 +61,7 @@ namespace mFriesen_S2TextBasedRPG
                     trigger.CheckTrigger(mob);
                 }
 
-                void OnError() { Log.Write($"Unable to check the entity's warp!", logType.error); return; }
-
-                return;
+                void OnError() { Log.Write($"Unable to check the entity's warp!", logType.error); }
             }
         }
     }
