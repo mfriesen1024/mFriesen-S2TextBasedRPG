@@ -19,8 +19,7 @@ namespace mFriesen_S2TextBasedRPG
             // set display char
             if (useDefaultTile)
             {
-                displayTile.fg = System.ConsoleColor.Red; displayTile.bg = System.ConsoleColor.DarkRed;
-                displayTile.displayChar = 'E';
+                displayTile = GlobalSettings.foeDefaultTile;
             }
 
             start = position.Clone();
@@ -79,7 +78,7 @@ namespace mFriesen_S2TextBasedRPG
                 if(mob != this)
                 {
                     mob.statManager.TakeDamage(statManager.GetDamage());
-                    if (attackEffect != null) { mob.currentEffect = currentEffect; }
+                    if (attackEffect != null) { mob.currentEffect = ((StatusEffect)attackEffect).Clone(); }
                 }
             }
 
@@ -91,7 +90,7 @@ namespace mFriesen_S2TextBasedRPG
                 actor.position = target;
             }
 
-            if (actor.TickEffect()) { actor.currentEffect = null; }
+            if (actor.TickEffect()) { actor.currentEffect = GlobalSettings.noEffect; }
         }
 
         int GetLinearValue(char axis)

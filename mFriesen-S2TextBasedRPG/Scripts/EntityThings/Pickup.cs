@@ -6,16 +6,14 @@ namespace mFriesen_S2TextBasedRPG
     public enum restorationType { hp, ap }
     class Pickup : Entity
     {
-        // This should be used to set the default values of the item and its default tile. 
-        // We'll also use this as the template off of which RestorationPickup is made.
+        /// <summary>
+        /// This should be used to set the default values for things such as displayed tiles that require a default value.
+        /// These should be loaded from GlobalSettings.
+        /// </summary>
         virtual protected void SetDefaultValues()
         {
             // set tile
-            displayTile = new Tile();
-            displayTile.displayChar = '+';
-            displayTile.bg = ConsoleColor.DarkGreen;
-            displayTile.fg = ConsoleColor.White;
-            displayTile.hazard = Hazard.none;
+            displayTile = GlobalSettings.pickupBaseDefaultTile;
         }
 
         // A deep clone method, returning a completely clean duplicate of the pickup;

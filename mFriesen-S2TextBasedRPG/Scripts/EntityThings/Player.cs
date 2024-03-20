@@ -8,15 +8,15 @@ namespace mFriesen_S2TextBasedRPG
     {
         // Player specific things here.
 
-        public Player(int hp = 10, int ap = 0, int dr = 0, int str = 1)
+        public Player(int hp = 10, int ap = 0, int dr = 0, int str = 1, Tile? displayTile = null)
         {
             statManager = new StatManager(hp, ap, dr, str, this);
 
             name = "player";
 
             // set display char
-            displayTile.fg = System.ConsoleColor.Blue; displayTile.bg = System.ConsoleColor.DarkBlue;
-            displayTile.displayChar = '@';
+            if(displayTile != null) { this.displayTile = (Tile)displayTile; }
+            else { this.displayTile = GlobalSettings.playerDefaultTile; }
         }
 
         protected override Vector2 GetAction()
@@ -118,7 +118,7 @@ namespace mFriesen_S2TextBasedRPG
                 if (mob is Foe)
                 {
                     mob.statManager.TakeDamage(statManager.GetDamage());
-                    if (attackEffect != null) { mob.currentEffect = currentEffect; }
+                    if (attackEffect != null) { mob.currentEffect = ((StatusEffect)attackEffect).Clone(); }
                     HUD.recentFoe = (Foe)mob;
                 }
             }
@@ -137,7 +137,7 @@ namespace mFriesen_S2TextBasedRPG
                 actor.position = target;
             }
 
-            if (actor.TickEffect()) { actor.currentEffect = null; }
+            if (actor.TickEffect()) { actor.currentEffect = GlobalSettings.noEffect; }
         }
     }
 }

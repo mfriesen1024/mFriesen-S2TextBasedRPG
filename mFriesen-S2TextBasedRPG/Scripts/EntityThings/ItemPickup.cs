@@ -16,11 +16,7 @@ namespace mFriesen_S2TextBasedRPG
         protected override void SetDefaultValues()
         {
             // set tile
-            displayTile = new Tile();
-            displayTile.displayChar = 'i';
-            displayTile.bg = ConsoleColor.White;
-            displayTile.fg = ConsoleColor.Blue;
-            displayTile.hazard = Hazard.none;
+            displayTile = GlobalSettings.pickupItemDefaultTile;
         }
 
         public override Entity DeepClone()
