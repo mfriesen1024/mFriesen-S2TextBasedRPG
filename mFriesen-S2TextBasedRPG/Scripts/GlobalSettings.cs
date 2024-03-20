@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace mFriesen_S2TextBasedRPG
 {
-    static class GlobalConstants
+    static class GlobalSettings
     {
         // Lets store some default tiles here.
         public static Tile playerDefaultTile { get { return playerDefaultTile.Clone(); } private set { playerDefaultTile = value; } }
@@ -29,7 +29,7 @@ namespace mFriesen_S2TextBasedRPG
         public static int renderRegionDefaultY = 10;
 
         // We use a static constructor here because we don't intend to call it anywhere. We may have to remove this later for file loading of these settings.
-        static GlobalConstants()
+        static GlobalSettings()
         {
             playerDefaultTile = new Tile('@', ConsoleColor.Blue, ConsoleColor.DarkBlue);
             foeDefaultTile = new Tile('E', ConsoleColor.Red, ConsoleColor.White);

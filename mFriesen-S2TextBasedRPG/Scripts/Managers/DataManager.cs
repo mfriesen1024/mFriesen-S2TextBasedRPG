@@ -129,8 +129,8 @@ namespace mFriesen_S2TextBasedRPG
                     player = new Player(int.Parse(playerData[0]), int.Parse(playerData[1]), int.Parse(playerData[2]), int.Parse(playerData[3]))
                     {
                         attackEffect = statusEffects[int.Parse(playerData[4])],
-                        weapon = GlobalConstants.unarmed,
-                        armor = GlobalConstants.unarmored
+                        weapon = GlobalSettings.unarmed,
+                        armor = GlobalSettings.unarmored
                     };
                 }
                 count++;
@@ -175,8 +175,8 @@ namespace mFriesen_S2TextBasedRPG
                             displayTile = tile,
                             movement = (Foe.movementType)int.Parse(data[6]),
                             attackEffect = statusEffects[int.Parse(data[7])],
-                            weapon = GlobalConstants.unarmed,
-                            armor = GlobalConstants.unarmored
+                            weapon = GlobalSettings.unarmed,
+                            armor = GlobalSettings.unarmored
                         };
                     }
                     foes.Add(foe);

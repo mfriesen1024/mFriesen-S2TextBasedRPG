@@ -91,7 +91,7 @@ namespace mFriesen_S2TextBasedRPG
                 actor.position = target;
             }
 
-            if (actor.TickEffect()) { actor.currentEffect = GlobalConstants.noEffect; }
+            if (actor.TickEffect()) { actor.currentEffect = GlobalSettings.noEffect; }
         }
 
         int GetLinearValue(char axis)
