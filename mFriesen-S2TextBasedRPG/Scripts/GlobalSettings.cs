@@ -11,18 +11,20 @@ namespace mFriesen_S2TextBasedRPG
     static class GlobalSettings
     {
         // Lets store some default tiles here.
-        public static Tile playerDefaultTile { get { return playerDefaultTile.Clone(); } private set { playerDefaultTile = value; } }
-        public static Tile foeDefaultTile { get { return foeDefaultTile.Clone(); } private set { foeDefaultTile = value; } } // This is probably never going to be used, but just in case.
+        static Tile pdt, fdt, pbdt, pidt, prdt, pedt;
+        public static Tile playerDefaultTile { get { return pdt.Clone(); } private set { pdt = value; } }
+        public static Tile foeDefaultTile { get { return fdt.Clone(); } private set { fdt = value; } } // This is probably never going to be used, but just in case.
 
-        public static Tile pickupBaseDefaultTile { get { return pickupBaseDefaultTile.Clone(); } private set { pickupBaseDefaultTile = value; } } // This is if for whatever reason we have a base pickup in use.
-        public static Tile pickupItemDefaultTile { get { return pickupItemDefaultTile.Clone(); } private set { pickupItemDefaultTile = value; } }
-        public static Tile pickupRestorationDefaultTile { get { return pickupRestorationDefaultTile.Clone(); } private set { pickupRestorationDefaultTile = value; } }
-        public static Tile pickupEffectDefaultTile { get { return pickupEffectDefaultTile.Clone(); } private set { pickupEffectDefaultTile = value; } }
+        public static Tile pickupBaseDefaultTile { get { return pbdt.Clone(); } private set { pbdt = value; } } // This is if for whatever reason we have a base pickup in use.
+        public static Tile pickupItemDefaultTile { get { return pidt.Clone(); } private set { pidt = value; } }
+        public static Tile pickupRestorationDefaultTile { get { return prdt.Clone(); } private set { prdt = value; } }
+        public static Tile pickupEffectDefaultTile { get { return pedt.Clone(); } private set { pedt = value; } }
 
         // Declare the "null" items/effects
         public static ArmorItem unarmored { get; private set; }
         public static WeaponItem unarmed { get; private set; }
-        public static StatusEffect noEffect { get { return noEffect.Clone(); } private set { noEffect = value; } }
+        static StatusEffect _noEffect;
+        public static StatusEffect noEffect { get { return _noEffect.Clone(); } private set { _noEffect = value; } }
 
         // Define default render region settings, I cannot be bothered to make that yet.
         public static int renderRegionDefaultX = 10;
