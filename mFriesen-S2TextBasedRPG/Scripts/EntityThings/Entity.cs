@@ -33,8 +33,8 @@ namespace mFriesen_S2TextBasedRPG
         public StatManager statManager;
         public ArmorItem armor;
         public WeaponItem weapon;
-        public StatusEffect? attackEffect;
-        public StatusEffect? currentEffect;
+        public StatusEffect? attackEffect = GlobalConstants.noEffect;
+        public StatusEffect? currentEffect = GlobalConstants.noEffect;
         public bool immobilized = false;
         public string name;
 

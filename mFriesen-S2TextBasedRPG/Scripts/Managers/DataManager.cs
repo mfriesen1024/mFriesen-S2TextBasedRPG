@@ -113,12 +113,26 @@ namespace mFriesen_S2TextBasedRPG
                 if (!File.Exists(fileName)) { File.Create(fileName); throw new FileNotFoundException($"{fileName} was not found, so it was created."); }
                 string[] playerData = File.ReadAllLines(fileName);
 
-                player = new Player(int.Parse(playerData[0]), int.Parse(playerData[1]), int.Parse(playerData[2]), int.Parse(playerData[3]))
+                try
                 {
-                    attackEffect = statusEffects[int.Parse(playerData[4])],
-                    weapon = (WeaponItem)items[int.Parse(playerData[5])],
-                    armor = (ArmorItem)items[int.Parse(playerData[6])]
-                };
+                    player = new Player(int.Parse(playerData[0]), int.Parse(playerData[1]), int.Parse(playerData[2]), int.Parse(playerData[3]))
+                    {
+                        attackEffect = statusEffects[int.Parse(playerData[4])],
+                        weapon = (WeaponItem)items[int.Parse(playerData[5])],
+                        armor = (ArmorItem)items[int.Parse(playerData[6])]
+                    };
+                }
+                catch (Exception e)
+                {
+                    Log.Write($"Caught exception of type {e.GetType()}, with message {e.Message} {e.StackTrace} whilst loading player.");
+
+                    player = new Player(int.Parse(playerData[0]), int.Parse(playerData[1]), int.Parse(playerData[2]), int.Parse(playerData[3]))
+                    {
+                        attackEffect = statusEffects[int.Parse(playerData[4])],
+                        weapon = GlobalConstants.unarmed,
+                        armor = GlobalConstants.unarmored
+                    };
+                }
                 count++;
             }
             catch (Exception e) { Log.Write("Failed to load the player: " + e.Message, logType.error); Log.Write(e.StackTrace, logType.debug); }
@@ -137,16 +151,34 @@ namespace mFriesen_S2TextBasedRPG
                     object[] tileData = { data[5][0], Map.TryHexParse(data[5][1]), Map.TryHexParse(data[5][2]), 0 };
                     Tile tile = new Tile { displayChar = (char)tileData[0], fg = (ConsoleColor)tileData[1], bg = (ConsoleColor)tileData[2], hazard = (Hazard)tileData[3] };
 
+                    // TODO: Wrap foe/player creation into a method to not repeat code despite trycatch.
                     // Create foe.
-                    Foe foe = new Foe(int.Parse(data[1]), int.Parse(data[2]), int.Parse(data[3]), int.Parse(data[4]), false)
+                    Foe foe; try
                     {
-                        name = data[0],
-                        displayTile = tile,
-                        movement = (Foe.movementType)int.Parse(data[6]),
-                        attackEffect = statusEffects[int.Parse(data[7])],
-                        weapon = (WeaponItem)items[int.Parse(data[8])],
-                        armor = (ArmorItem)items[int.Parse(data[9])]
-                    };
+                        foe = new Foe(int.Parse(data[1]), int.Parse(data[2]), int.Parse(data[3]), int.Parse(data[4]), false)
+                        {
+                            name = data[0],
+                            displayTile = tile,
+                            movement = (Foe.movementType)int.Parse(data[6]),
+                            attackEffect = statusEffects[int.Parse(data[7])],
+                            weapon = (WeaponItem)items[int.Parse(data[8])],
+                            armor = (ArmorItem)items[int.Parse(data[9])]
+                        };
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Write($"Caught exception of type {e.GetType()}, with message {e.Message} {e.StackTrace} whilst loading foe {data[0]}.");
+
+                        foe = new Foe(int.Parse(data[1]), int.Parse(data[2]), int.Parse(data[3]), int.Parse(data[4]), false)
+                        {
+                            name = data[0],
+                            displayTile = tile,
+                            movement = (Foe.movementType)int.Parse(data[6]),
+                            attackEffect = statusEffects[int.Parse(data[7])],
+                            weapon = GlobalConstants.unarmed,
+                            armor = GlobalConstants.unarmored
+                        };
+                    }
                     foes.Add(foe);
                     count++;
                 }
