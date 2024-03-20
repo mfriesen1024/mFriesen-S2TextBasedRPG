@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 // This is designed to hold defaults. Hardcoding here should be fine, though eventually the initialization should be done via DataManager.
 
-namespace mFriesen_S2TextBasedRPG.Scripts
+namespace mFriesen_S2TextBasedRPG
 {
     static class GlobalConstants
     {
@@ -22,7 +22,7 @@ namespace mFriesen_S2TextBasedRPG.Scripts
         // Declare the "null" items/effects
         public static ArmorItem unarmored { get; private set; }
         public static WeaponItem unarmed { get; private set; }
-        public static StatusEffect noEffect { get; private set; }
+        public static StatusEffect noEffect { get { return noEffect.Clone(); } private set { noEffect = value; } }
 
         // Define default render region settings, I cannot be bothered to make that yet.
         public static int renderRegionDefaultX = 10;
