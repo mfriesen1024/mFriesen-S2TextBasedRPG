@@ -31,7 +31,7 @@ namespace mFriesen_S2TextBasedRPG
             {
                 string txt = $"Failed to load map {fNames[0]} due to nonexistent file.";
                 File.Create(fNames[0]).Close();
-                Log.Write(txt, logType.fatal);
+                Log.Write(txt, logType.error);
                 throw new FileNotFoundException(txt);
             }
 
