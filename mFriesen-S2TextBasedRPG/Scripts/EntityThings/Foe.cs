@@ -79,7 +79,7 @@ namespace mFriesen_S2TextBasedRPG
                 if(mob != this)
                 {
                     mob.statManager.TakeDamage(statManager.GetDamage());
-                    if (attackEffect != null) { mob.currentEffect = currentEffect; }
+                    if (attackEffect != null) { mob.currentEffect = ((StatusEffect)attackEffect).Clone(); }
                 }
             }
 
@@ -91,7 +91,7 @@ namespace mFriesen_S2TextBasedRPG
                 actor.position = target;
             }
 
-            if (actor.TickEffect()) { actor.currentEffect = null; }
+            if (actor.TickEffect()) { actor.currentEffect = GlobalConstants.noEffect; }
         }
 
         int GetLinearValue(char axis)

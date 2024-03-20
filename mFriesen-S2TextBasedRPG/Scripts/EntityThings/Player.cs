@@ -118,7 +118,7 @@ namespace mFriesen_S2TextBasedRPG
                 if (mob is Foe)
                 {
                     mob.statManager.TakeDamage(statManager.GetDamage());
-                    if (attackEffect != null) { mob.currentEffect = currentEffect; }
+                    if (attackEffect != null) { mob.currentEffect = ((StatusEffect)attackEffect).Clone(); }
                     HUD.recentFoe = (Foe)mob;
                 }
             }
@@ -137,7 +137,7 @@ namespace mFriesen_S2TextBasedRPG
                 actor.position = target;
             }
 
-            if (actor.TickEffect()) { actor.currentEffect = null; }
+            if (actor.TickEffect()) { actor.currentEffect = GlobalConstants.noEffect; }
         }
     }
 }
