@@ -19,8 +19,7 @@ namespace mFriesen_S2TextBasedRPG
             // set display char
             if (useDefaultTile)
             {
-                displayTile.fg = System.ConsoleColor.Red; displayTile.bg = System.ConsoleColor.DarkRed;
-                displayTile.displayChar = 'E';
+                displayTile = GlobalSettings.foeDefaultTile;
             }
 
             start = position.Clone();
