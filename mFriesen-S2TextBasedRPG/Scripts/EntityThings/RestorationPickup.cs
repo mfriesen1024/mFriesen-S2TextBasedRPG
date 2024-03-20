@@ -15,7 +15,11 @@
             SetDefaultValues();
         }
 
-        // Do not override SetDefaultValues.
+        protected override void SetDefaultValues()
+        {
+            // Set tile
+            displayTile = GlobalSettings.pickupRestorationDefaultTile;
+        }
 
         public override Entity DeepClone()
         {

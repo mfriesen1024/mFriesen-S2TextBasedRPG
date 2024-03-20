@@ -9,16 +9,14 @@ namespace mFriesen_S2TextBasedRPG
         {
             this.effect = effect;
             this.position = position;
+
+            SetDefaultValues();
         }
 
         protected override void SetDefaultValues()
         {
             // set tile
-            displayTile = new Tile();
-            displayTile.displayChar = 'e';
-            displayTile.bg = ConsoleColor.White;
-            displayTile.fg = ConsoleColor.DarkRed;
-            displayTile.hazard = Hazard.none;
+            displayTile = GlobalSettings.pickupEffectDefaultTile;
         }
 
         public override Entity DeepClone()
