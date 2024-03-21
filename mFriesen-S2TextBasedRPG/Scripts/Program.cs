@@ -11,7 +11,6 @@ namespace mFriesen_S2TextBasedRPG
             Log.SetName("LogMain");
             Log.debug = true;
 
-            GameManager.areasFName = "data\\areaNames.txt";
             GameManager.Start();
 
             Console.ReadKey();

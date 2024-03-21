@@ -62,8 +62,8 @@ namespace mFriesen_S2TextBasedRPG
             {
                 case statname.hp: Return = hp; break;
                 case statname.ap: Return = ap; break;
-                case statname.dr: if (owner.armor != null) { return dr + owner.armor.dr; } else { return dr; } break;
-                case statname.str: if (owner.weapon != null) { return str + owner.weapon.str; } else { return str; } break;
+                case statname.dr: if (owner.armor != null) { return dr + owner.armor.dr; } else { return dr; }
+                case statname.str: if (owner.weapon != null) { return str + owner.weapon.str; } else { return str; }
             }
             return Return;
         }

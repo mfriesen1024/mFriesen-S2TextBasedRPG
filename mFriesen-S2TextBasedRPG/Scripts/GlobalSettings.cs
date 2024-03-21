@@ -42,5 +42,14 @@ namespace mFriesen_S2TextBasedRPG
 
             noEffect = new StatusEffect(effectType.damageOverTime, "none", 0, 0);
         }
+
+        static Random random;
+        static int seed = DateTime.Now.Millisecond;
+
+        public static Random GetRandom()
+        {
+            seed++;
+            return new Random(seed);
+        }
     }
 }

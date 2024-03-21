@@ -34,14 +34,14 @@ namespace mFriesen_S2TextBasedRPG
             int value = 0, x = 0, y = 0;
 
             // this is probably a wacky way of doing this, but I need 2 bools.
-            r = GameManager.GetRandom();
+            r = GlobalSettings.GetRandom();
             bool axis = false;
             if (movement == movementType.random || movement == movementType.stationary) // include stationary as it will attack randomly.
             {
                 axis = Convert.ToBoolean(r.Next(0, 2));
                 while (value == 0)
                 {
-                    GameManager.GetRandom();
+                    GlobalSettings.GetRandom();
                     int temp = r.Next(-10, 11);
                     if (temp > 0) { value = 1; }
                     if (temp < 0) { value = -1; }
