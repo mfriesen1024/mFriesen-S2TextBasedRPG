@@ -28,7 +28,9 @@ namespace mFriesen_S2TextBasedRPG
 
         protected override Vector2 GetAction()
         {
+            if (movement == movementType.stationary) { immobilized = true; }
             if (position.Equals(end)) { isReturning = true; } else if (position.Equals(start)) { isReturning = false; }
+
             Log.Write("Debugging random GetAction", logType.debug);
             Random r;
             int value = 0, x = 0, y = 0;
@@ -90,7 +92,7 @@ namespace mFriesen_S2TextBasedRPG
                 actor.position = target;
             }
 
-            if (actor.TickEffect()) { actor.currentEffect = GlobalSettings.noEffect; }
+            if (actor.TickEffect()) { actor.currentEffect = GlobalSettings.noEffect; if (movement != movementType.stationary) { immobilized = false; } }
         }
 
         int GetLinearValue(char axis)
