@@ -82,7 +82,7 @@ namespace mFriesen_S2TextBasedRPG
                     default: throw new NotImplementedException("Effect type did not account for Mob.TickEffect");
                 }
                 // If timer <= 0, return true, so we remove the effect.
-                if (effect.timer <= 0) { return true; }
+                if (effect.timer <= 0) { immobilized = false; return true; }
             }
             return false;
         }
