@@ -34,13 +34,16 @@ namespace mFriesen_S2TextBasedRPG
 
         public static void Load()
         {
-            //Console.WriteLine("Loading...");
+            Console.WriteLine("Loading...");
 
             LoadEffects();
             LoadItems();
             LoadEntities();
             LoadPickups();
             LoadAreas();
+
+            Console.WriteLine("Loading complete.");
+            Console.Clear();
         }
 
         static void LoadEffects(string extension = "txt")
@@ -67,6 +70,7 @@ namespace mFriesen_S2TextBasedRPG
                 catch (Exception e) { Log.Write("Failed to load an effect: " + e.Message, logType.error); Log.Write(e.StackTrace, logType.debug); }
             }
             Log.Write($"Loaded {statusEffects.Count} effects.");
+            Console.WriteLine("Loaded effects.");
         }
 
         enum itemType { armor, weapon }
@@ -99,6 +103,7 @@ namespace mFriesen_S2TextBasedRPG
                 catch (Exception e) { Log.Write("Failed to load an item: " + e.Message, logType.error); Log.Write(e.StackTrace, logType.debug); }
             }
             Log.Write($"Loaded {items.Count} items.");
+            Console.WriteLine("Loaded items.");
         }
 
 
@@ -189,6 +194,7 @@ namespace mFriesen_S2TextBasedRPG
                 catch (Exception e) { Log.Write("Failed to load an entity: " + e.Message, logType.error); Log.Write(e.StackTrace, logType.debug); }
             }
             Log.Write($"Loaded {count} entities.");
+            Console.WriteLine("Loaded entities.");
         }
 
         private static void LoadPickups(string extension = "txt")
@@ -223,9 +229,9 @@ namespace mFriesen_S2TextBasedRPG
                 }
                 catch (Exception e) { Log.Write("Failed to load a pickup: " + e.Message, logType.error); Log.Write(e.StackTrace, logType.debug); }
             }
-            Log.Write($"Loaded {pickups.Count} pickups.");
-
             DataManager.pickups = pickups;
+            Log.Write($"Loaded {pickups.Count} pickups.");
+            Console.WriteLine("Loaded pickups.");
         }
 
         // Load triggers from files.
@@ -267,6 +273,8 @@ namespace mFriesen_S2TextBasedRPG
             {
                 try
                 {
+                    Console.WriteLine($"Attempting to load area {name}");
+
                     string fileName = dir + "\\" + name + "." + extension;
                     if (!File.Exists(fileName)) { File.Create(fileName); throw new FileNotFoundException($"{fileName} was not found, so it was created."); }
                     string[] data = File.ReadAllLines(fileName);
@@ -314,6 +322,7 @@ namespace mFriesen_S2TextBasedRPG
                 catch (Exception e) { Log.Write($"Failed to load an area: {e.Message}", logType.error); Log.Write(e.StackTrace, logType.debug); }
             }
             Log.Write($"Loaded {areas.Count} areas");
+            Console.WriteLine("Loaded areas");
         }
 
         static void LoadDirs()
