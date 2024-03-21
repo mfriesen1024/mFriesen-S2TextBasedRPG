@@ -83,6 +83,7 @@ namespace mFriesen_S2TextBasedRPG
 
     struct Vector2
     {
+        public static Vector2 zero { get { return new Vector2(0, 0); } }
         public int y, x;
 
         public Vector2(int x, int y) { this.x = x; this.y = y; }
