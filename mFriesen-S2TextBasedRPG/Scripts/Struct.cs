@@ -25,13 +25,26 @@ namespace mFriesen_S2TextBasedRPG
         public Vector2 bottomCorner; // Should be the higher set of values
         public triggerType type;
         public int nextArea {  get; private set; }
+        public Vector2 playerNewPos;
+        bool allowNonPlayers;
 
-        public Trigger(Vector2 tc, Vector2 bc, triggerType t, int area)
+        /// <summary>
+        /// Creates a new trigger
+        /// </summary>
+        /// <param name="tc">The top corner of the trigger.</param>
+        /// <param name="bc">The bottom corner of the trigger.</param>
+        /// <param name="t">The type of trigger to be used</param>
+        /// <param name="area">The area to be loaded, if type is warp. Win triggers can safely leave this as 0.</param>
+        /// <param name="np">The position to warp the player to upon loading the new area.</param>
+        /// <param name="anp">Whether or not to allow non players to activate the trigger.</param>
+        public Trigger(Vector2 tc, Vector2 bc, triggerType t, int area, Vector2 np, bool anp = false)
         {
             topCorner = tc;
             bottomCorner = bc;
             type = t;
             nextArea = area;
+            playerNewPos = np;
+            allowNonPlayers = anp;
         }
 
         public Trigger Clone()
@@ -39,6 +52,7 @@ namespace mFriesen_S2TextBasedRPG
             Trigger t = (Trigger)MemberwiseClone();
             t.topCorner = topCorner.Clone();
             t.bottomCorner = bottomCorner.Clone();
+            t.playerNewPos = playerNewPos;
             return t;
         }
 
@@ -49,7 +63,7 @@ namespace mFriesen_S2TextBasedRPG
             bool xCheck = mob.position.x >= topCorner.x && mob.position.x <= bottomCorner.x;
             bool yCheck = mob.position.y >= topCorner.y && mob.position.y <= bottomCorner.y;
 
-            if(xCheck && yCheck)
+            if(xCheck && yCheck && (mob is Player || allowNonPlayers))
             {
                 OnTriggerActivate();
             }
@@ -61,7 +75,7 @@ namespace mFriesen_S2TextBasedRPG
         {
             switch (type)
             {
-                case triggerType.warp: GameManager.LoadArea(nextArea); break;
+                case triggerType.warp: LevelManager.LoadArea(nextArea); EntityManager.player.position = playerNewPos; break;
                 case triggerType.win: GameManager.win = true; GameManager.run = false; break;
             }
         }
@@ -69,6 +83,7 @@ namespace mFriesen_S2TextBasedRPG
 
     struct Vector2
     {
+        public static Vector2 zero { get { return new Vector2(0, 0); } }
         public int y, x;
 
         public Vector2(int x, int y) { this.x = x; this.y = y; }
@@ -99,6 +114,13 @@ namespace mFriesen_S2TextBasedRPG
         public char displayChar;
         public ConsoleColor bg, fg; // Foreground and background colours
         public Hazard hazard;
+
+        public Tile(char _char = ' ', ConsoleColor _bg = ConsoleColor.Black, ConsoleColor _fg = ConsoleColor.Black, Hazard _hazard = Hazard.none)
+        {
+            displayChar = _char;
+            bg = _bg; fg = _fg;
+            hazard = _hazard;
+        }
 
         public Tile Clone()
         {

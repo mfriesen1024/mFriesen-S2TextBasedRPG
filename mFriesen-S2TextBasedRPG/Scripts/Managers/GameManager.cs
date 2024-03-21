@@ -25,7 +25,7 @@ namespace mFriesen_S2TextBasedRPG
         static Area[] areas; // stores the areas.
         public static Foe[] foeTemplates; // store foe templates
         static Area currentArea; // tracks the current area
-        static Map currentMap; // Track current map.
+        public static Map currentMap; // Track current map.
         static List<Mob> mobs = new List<Mob>();
         static List<Entity> displayEntities = new List<Entity>();
         static List<Pickup> pickups = new List<Pickup>();
@@ -39,10 +39,10 @@ namespace mFriesen_S2TextBasedRPG
 
         public static void Start()
         {
-            LoadData();
+            DataManager.Init();
+            LevelManager.Init();
 
-            // set first area active.
-            LoadArea(0);
+            HUD.Init();
 
             currentMap.RenderMap();
 
@@ -60,9 +60,11 @@ namespace mFriesen_S2TextBasedRPG
 
         public static void Update()
         {
-            // At the start, render the map.
-            currentMap.RenderMap(displayEntities.ToArray());
+            LevelManager.Update();
 
+            // Temporarily comment out stuff we want to remove, to see if it causes problems.
+
+            /*
             // Set last encountered foe to null;
             HUD.recentFoe = null;
 
@@ -113,6 +115,8 @@ namespace mFriesen_S2TextBasedRPG
 
             // End game if all mobs are dead.
             //TempWinCheck();
+
+            //*/
         }
 
         public static void LoadArea(int index)
@@ -131,14 +135,6 @@ namespace mFriesen_S2TextBasedRPG
             pickups.AddRange(currentArea.pickups);
 
             currentMap = currentArea.map;
-        }
-
-        static void LoadData() // This system is currently spaghettified. Refactoring should be done soon:tm:.
-        {
-            foeTemplates = DataManager.foes.ToArray();
-            areas = DataManager.areas.ToArray();
-            player = DataManager.player;
-            HUD.player = player;
         }
 
         public static Random GetRandom()

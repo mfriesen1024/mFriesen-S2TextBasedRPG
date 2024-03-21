@@ -21,7 +21,10 @@ namespace mFriesen_S2TextBasedRPG
 
         static string legend = "";
 
-
+        public static void Init()
+        {
+            player = EntityManager.player;
+        }
 
         static healthStatus GetHealthStatus(int hp, int maxhp, int ap = 0)
         {
@@ -60,7 +63,7 @@ namespace mFriesen_S2TextBasedRPG
             }
 
             if (player.currentEffect  != null) { playerEffectText = ((StatusEffect)player.currentEffect).name; }
-            else { playerEffectText = "No Effect"; }
+            else { playerEffectText = "No Effect"; } // In theory, this should now be redundant.
         }
 
         public static void Update(bool print = true)
