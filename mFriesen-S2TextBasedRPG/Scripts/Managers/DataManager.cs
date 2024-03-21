@@ -14,6 +14,7 @@ namespace mFriesen_S2TextBasedRPG
         // Data goes here.
         public static List<StatusEffect> statusEffects;
         public static List<Item> items;
+        public static List<Pickup> pickups;
         public static Player player;
         public static List<Foe> foes;
         public static List<Area> areas;
@@ -33,9 +34,12 @@ namespace mFriesen_S2TextBasedRPG
 
         public static void Load()
         {
+            //Console.WriteLine("Loading...");
+
             LoadEffects();
             LoadItems();
             LoadEntities();
+            LoadPickups();
             LoadAreas();
         }
 
@@ -187,23 +191,23 @@ namespace mFriesen_S2TextBasedRPG
             Log.Write($"Loaded {count} entities.");
         }
 
-        private static Pickup[] LoadPickups(string location, string extension = "txt")
+        private static void LoadPickups(string extension = "txt")
         {
-            if (!Directory.Exists(location)) { Directory.CreateDirectory(location); File.Create(location + indexAdd); throw new DirectoryNotFoundException($"{location} was not found, so it was created."); }
-            string[] fileNames = File.ReadAllLines(location + indexAdd);
+            string dir = directories[5];
+            string[] fileNames = File.ReadAllLines(dir + indexAdd);
             List<Pickup> pickups = new List<Pickup>();
             foreach (string file in fileNames)
             {
                 try
                 {
-                    string fileName = location + "\\" + file + "." + extension;
+                    string fileName = dir + "\\" + file + "." + extension;
                     if (!File.Exists(fileName)) { File.Create(fileName); throw new FileNotFoundException($"{fileName} was not found, so it was created."); }
                     string[] data = File.ReadAllLines(fileName);
 
                     int iPType = int.Parse(data[0]); pickupType pType = (pickupType)iPType;
                     int objectIndex = int.Parse(data[1]);
                     int iRType; restorationType rType = 0;
-                    int x = int.Parse(data[2]); int y = int.Parse(data[3]); Vector2 pos = new Vector2(x, y);
+                    Vector2 pos = Vector2.zero;
                     try { iRType = int.Parse(data[4]); rType = (restorationType)iRType; } catch (Exception ignored) { }
 
                     Pickup pickup;
@@ -221,7 +225,7 @@ namespace mFriesen_S2TextBasedRPG
             }
             Log.Write($"Loaded {pickups.Count} pickups.");
 
-            return pickups.ToArray();
+            DataManager.pickups = pickups;
         }
 
         // Load triggers from files.
@@ -267,22 +271,22 @@ namespace mFriesen_S2TextBasedRPG
                     if (!File.Exists(fileName)) { File.Create(fileName); throw new FileNotFoundException($"{fileName} was not found, so it was created."); }
                     string[] data = File.ReadAllLines(fileName);
 
-                    // Load pickups and triggers
+                    // Load triggers
                     string triggerLoc = dir + "\\" + name + "triggers";
-                    string pickupsLoc = dir + "\\" + name + "pickups";
                     Trigger[] triggers = LoadTriggers(triggerLoc);
-                    Pickup[] pickups = LoadPickups(pickupsLoc);
 
-                    // Assign pickups and triggers
+                    // Assign triggers
                     Area area = new Area(name);
-                    area.pickups = pickups;
                     area.SetTriggers(triggers);
 
-                    // entity instantiation, first assign variables.
+                    // entity/pickup instantiation, first assign variables.
                     int entityInstStart = int.Parse(data[0]);
                     int entityInstEnd = int.Parse(data[1]);
+                    int pickupInstStart = int.Parse(data[2]);
+                    int pickupInstEnd = int.Parse(data[3]);
 
                     // make list and instantiate from instructions in file.
+
                     List<Foe> encounter = new List<Foe>();
                     for (int i = entityInstStart; i <= entityInstEnd; i += 3)
                     {
@@ -293,6 +297,17 @@ namespace mFriesen_S2TextBasedRPG
                         encounter.Add(foe);
                     }
                     area.encounter = encounter.ToArray();
+
+                    List<Pickup> localPickups = new List<Pickup>();
+                    for (int i = pickupInstStart; i <= pickupInstEnd; i += 3)
+                    {
+                        int index = i;
+                        Pickup pickup = (Pickup)pickups[int.Parse(data[index])].DeepClone();
+                        Vector2 position = new Vector2(int.Parse(data[index + 1]), int.Parse(data[index + 2]));
+                        pickup.position = position;
+                        localPickups.Add(pickup);
+                    }
+                    area.pickups = localPickups.ToArray();
 
                     areas.Add(area);
                 }
