@@ -90,14 +90,15 @@ namespace mFriesen_S2TextBasedRPG
 
             Log.Write($"Loaded map {fName}, by loading {fNames.Length} files. Tiles has {tiles.Length} tiles.");
         }
-        public void RenderMap(Entity[] entities = null)
+        public void RenderMap()
         {
             // Run clear first, make sure console is clear before we do crap.
             Console.Clear();
 
             // create local tile array so I don't break the array when I add entities.
             Tile[,] localTiles = tiles;
-            localTiles = AddEntitiesToMap(tiles, EntityManager.GetDisplayEntities());
+            Entity[] entities = EntityManager.GetDisplayEntities();
+            localTiles = AddEntitiesToMap(tiles, entities);
 
             // Create top/bottom borders.
             string end = string.Empty;
