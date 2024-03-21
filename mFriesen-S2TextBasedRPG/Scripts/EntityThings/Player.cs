@@ -15,7 +15,7 @@ namespace mFriesen_S2TextBasedRPG
             name = "player";
 
             // set display char
-            if(displayTile != null) { this.displayTile = (Tile)displayTile; }
+            if (displayTile != null) { this.displayTile = (Tile)displayTile; }
             else { this.displayTile = GlobalSettings.playerDefaultTile; }
         }
 

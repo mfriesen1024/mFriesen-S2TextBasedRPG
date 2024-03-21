@@ -62,7 +62,7 @@ namespace mFriesen_S2TextBasedRPG
                 foeStatus = GetHealthStatus(foeSM.GetStat(statname.hp), foeSM.maxHP, foeSM.GetStat(statname.ap));
             }
 
-            if (player.currentEffect  != null) { playerEffectText = ((StatusEffect)player.currentEffect).name; }
+            if (player.currentEffect != null) { playerEffectText = ((StatusEffect)player.currentEffect).name; }
             else { playerEffectText = "No Effect"; } // In theory, this should now be redundant.
         }
 

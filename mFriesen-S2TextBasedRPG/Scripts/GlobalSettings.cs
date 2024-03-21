@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 // This is designed to hold defaults. Hardcoding here should be fine, though eventually the initialization should be done via DataManager.
 

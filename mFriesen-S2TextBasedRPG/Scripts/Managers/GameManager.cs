@@ -1,7 +1,6 @@
 ﻿using SimpleLogger;
 using System;
 using System.Collections.Generic;
-using System.IO;
 
 namespace mFriesen_S2TextBasedRPG
 {
@@ -35,7 +34,7 @@ namespace mFriesen_S2TextBasedRPG
         static string tempWinText = "You won.";
         static string tempLoseText = "You died.";
 
-        
+
 
         public static void Start()
         {

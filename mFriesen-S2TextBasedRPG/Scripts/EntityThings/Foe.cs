@@ -75,7 +75,7 @@ namespace mFriesen_S2TextBasedRPG
             if (mob != null)
             {
                 result = actionResult.fail;
-                if(mob != this)
+                if (mob != this)
                 {
                     mob.statManager.TakeDamage(statManager.GetDamage());
                     if (attackEffect != null) { mob.currentEffect = ((StatusEffect)attackEffect).Clone(); }

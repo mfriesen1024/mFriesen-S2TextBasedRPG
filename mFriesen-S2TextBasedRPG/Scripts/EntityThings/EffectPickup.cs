@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace mFriesen_S2TextBasedRPG
+﻿namespace mFriesen_S2TextBasedRPG
 {
     class EffectPickup : Pickup
     {

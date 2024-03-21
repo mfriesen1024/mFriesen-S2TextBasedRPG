@@ -24,7 +24,7 @@ namespace mFriesen_S2TextBasedRPG
         public Vector2 topCorner; // Should be the lower set of values
         public Vector2 bottomCorner; // Should be the higher set of values
         public triggerType type;
-        public int nextArea {  get; private set; }
+        public int nextArea { get; private set; }
         public Vector2 playerNewPos;
         bool allowNonPlayers;
 
@@ -58,12 +58,12 @@ namespace mFriesen_S2TextBasedRPG
 
         // This checks if the given mob is in the triggerzone defined by the bounds topCorner, bottomCorner
         // Normally, this should be the player, but we take into account the possibility that it won't be.
-        public void CheckTrigger(Mob mob) 
+        public void CheckTrigger(Mob mob)
         {
             bool xCheck = mob.position.x >= topCorner.x && mob.position.x <= bottomCorner.x;
             bool yCheck = mob.position.y >= topCorner.y && mob.position.y <= bottomCorner.y;
 
-            if(xCheck && yCheck && (mob is Player || allowNonPlayers))
+            if (xCheck && yCheck && (mob is Player || allowNonPlayers))
             {
                 OnTriggerActivate();
             }
