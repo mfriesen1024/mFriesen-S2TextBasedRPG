@@ -1,6 +1,4 @@
-﻿using SimpleLogger;
-using System;
-using System.Collections.Generic;
+﻿using System;
 
 namespace mFriesen_S2TextBasedRPG
 {
@@ -12,8 +10,6 @@ namespace mFriesen_S2TextBasedRPG
 
     static class GameManager
     {
-        public static Player player;
-
         public static bool run = true; // This will be disabled when we want to end the game.
         public static bool win = false; // this is enabled if we want win dialogue.
 
@@ -26,11 +22,14 @@ namespace mFriesen_S2TextBasedRPG
 
         public static void Start()
         {
+            // Dataman should use static constructor instead of init.
             DataManager.Init();
             LevelManager.Init();
 
             HUD.Init();
 
+            // Idk why I do an initial rendermap here, this should be elsewhere.
+            // TODO: move elsewhere.
             currentMap.RenderMap();
 
             Run();
